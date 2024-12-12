@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  CV Builder
+
+  Created by Andrii Fomichov on 11.11.2024.
+  
+*/
+"CFBundleDisplayName" = "ШІ резюме";
+"CFBundleName" = "ШІ резюме";
+"NSUserTrackingUsageDescription" = "Цей ідентифікатор використовуватиметься для надання вам персоналізованої реклами";

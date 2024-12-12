@@ -1,0 +1,827 @@
+/* 
+  Localizable.strings
+  CV Builder
+
+  Created by Andrii Fomichov on 11.11.2024.
+  
+*/
+"app_name" = "AI resume";
+
+// General
+
+"continue" = "Continue";
+"done" = "Done";
+"add" = "Add";
+"save" = "Save";
+"apply" = "Apply";
+"stay" = "Stay";
+"back" = "Back";
+"close" = "Close";
+"finish" = "Finish";
+"select" = "Select";
+"clear" = "Clear";
+"edit" = "Edit";
+"delete" = "Delete";
+"cancel" = "Cancel";
+"keep" = "Keep";
+"create" = "Create";
+"duplicate" = "Duplicate";
+
+"get_started" = "Get started";
+"skip_later" = "Skip, I’ll do it later";
+"go_back" = "Go back";
+"back" = "Back";
+
+"recommended" = "Recommended";
+"couple_minutes_save_hours" = "Couple of minutes will save you hours";
+
+"in_progress" = "In progress";
+"finished" = "Finished";
+"complete" = "Complete";
+"error" = "Error";
+"default_error" = "Something went wrong. Please try again";
+
+// Onboarding
+// front
+"front_header" = "Create an inspiring CV to stand out";
+"front_description" = "Powered by AI";
+
+// create profile
+"create_profile_header" = "Let’s create your profile";
+"create_profile_description" = "Information from your profile will be used to generate a resume and no one will see it";
+
+"create_profile_option_one_header" = "Import from LinkedIn";
+"create_profile_option_one_description" = "Log in to your account and we will automatically pull all available information";
+"create_profile_option_two_header" = "Fill manually";
+"create_profile_option_two_description" = "We provide a convenient form to fill in the information required for the resume";
+
+// photo
+"add_photo_header" = "Let's add your photo";
+"add_photo_description" = "Add your official photo that will appear on your resume";
+
+// linkedin import
+"linkedin_import_header" = "Importing you data";
+"linkedin_import_description" = "Unfortunately, there was an error loading data. You can fill out the profile manually, or try again later.";
+
+// skip profile creation
+"skip_profile_header" = "Are you sure you want to skip creating a profile?";
+"skip_profile_description" = "This will allow us to immediately generate a personalized resume. Or we'll create a resume with template data and you can come back to profile creation later.";
+
+
+// Resume generation
+"select_style_header" = "Select your CV style";
+"select_style_description" = "Choose a visual style that best suits the industry in which you plan to work";
+
+"target_vacancy_header" = "Now describe the target vacancy";
+"target_vacancy_description" = "Describe the position for which you are preparing a resume. This is optional, but highly-recommeded";
+"generate_your_cv" = "Generate your CV";
+"field_company_name" = "Institute name";
+"field_company_name_hint" = "E.g. Coca Cola";
+
+"generating_your_cv" = "Generating your CV";
+"select_visualization_header" = "Select visualization";
+"select_visualization_description" = "Choose how best to visualize information from your profile";
+
+"go_back_header" = "Are you sure you want to go back?";
+"go_back_description" = "CV generation attempt will be lost";
+
+"made_with_ai_header" = "AI Assistant";
+"made_with_ai_description" = "The text was generated using the ChatGPT-3.5 model. Please check the entire text before sending your resume.";
+
+"no_connection_header" = "No connection";
+"no_connection_description" = "AI generation does not work without internet. Check your connection and generate your resume again.";
+"check_connection" = "Please check internet connection";
+
+// Profile fill
+"profile" = "Profile";
+
+"incomplete_profile_header" = "Incomplete profile";
+"incomplete_profile_description" = "Please add more info";
+"complete_profile_header" = "Profile complete";
+"complete_profile_description" = "You provided all info";
+
+"profile_photo" = "Profile photo";
+"select_from_gallery" = "Select photo from gallery";
+"change_photo" = "Change photo";
+"remove_background" = "Remove background";
+"essential_data" = "Essential data";
+"additional_data" = "Additional data";
+
+"general_category_header" = "General data";
+"general_category_description" = "Your name, job and location";
+"education_category_header" = "Education";
+"education_category_description" = "Your education list";
+"work_category_header" = "Work experience";
+"work_category_description" = "Your work experience list";
+"languages_category_header" = "Languages";
+"languages_category_description" = "List of your languages";
+"skills_category_header" = "Skills";
+"skills_category_description" = "List of your skills";
+"interests_category_header" = "Interests";
+"interests_category_description" = "List of your interests";
+"contact_category_header" = "Contact info";
+"contact_category_description" = "How employers can contact you";
+"social_category_header" = "Social media";
+"social_category_description" = "Links to your social media";
+"certificates_category_header" = "Certificates";
+"certificates_category_description" = "List of your certificates";
+"references_category_header" = "References";
+"references_category_description" = "List of your references";
+
+"general_input_header" = "Let's get to know each other";
+"general_input_description" = "Fill in general information about yourself";
+"field_name" = "Name and surname";
+"field_name_hint" = "E.g. Sam Newman";
+"field_location" = "Location";
+"field_location_hint" = "E.g. NY, USA";
+"field_job_title" = "Job title";
+"field_job_title_hint" = "E.g. iOS Developer";
+"field_profile_description" = "Description";
+"field_profile_description_hint" = "Enter description";
+"field_profile_description_tip" = "Adding a description to your profile will help the AI ​​more correctly spell the text for your resume.";
+
+"education_input_header" = "Let's add your education";
+"education_input_description" = "Add information about educational institutions and acquired knowledge";
+"add_education" = "Add education";
+"education" = "Education";
+
+"empty_education_header" = "Education";
+"empty_education_description" = "Click on the button \"Add education\" to add information about the educational institution and acquired knowledge";
+
+"field_education_level" = "Education level";
+"field_education_level_hint" = "E.g. Bachelor's";
+"field_education_institution" = "Institute name";
+"field_education_institution_hint" = "E.g. University of Oxford";
+"field_field_of_study" = "Field of study";
+"field_field_of_study_hint" = "E.g. Engineering";
+"field_dates" = "Dates";
+"field_dates_now" = "Now";
+"field_select_start_hint" = "Select start";
+"field_select_end_hint" = "Select end";
+"field_still_learning_hint" = "I'm still learning here";
+"field_degree_earned" = "Degree earned";
+"field_degree_earned_hint" = "E.g. Associate";
+"field_gpa" = "GPA";
+"field_gpa_hint" = "E.g. 3.8";
+"field_related_coursework" = "Related coursework";
+"field_related_coursework_hint" = "E.g. Global Journalism";
+
+"delete_education_header" = "Are you sure you want to delete this education?";
+
+"field_education_level_sug_0" = "Highschool";
+"field_education_level_sug_1" = "Associate's";
+"field_education_level_sug_2" = "Bachelor's";
+"field_education_level_sug_3" = "Master's";
+"field_education_level_sug_4" = "PhD";
+"field_education_level_sug_5" = "Professional";
+"field_education_level_sug_6" = "Vocational";
+
+"field_field_of_study_sug_0" = "Art";
+"field_field_of_study_sug_1" = "Biology";
+"field_field_of_study_sug_2" = "Business Administration";
+"field_field_of_study_sug_3" = "Chemistry";
+"field_field_of_study_sug_4" = "Communications";
+"field_field_of_study_sug_5" = "Computer Science";
+"field_field_of_study_sug_6" = "Ecomomics";
+"field_field_of_study_sug_7" = "Education";
+"field_field_of_study_sug_8" = "Engineering";
+"field_field_of_study_sug_9" = "English";
+"field_field_of_study_sug_10" = "Finance";
+"field_field_of_study_sug_11" = "History";
+"field_field_of_study_sug_12" = "Marketing";
+"field_field_of_study_sug_13" = "Mathematics";
+"field_field_of_study_sug_14" = "Music";
+"field_field_of_study_sug_15" = "Nursing";
+"field_field_of_study_sug_16" = "Physics";
+"field_field_of_study_sug_17" = "Political Science";
+"field_field_of_study_sug_18" = "Psychology";
+"field_field_of_study_sug_19" = "Sociology";
+
+"field_degree_earned_sug_0" = "Associate of Arts (AA)";
+"field_degree_earned_sug_1" = "Associate of Science (AS)";
+"field_degree_earned_sug_2" = "Bachelor of Arts (BA)";
+"field_degree_earned_sug_3" = "Bachelor of Commerce (BCom)";
+"field_degree_earned_sug_4" = "Bachelor of Computer Science (BCS)";
+"field_degree_earned_sug_5" = "Bachelor of Economics (BEc)";
+"field_degree_earned_sug_6" = "Bachelor of Engineering (BEng)";
+"field_degree_earned_sug_7" = "Bachelor of Laws (LLB)";
+"field_degree_earned_sug_8" = "Bachelor of Medical Sciences (BMed)";
+"field_degree_earned_sug_9" = "Bachelor of Science (BSc)";
+"field_degree_earned_sug_10" = "Bachelor of Technology (BTech)";
+"field_degree_earned_sug_11" = "Master of Education (MEd)";
+"field_degree_earned_sug_12" = "Master of Engineering (MEng)";
+"field_degree_earned_sug_13" = "Master of Medicine (MMed)";
+"field_degree_earned_sug_14" = "Master of Philosophy (MPhil)";
+"field_degree_earned_sug_15" = "Master of Research (MRes)";
+"field_degree_earned_sug_16" = "Master of Studies (MSt)";
+"field_degree_earned_sug_17" = "Doctor of Civil Law (DCL)";
+"field_degree_earned_sug_18" = "Doctor of Ministry (DMin)";
+"field_degree_earned_sug_19" = "Doctor of Pharmacy (DPharm)";
+
+"work_input_header" = "Let's add your work experience";
+"work_input_description" = "Add information about institutions and positions in which you have worked";
+"add_work_experience" = "Add work experience";
+"work_experience" = "Work experience";
+
+"empty_work_header" = "Work experience";
+"empty_work_description" = "Click on the button \"Add work experience\" to add institutions and positions in which you have worked";
+
+"field_work_institution" = "Institute name and logo";
+"field_work_institution_hint" = "E.g. Coca Cola";
+"field_still_working_hint" = "I'm still working here";
+"field_responsibilities" = "Responsibilities and achievements";
+"field_responsibilities_hint" = "Enter responsibilities";
+"field_responsibilities_tip" = "Write down your main responsibilities and achievements in commas. This will help the AI ​​generate a more correct description for your resume.";
+"field_additional_params" = "Additional params";
+"field_remote" = "Remote";
+"field_part_time" = "Part-time";
+
+"delete_work_header" = "Are you sure you want to delete this work experience?";
+
+"skills_input_header" = "Let's add your skills";
+"skills_input_description" = "Add a list of your soft and hard skills and their level";
+"add_soft_skill" = "Add soft skill";
+"add_hard_skill" = "Add hard skill";
+"soft_skills" = "Soft skills";
+"hard_skills" = "Hard skills";
+"level" = "Level";
+"enter_skill_name" = "Enter skill name";
+
+"empty_skills_header" = "Skills";
+"empty_skills_description" = "Click on the buttons \"Add skill\" to add your soft and hard skills";
+
+"languages_input_header" = "Let's add your languages";
+"languages_input_description" = "Add a list of your languages and their level";
+"add_language" = "Add language";
+
+"empty_languages_header" = "Languages";
+"empty_languages_description" = "Click on the buttons \"Add language\" to add your languages";
+
+"languages_adding_header" = "Language";
+"languages_adding_description" = "Enter your languages or select from list";
+"languages_adding_hint" = "Enter languages in commas";
+
+"indonesian" = "Bahasa Indonesia";
+"catala" = "Català";
+"dansk" = "Dansk";
+"deutch" = "Deutch";
+"english" = "English";
+"espanol" = "Español";
+"francais" = "Français";
+"italiano" = "Italiano";
+"magyar" = "Magyar";
+"nederlands" = "Nederlands";
+"norsk" = "Norsk";
+"polski" = "Polski";
+"portugues" = "Português";
+"romana" = "Română";
+"srpski" = "Srpski";
+"suomi" = "Suomi";
+"svenska" = "Svenska";
+"tieng_viet" = "Tiếng Việt";
+"turkce" = "Türkçe";
+"cestina" = "Čeština";
+"ellinika" = "Ελληνικά";
+"ukrainian" = "Українська";
+"hebrew" = "עברית";
+"hindi" = "हिन्दी";
+"chinese" = "中文";
+"japanese" = "日本語";
+"korean" = "한국어";
+
+"interests_input_header" = "Let's add your interests";
+"interests_input_description" = "Add a list of your interests";
+"add_interest" = "Add interest";
+
+"empty_interests_header" = "Interests";
+"empty_interests_description" = "Click on the buttons \"Add interests\" to add your interests";
+
+"interests_adding_header" = "Interests";
+"interests_adding_description" = "Enter your interests or select from list";
+"interests_adding_hint" = "Enter interests in commas";
+
+"interests_category_0" = "Arts and Crafts";
+"interests_category_1" = "Culinary";
+"interests_category_2" = "Entertainment";
+"interests_category_3" = "Fitness and Sports";
+"interests_category_4" = "Outdoor Activities";
+"interests_category_5" = "Social Activities";
+"interests_category_6" = "Technology and Learning";
+
+"interests_sug_0" = "Sewing";
+"interests_sug_1" = "Drawing";
+"interests_sug_2" = "Pottery";
+"interests_sug_3" = "Crafting";
+"interests_sug_4" = "Caligraphy";
+"interests_sug_5" = "Knitting";
+"interests_sug_6" = "Sculpting";
+"interests_sug_7" = "Baking";
+"interests_sug_8" = "Cooking";
+"interests_sug_9" = "Music";
+"interests_sug_10" = "Gaming";
+"interests_sug_11" = "Reading";
+"interests_sug_12" = "Dancing";
+"interests_sug_13" = "Traveling";
+"interests_sug_14" = "Board Games";
+"interests_sug_15" = "Photography";
+"interests_sug_16" = "Cycling";
+"interests_sug_17" = "Diving";
+"interests_sug_18" = "Fitness";
+"interests_sug_19" = "Football";
+"interests_sug_20" = "Hiking";
+"interests_sug_21" = "Meditation";
+"interests_sug_22" = "Rock Climbing";
+"interests_sug_23" = "Skiing";
+"interests_sug_24" = "Snowboarding";
+"interests_sug_25" = "Surfing";
+"interests_sug_26" = "Swimming";
+"interests_sug_27" = "Tennis";
+"interests_sug_28" = "Volleyball";
+"interests_sug_29" = "Camping";
+"interests_sug_30" = "Fishing";
+"interests_sug_31" = "Gardening";
+"interests_sug_32" = "Coding";
+"interests_sug_33" = "Investing";
+"interests_sug_34" = "Learning Languages";
+"interests_sug_35" = "Public Speaking";
+
+"contact_input_header" = "Let's add your contact info";
+"contact_input_description" = "The information is needed so that employers can contact you";
+"field_phone_number" = "Phone number";
+"field_phone_number_hint" = "E.g. +322 204 219";
+"field_email" = "Email";
+"field_email_hint" = "E.g. yourmail@mail.com";
+"field_website" = "Website";
+"field_website_hint" = "E.g. your.website.com";
+"create_qr_code" = "Create QR-code";
+"create_qr_code_tip" = "Create a QR code so that an employer can quickly navigate to a link when viewing a resume";
+
+"certificates_input_header" = "Let's add your certificates";
+"certificates_input_description" = "Add a list of your certificates";
+"add_certificate" = "Add certificate";
+"enter_certificate_name" = "Enter certificate name";
+
+"empty_certificates_header" = "Interests";
+"empty_certificates_description" = "Click on the buttons \"Add certificates\" to add your certificates";
+
+"social_media_input_header" = "Let's add your social media links";
+"social_media_input_description" = "Include links to your social media pages so the employer can learn more about you";
+"add_social_media" = "Add social media page";
+
+"empty_social_media_header" = "Social media";
+"empty_social_media_description" = "Click on the buttons \"Add social media page\" to add links to your social media pages";
+
+"social_media_adding_header" = "Social media";
+"social_media_adding_description" = "Add a link in the box below and select a social network";
+"social_media_adding_hint" = "Paste link here";
+
+"social_media_sug_0" = "LinkedIn";
+"social_media_sug_1" = "Facebook";
+"social_media_sug_2" = "Instagram";
+"social_media_sug_3" = "YouTube";
+"social_media_sug_4" = "TikTok";
+"social_media_sug_5" = "Snapchat";
+"social_media_sug_6" = "X (Twitter)";
+"social_media_sug_7" = "Threads";
+"social_media_sug_8" = "Other";
+
+"reference_input_header" = "Let's add your references";
+"reference_input_description" = "Add information about people who can vouch for your character, skills and work performance";
+"add_reference" = "Add reference";
+"reference" = "Reference";
+
+"delete_reference_header" = "Are yofu sure you want to delete this reference?";
+
+"empty_reference_header" = "References";
+"empty_reference_description" = "Click on the button \"Add reference\" to add reference’s name and contacts";
+
+// QR code
+"upgrade_you_plan_to_create_qr_code" = "Upgrade your plan to create QR code";
+
+// Home page
+"welcome" = "Welcome";
+"create_cv_header" = "Create your first resume";
+"create_cv_description" = "Click on the \"Create\" button or the \"Plus\" button above to create a new resume";
+"universal" = "Universal";
+
+"user_name" = "User name";
+"edit_profile" = "Edit profile";
+"manage_subscriptions" = "Manage subscriptions";
+"privacy_policy" = "Privacy policy";
+"rights" = "Rights";
+"share_app" = "Share app";
+"contact_us" = "Contact us";
+"rate_us" = "Rate us";
+"our_instagram" = "Our Instagram";
+"our_facebook" = "Our Facebook";
+
+
+// Editor page
+"your_profile" = "Your profile";
+"actions_required" = "Actions required";
+"ai_assistant" = "AI Assistant";
+"share" = "Share";
+"content" = "Content";
+"design" = "Design";
+"generate" = "Generate";
+
+"cover_letter_header" = "Cover letter";
+"cover_letter_description" = "Generate an effective cover letter to complement your resume in one click with AI";
+
+"ai_wait_alert" = "Please wait for AI Assistant to complete";
+
+"ai_proofread_header" = "Proofread text";
+"ai_proofread_description" = "Profread your resume and cover letter with AI in one click";
+"ai_proofreading" = "Proofreading the text";
+"ai_proofread_success" = "Artificial intelligence did not find any typos in the text";
+"ai_proofread_error" = "We’ve fixed some typos";
+"texts_analyzed" = "Texts analyzed";
+"typos_found" = "Typos found";
+
+"ai_optimize_header" = "Optimize for a vacancy";
+"ai_optimize_description" = "Optimize your resume and cover letter for another position with AI in one click";
+"ai_optimizing" = "Optimizing your CV";
+"optimize_your_cv" = "Optimize your CV";
+"enter_target_alert" = "Please enter target vacancy details";
+
+"ai_translate_header" = "Translate text";
+"ai_translate_description" = "Translate your resume and cover letter with AI in one click";
+"ai_translating" = "Translating your CV";
+"translate_your_cv" = "Translate your CV";
+"select_language_alert" = "Please select language";
+
+
+"edit_profile" = "Edit profile";
+"rearrange_content" = "Rearrange content";
+"main_block" = "Main block";
+"additional_block" = "Additional block";
+"chat_gpt_descriptor" = "The text was generated using the ChatGPT-3.5 model. Please check the entire text before sending your resume.";
+"enter_description" = "Enter description";
+
+"ai_generate_text" = "Generate text";
+"ai_rephrase" = "Rephrase";
+"ai_expand" = "Expand";
+"ai_shorten" = "Shorten";
+"ai_to_bulleted" = "To bulleted list";
+
+"drop_here_main_block" = "Drop here info for main block";
+"drop_here_additional_block" = "Drop here info for additional block";
+
+"content_header" = "Content";
+"content_description" = "Select the information you want to include in your resume";
+
+"content_category_0" = "General data";
+"content_category_1" = "Profile description";
+"content_category_2" = "Education";
+"content_category_3" = "Work experience";
+"content_category_4" = "Languages";
+"content_category_5" = "Skills";
+"content_category_6" = "Interests";
+"content_category_7" = "Contact info";
+"content_category_8" = "Social media";
+"content_category_9" = "Certificates";
+"content_category_10" = "References";
+"content_category_11" = "QR Codes";
+
+"styles" = "Styles";
+"main_color" = "Main color";
+"fonts" = "Fonts";
+"headers" = "Headers";
+"text" = "Text";
+"headers_size" = "Headers size";
+"text_size" = "Text size";
+"margins" = "Margins";
+"margins_size" = "Margins size";
+
+// Sharing page
+"select_format" = "Select the format to export your resume";
+
+"format_pptx_header" = "PPTX";
+"format_pptx_description" = "PowerPoint format";
+"format_pptx_ending" = ".pptx";
+"format_pdf_header" = "PDF";
+"format_pdf_description" = "Portable Document Format";
+"format_pdf_ending" = ".pdf";
+"format_jpeg_header" = "JPEG";
+"format_jpeg_description" = "Each slide as individual image";
+"format_jpeg_ending" = ".jpeg";
+"format_png_header" = "PNG";
+"format_png_description" = "Each slide as individual image";
+"format_png_ending" = ".png";
+"format_pdf_vector_header" = "PDF (Vector)";
+"format_pdf_vector_description" = "Keeps individual slide elements and can be converted to PPTX";
+"format_pdf_vector_ending" = ".pdf";
+
+"select_options" = "Choose the main options for exporting the file";
+"create_files" = "Create files";
+"watermark_btn" = "Watermark “Made with CV Builder”";
+"file_name" = "File name";
+"export_quality" = "Export quality";
+"quality_compressed" = "Compressed";
+"quality_high" = "High-resolution";
+"upgrade_you_plan_to_export" = "Upgrade your plan to export";
+
+"exporting_files" = "Exporting files";
+"cover_letter" = "Cover letter";
+"resume" = "Resume";
+
+
+// Background remover
+"ai_background_remover" = "AI background remover";
+"before_you_begin" = "Before you begin";
+"ai_back_remover_tip_one_header" = "Instant effect";
+"ai_back_remover_tip_one_description" = "Our AI background remover uses model that removes background in a click";
+"ai_back_remover_tip_two_header" = "Best for single objects";
+"ai_back_remover_tip_two_description" = "For best results, try to use minimalistic photos with no extraneous objects";
+"ai_back_remover_tip_three_header" = "Compare results";
+"ai_back_remover_tip_three_description" = "Press and hold the created image to compare with the original";
+"remove_background" = "Remove background";
+"keep_previous_version" = "Keep previous version";
+"upgrade_you_plan_to_remove_background" = "Upgrade your plan to remove background";
+
+
+// Paywall
+"free_plan" = "Free plan";
+"premium_plan" = "Pro";
+"free_attempts_left" = "3 free attempts left";
+"attempts_left_today" = "3 attempts left today";
+
+"unlock_pro_header" = "Unlock Pro access";
+"unlock_pro_description" = "Unlimited resumes, AI optimization, translation and much more";
+
+
+
+
+
+// tips
+
+// photo selection
+"photo_selection_header" = "Profile photo";
+"photo_selection_description" = "Choosing the right photo is an important step when creating a resume. Therefore, we have prepared some tips for you.";
+"open_gallery" = "Open gallery";
+"common_mistakes" = "Common mistakes";
+"some_tips" = "Some tips";
+
+"photo_selection_tip_one_header" = "Strength in simplicity";
+"photo_selection_tip_one_description" = "A simple, neutral background and matching colors are best practice.";
+"photo_selection_tip_two_header" = "Smile!";
+"photo_selection_tip_two_description" = "Professionalism is essential, but you also want to show a little sincerity. Try to look friendly and smile!";
+"photo_selection_tip_three_header" = "Minimalism";
+"photo_selection_tip_three_description" = "Photos with a minimalistic background, without additional objects, are best for resumes";
+
+"photo_selection_tip_four_header" = "Doesn’t look at the camera";
+"photo_selection_tip_five_header" = "Distracting background";
+"photo_selection_tip_six_header" = "Unprofessional style";
+
+"general_data_tip_header" = "General data";
+"general_data_tip_description" = "Correctly filling out a resume is a difficult task and requires attention to every detail.";
+
+"general_data_tip_one_header" = "60 seconds";
+"general_data_tip_one_description" = "The average time spent reading a resume";
+"general_data_tip_one_source" = "Forbes";
+"general_data_tip_two_header" = "489 words";
+"general_data_tip_two_description" = "The average length of resume";
+"general_data_tip_two_source" = "McKinsey";
+"general_data_tip_three_header" = "Full Name";
+"general_data_tip_three_description" = "Include your first and last name on your resume. If you have a very common name, consider including your middle name or middle initial.";
+"general_data_tip_three_source" = "For example, Maeve (Nelson) Hunter | Maeve Nelson | Maeve Hunter";
+"general_data_tip_four_header" = "Preferred Name";
+"general_data_tip_four_description" = "If you typically use a preferred name at work, it's perfectly acceptable to list that name instead of your legal name on your resume.";
+
+"education_tip_header" = "Education";
+"education_tip_description" = "Your education is one of the key fields when reviewing a resume.";
+
+"education_tip_one_header" = "63%";
+"education_tip_one_description" = "Of hiring managers say that education is an important factor in their hiring decision.";
+"education_tip_one_source" = "CareerBuilder";
+"education_tip_two_header" = "45%";
+"education_tip_two_description" = "Of hiring managers say that they are more likely to hire a candidate with a GPA of 3.5 or higher.";
+"education_tip_two_source" = "Indeed";
+"education_tip_three_header" = "75%";
+"education_tip_three_description" = "Of hiring managers say that they want to see specific accomplishments in the education section.";
+"education_tip_three_source" = "LinkedIn";
+"education_tip_four_header" = "68%";
+"education_tip_four_description" = "Of hiring managers say they would reject a candidate because of a poorly written education section.";
+"education_tip_four_source" = "ResumeLab";
+"education_tip_five_header" = "Chronological order";
+"education_tip_five_description" = "Be sure to list your degrees in reverse chronological order.";
+"education_tip_six_header" = "GPA";
+"education_tip_six_description" = "Be sure to include your GPA and any relevant coursework.";
+
+"work_tip_header" = "Work experience";
+"work_tip_description" = "Your work experience is one of the key fields when reviewing a resume.";
+
+"work_tip_one_header" = "88%";
+"work_tip_one_description" = "Of hiring managers say that work experience is the most important section of a resume.";
+"work_tip_one_source" = "CareerBuilder";
+"work_tip_two_header" = "75%";
+"work_tip_two_description" = "Of hiring managers want to see specific accomplishments and results in the work experience section.";
+"work_tip_two_source" = "LinkedIn";
+"work_tip_three_header" = "63%";
+"work_tip_three_description" = "Of recruiters say that the biggest mistake job seekers make on their resumes is not tailoring their resume to the specific job they are applying for.";
+"work_tip_three_source" = "Forbes";
+"work_tip_four_header" = "Resume for a specific job";
+"work_tip_four_description" = "The AI ​​in our application automatically adapts the resume to the required vacancy.";
+"work_tip_five_header" = "Be specific";
+"work_tip_five_description" = "Don't just say \"improved customer satisfaction.\" Say \"improved customer satisfaction by 10 points, as measured by Net Promoter Score.\"";
+"work_tip_six_header" = "Use numbers and metrics";
+"work_tip_six_description" = "This is the best way to show the impact of your work. For example, instead of saying \"increased revenue,\" say \"increased revenue by 15%.\"";
+"work_tip_seven_header" = "Focus on results";
+"work_tip_seven_description" = "Don't just list your responsibilities. Highlight the results you achieved. For example, instead of saying, \"managed a team of 10 people,\" say, \"managed a team of 10 people, resulting in a 20% increase in productivity.\"";
+
+"job_specific_tip_header" = "Job-specific resume is key";
+"job_specific_tip_description" = "Optimizing a resume for a specific vacancy is one of the most important elements of optimizing a resume.";
+
+"job_specific_tip_one_header" = "83%";
+"job_specific_tip_one_description" = "Of recruiters say they're more likely to hire a candidate who has tailored their resume to the specific job.";
+"job_specific_tip_one_source" = "Jobvite";
+"job_specific_tip_two_header" = "63%";
+"job_specific_tip_two_description" = "Of recruiters say that the biggest mistake is not tailoring their resume to the specific job.";
+"job_specific_tip_two_source" = "Forbes";
+
+"allow_ai_to_optimize_cv" = "Allow AI to optimize your CV";
+"job_specific_tip_three_header" = "Enter details about a job you applying for";
+"job_specific_tip_three_description" = "Describe the name of the organization and the position you are applying for.";
+"job_specific_tip_four_header" = "AI automatically optimizes the text";
+"job_specific_tip_four_description" = "Next, the AI ​​automatically optimizes the entire text, including the description of your experience and skills.";
+"job_specific_tip_five_header" = "Create multiple resumes";
+"job_specific_tip_five_description" = "Next, we recommend that you create several resumes for each different vacancy. With our application, it can be done in a few clicks.";
+
+"essential_info_tip_header" = "Your essential info is incomplete";
+"essential_info_tip_description" = "It is important to fill in all the key information in your profile, as it is the most important when an employer views your CV.";
+
+"essential_info_tip_one_header" = "489 words";
+"essential_info_tip_one_description" = "The average length of resume";
+"essential_info_tip_one_source" = "McKinsey";
+"essential_info_tip_two_header" = "1.4 times more";
+"essential_info_tip_two_description" = "A candidate with a two-page resume is 1.4 times more likely to be hired";
+"essential_info_tip_two_source" = "Market Splash";
+"essential_info_tip_three_header" = "61%";
+"essential_info_tip_three_description" = "Of hiring managers consider a customized resume the number one tactic for applicants to boost their chances of getting a job.";
+"essential_info_tip_three_source" = "Zippia";
+
+"skills_tip_header" = "Skills";
+"skills_tip_description" = "Your soft and hard skills are an important part of your resume along with your education and work experience.";
+
+"skills_tip_one_header" = "41%";
+"skills_tip_one_description" = "Of recruiters look for skills on a resume first.";
+"skills_tip_one_source" = "McKinsey";
+"skills_tip_two_header" = "91%";
+"skills_tip_two_description" = "Of recruiters love seeing soft skills on resumes.";
+"skills_tip_two_source" = "Glassdoor";
+"skills_tip_three_header" = "57%";
+"skills_tip_three_description" = "Of recruiters say that the most important skills to see on a resume are communication, problem-solving, and teamwork.";
+"skills_tip_three_source" = "Indeed";
+
+
+// cv default texts
+"experience" = "Experience";
+"work_experience" = "Work experience";
+"education" = "Education";
+"resume" = "Resume";
+"profile" = "Profile";
+"cv" = "CV";
+"contacts" = "Contacts";
+"email" = "Email";
+"phone_number" = "Phone number";
+"website" = "Website";
+"thank_you" = "Thank you";
+"about_me" = "About me";
+"awards" = "Awards";
+"skills" = "Skills";
+"interests" = "Interests";
+"languages" = "Languages";
+"certificates" = "Certificates";
+"references" = "References";
+"cover_letter" = "Cover Letter";
+"present" = "Present";
+"full_time" = "Full-time";
+"part_time" = "Part-time";
+
+"month_0" = "Jan";
+"month_1" = "Feb";
+"month_2" = "Mar";
+"month_3" = "Apr";
+"month_4" = "May";
+"month_5" = "Jun";
+"month_6" = "Jul";
+"month_7" = "Aug";
+"month_8" = "Sep";
+"month_9" = "Oct";
+"month_10" = "Nov";
+"month_11" = "Dec";
+
+// cv dummy texts
+"dummy_name" = "Reese Miller";
+"dummy_location" = "New York, USA";
+"dummy_job_title" = "UI/UX designer";
+"dummy_job_description" = "Creative and detail-oriented UI/UX Designer with 5 years of experience in designing intuitive, user-centered digital interfaces. Skilled in wireframing, prototyping, and visual design, with expertise in user research, usability testing, and crafting seamless user experiences.";
+
+"dummy_education_one_level" = "Bachelor's";
+"dummy_education_one_institution" = "Reallygreat University";
+"dummy_education_one_degree" = "Bachelor of Economics (BEc)";
+"dummy_education_one_field" = "Economics";
+"dummy_education_one_gpa" = "3.8";
+"dummy_education_one_description" = "Equipped me with a strong foundation in economic theory, data analysis, and statistical methods. I developed critical thinking skills and the ability to analyze complex economic issues, market trends, and policy impacts.";
+
+"dummy_education_two_level" = "Master's";
+"dummy_education_two_institution" = "Reallygreat University";
+"dummy_education_two_degree" = "Master of Visual Communication Design";
+"dummy_education_two_field" = "Visual Communication Design";
+"dummy_education_two_gpa" = "3.9";
+"dummy_education_two_description" = "Gained a deep understanding of design theory, visual storytelling, and the principles of effective communication. I developed the ability to create impactful brand identities, intuitive user interfaces, and engaging multimedia content that resonate with diverse audiences.";
+
+"dummy_work_one_job" = "Graphic Designer";
+"dummy_work_one_institution" = "Reallygreat Studio";
+"dummy_work_one_location" = "New York, USA";
+"dummy_work_one_description" = "As a Graphic Designer, I created visually engaging designs for print and digital media, ensuring brand consistency and meeting client requirements. I collaborated with teams to manage projects from concept to completion using Adobe Creative Suite and other design tools.";
+
+"dummy_work_two_job" = "UI/UX Designer";
+"dummy_work_two_institution" = "Reallygreatsite Studio";
+"dummy_work_two_location" = "New York, USA";
+"dummy_work_two_description" = "As a UI/UX Designer, I created intuitive user interfaces, conducted user research, and developed wireframes and prototypes. I collaborated with developers and product teams to ensure designs aligned with user needs and business objectives.";
+
+"dummy_skill_one" = "Graphic Design";
+"dummy_skill_two" = "Illustration";
+"dummy_skill_three" = "Layout Design";
+"dummy_skill_four" = "Icon Design";
+"dummy_skill_five" = "Communication";
+"dummy_skill_six" = "Teamwork";
+
+"dummy_language_one" = "English";
+"dummy_language_two" = "Spanish";
+
+"dummy_interest_one" = "Hiking";
+"dummy_interest_two" = "Reading";
+"dummy_interest_three" = "Music";
+
+"dummy_phone" = "518-774-1960";
+"dummy_email" = "reese.miller@mail.com";
+"dummy_website" = "miller.designs.com";
+
+"dummy_certificate_one" = "The School of UX";
+"dummy_certificate_two" = "Designlab's UX Academy";
+
+"dummy_social_page_one" = "linkedin.com/in/reese-miller";
+"dummy_social_page_two" = "www.facebook.com/reese.miller";
+
+"dummy_referral_name" = "Richard Saunderson";
+"dummy_referral_company" = "Reallygreatsite Studio";
+"dummy_referral_email" = "richard.saunderson@mail.com";
+"dummy_referral_phone" = "716-236-7431";
+
+
+// wrappers
+"wrapper_name_0" = "Balanced";
+"wrapper_name_1" = "Experience based";
+"wrapper_name_2" = "Work oriented";
+"wrapper_name_3" = "Education oriented";
+"wrapper_name_4" = "Skills oriented";
+
+// styles
+"style_a_name" = "Effective";
+"style_b_name" = "Elegant";
+
+"style_a_description" = "Stylish and bright design";
+"style_b_description" = "Universal simple style";
+
+// fonts
+"select_font" = "Select font";
+
+"font_a_name" = "Roboto Condensed";
+"font_b_name" = "Open Sans";
+"font_c_name" = "Montserrat";
+"font_d_name" = "Overpass";
+"font_e_name" = "Oswald";
+"font_f_name" = "Manrope";
+"font_g_name" = "Playfair Display";
+"font_h_name" = "Merriweather Sans";
+"font_i_name" = "Lora";
+"font_j_name" = "Bitter";
+"font_k_name" = "Noto Serif";
+"font_l_name" = "Roboto Serif";
+"font_m_name" = "Comfortaa";
+"font_n_name" = "Red Hat Display";
+"font_o_name" = "Ruda";
+"font_p_name" = "Inter Tight";
+"font_q_name" = "Advent Pro";
+"font_r_name" = "Tektur";
+"font_s_name" = "Caveat";
+"font_t_name" = "Grandstander";
+"font_u_name" = "Playpen Sans";
+"font_v_name" = "Merienda";
+"font_w_name" = "Shantell Sans";
+"font_x_name" = "Dancing Script";
+"font_y_name" = "Roboto Mono";
+"font_z_name" = "Source Code Pro";
+"font_aa_name" = "Ubuntu Sans Mono";
+"font_ab_name" = "Azeret Mono";
+"font_ac_name" = "Chivo Mono";
+"font_ad_name" = "Sometype Mono";
+
+"font_a_category" = "Serif";
+"font_b_category" = "Sans Serif";
+"font_c_category" = "Display";
+"font_d_category" = "Handwriting";
+"font_e_category" = "Monospace";
+
