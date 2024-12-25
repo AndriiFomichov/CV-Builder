@@ -13,7 +13,7 @@ class EditorPreviewSizeManager {
         if geoWidth / (geoHeight - margin) < 0.707070707 {
             return geoWidth
         } else {
-            return geoHeight * 0.707070707
+            return (geoHeight - margin) * 0.707070707
         }
     }
     

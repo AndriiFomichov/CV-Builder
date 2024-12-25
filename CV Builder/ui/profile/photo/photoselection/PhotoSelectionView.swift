@@ -25,7 +25,7 @@ struct PhotoSelectionView: View {
                 
                 VStack (spacing: 0) {
                     
-                    TopBarView(header: .constant(NSLocalizedString("photo_selection_header", comment: "")), description: .constant(""), progress: .constant(0.0), isLoading: .constant(false), isCollapsed: .constant(false), lineIllustration: "small_line_two_illustration", illustration: "profile_photo_main_illustration", maxHeight: 200)
+                    TopBarView(header: .constant(NSLocalizedString("photo_selection_header", comment: "")), description: .constant(""), isCollapsed: .constant(false), icon: "photo", iconPlusAdded: true, maxHeight: 170)
 
                     VStack {
                         
@@ -70,7 +70,7 @@ struct PhotoSelectionView: View {
                             }
                             
                         }.frame(maxWidth: .infinity).padding().background() {
-                            RoundedRectangle(cornerRadius: 16.0).fill(!isLoading ? Color.accent : Color.accentLight)
+                            RoundedRectangle(cornerRadius: 32.0).fill(LinearGradient(colors: !isLoading ? [ Color.accentLight, Color.accent ] : [Color.accentLightest], startPoint: .topLeading, endPoint: .bottomTrailing))
                         }
                         
                     }.onChange(of: viewModel.selectedPhotos) { _, _ in

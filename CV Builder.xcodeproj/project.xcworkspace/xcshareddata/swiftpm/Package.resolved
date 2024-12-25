@@ -1,5 +1,5 @@
 {
-  "originHash" : "9da6a4586322a5cadcec336c113475d9ef3c9f98a8097c32113e2c412aa6bb79",
+  "originHash" : "07d5899f054ea917f3bb02a788487eef1431c9229cd471af5a2f7aaeeab6b179",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -116,15 +116,6 @@
       "state" : {
         "branch" : "master",
         "revision" : "61ce9b40817466fb1334db1d7a582fbaf616ab4c"
-      }
-    },
-    {
-      "identity" : "monthyearwheelpicker",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/bendodson/MonthYearWheelPicker.git",
-      "state" : {
-        "revision" : "b6fdaf380d1e439e1a639ad94ed744a735632d61",
-        "version" : "1.0.1"
       }
     },
     {

@@ -12,10 +12,11 @@ struct EditorAiAssistantView: View {
     @EnvironmentObject var parentViewModel: EditorViewModel
     @StateObject var viewModel = EditorAiAssistantViewModel()
     
-    @StateObject var monitor = NetworkMonitor()
-    
     @State var screen = 0
-    @State var noNetworkVisible = false
+    
+    @Namespace private var backAnimationProofread
+    @Namespace private var backAnimationOptimize
+    @Namespace private var backAnimationTranslate
     
     var body: some View {
         ZStack (alignment: .bottom) {
@@ -37,32 +38,40 @@ struct EditorAiAssistantView: View {
                     ScrollView(showsIndicators: false) {
                         LazyVStack {
                             
-                            if noNetworkVisible {
-                                NoConnectionView().padding(.bottom)
+                            HStack (spacing: 8) {
+                                if viewModel.actions.count > 0 {
+                                    AiAssistantActionView(action: viewModel.actions[0], namespaceAnimation: backAnimationProofread)
+                                }
+                                
+                                if viewModel.actions.count > 1 {
+                                    AiAssistantActionView(action: viewModel.actions[1], namespaceAnimation: backAnimationOptimize)
+                                }
                             }
                             
-                            ForEach(viewModel.actions.indices, id: \.self) { index in
-                                AiAssistantActionView(action: viewModel.actions[index]).padding(.bottom, 8)
+                            if viewModel.actions.count > 2 {
+                                AiAssistantActionView(action: viewModel.actions[2], namespaceAnimation: backAnimationTranslate, ifHorizontal: true).padding(.bottom, 8)
                             }
                             
-                            AttemptsLabel(text: $viewModel.attemptsText)
+                            LargeAttemptsLabel(text: $viewModel.attemptsText)
                             
                         }.padding(.horizontal).padding(.bottom)
                     }
                 } else if screen == 1 {
-                    AiProofreadingView()
+                    AiProofreadingView(namespaceAnimation: backAnimationProofread)
                 } else if screen == 2 {
-                    AiOptimizingView()
+                    AiOptimizingView(namespaceAnimation: backAnimationOptimize)
                 } else if screen == 3 {
-                    AiTranslatingView()
+                    AiTranslatingView(namespaceAnimation: backAnimationTranslate)
                 }
                 
-            }.sheet(isPresented: $viewModel.paywallSheetShown, onDismiss: {
+            }.frame(maxWidth: .infinity, maxHeight: .infinity).sheet(isPresented: $viewModel.paywallSheetShown, onDismiss: {
                 viewModel.handlePaywallSheetShown()
             }) {
                 PaywallView(benefitsId: 0, source: "Ai Assistant").presentationDetents([.large])
             }.sheet(isPresented: $viewModel.limitSheetShown) {
-                AiLimitView().presentationDetents([.large])
+                AiLimitView(type: 1).presentationDetents([.large])
+            }.sheet(isPresented: $viewModel.noConnectionSheetShown) {
+                CheckConnectionView(allowOffline: false).presentationDetents([.medium])
             }.alert(NSLocalizedString("ai_wait_alert", comment: ""), isPresented: $viewModel.waitErrorShown) {
                 Button(NSLocalizedString("continue", comment: ""), role: .cancel, action: {})
             }.environmentObject(viewModel)
@@ -73,10 +82,6 @@ struct EditorAiAssistantView: View {
             
         }.onAppear() {
             viewModel.updateData(parentViewModel: parentViewModel)
-        }.onChange(of: monitor.status) {
-            withAnimation {
-                noNetworkVisible = monitor.status == .disconnected
-            }
         }.onChange(of: viewModel.screen) {
             withAnimation {
                 screen = viewModel.screen

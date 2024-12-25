@@ -22,18 +22,18 @@ struct TextsAnalyzedView: View {
                 Image(systemName: icon).font(.headline).foregroundStyle(color)
                 
             }.frame(width: 42, height: 42).background() {
-                RoundedRectangle(cornerRadius: 12.0).fill(.window)
+                RoundedRectangle(cornerRadius: 32.0).fill(.window)
             }.padding(8)
             
             VStack (spacing: 0) {
-                Text(text).font(.subheadline).foregroundStyle(.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(1)
+                Text(text).font(.subheadline).foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(1)
                 
                 Text(String(number)).font(.title3).bold().foregroundStyle(color).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(1)
                 
             }.padding([.top, .trailing, .bottom], 8)
             
         }.background() {
-            RoundedRectangle(cornerRadius: 16.0).fill(Color.background)
+            RoundedRectangle(cornerRadius: 32.0).fill(Color.windowColored)
         }
     }
 }

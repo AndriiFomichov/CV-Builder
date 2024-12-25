@@ -16,37 +16,54 @@ struct ProfileItemView: View {
     
     var body: some View {
         Button (action: clickHandler) {
-            HStack (spacing: 0) {
+            
+            VStack {
                 
-                ZStack (alignment: .leading) {
+                HStack {
                     
-                    Image("linkedin_import_illustration").renderingMode(.template).cropped(horizontalOffset: 100, verticalOffset: 50).foregroundStyle(Color.windowTwo).opacity(0.5).frame(width: 60)
-                    
-                    ZStack {
+                    ZStack (alignment: .leading) {
                         
-                        Image(systemName: item.icon).font(.title3).foregroundStyle(progress == 0.0 ? .textAdditional : .accent)
+                        ZStack {
+                            
+                            Image(systemName: item.icon).font(.title3).foregroundStyle(progress == 1.0 ? .accent : .text)
+                            
+                            CircleProgressView(progress: progress, lineWidth: 2, backColor: .windowColored, textColor: .clear)
+                            
+                            if progress == 1.0 {
+                                Image(systemName: "checkmark.circle.fill").font(.headline).foregroundStyle(.accent).offset(x: 20, y: 20)
+                            }
+                            
+                        }.frame(width: 48, height: 48).background() {
+                            RoundedRectangle(cornerRadius: 32.0).foregroundStyle(.windowColored)
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    Text(String(Int(progress * 100)) + "%").font(.subheadline).foregroundStyle(progress == 1.0 ? .accent : .text)
+                }
+                
+                ZStack {
+                    
+                    Color.clear
+                    
+                    HStack {
                         
-                    }.frame(width: 54, height: 54).background() {
-                        RoundedRectangle(cornerRadius: 12.0).foregroundStyle(Color.window).shadow(color: Color.black.opacity(0.05), radius: 6)
-                    }.padding([.leading, .top, .bottom])
-                    
-                }.padding(.trailing)
+                        VStack (spacing: 4) {
+                            Text(item.header).font(.title2).bold().foregroundLinearGradient(colors: progress == 1.0 ? [ Color.accentLight, Color.accent] : [Color.text], startPoint: .topLeading, endPoint: .bottomTrailing).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(2)
+                            
+                            Text(item.description).font(.subheadline).foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(2)
+                        }
+                        
+                        Image(systemName: "chevron.right").foregroundStyle(.accentLight).font(.subheadline)
+                        
+                    }.padding(.vertical, 8)
+                }
                 
-                VStack (spacing: 0) {
-                    
-                    Text(item.header).font(.title2).bold().foregroundLinearGradient(colors: progress == 1.0 ? [ Color.accent, Color.accentLight] : [Color.text], startPoint: .topLeading, endPoint: .bottomTrailing).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(2)
-                    
-                    Text(item.description).font(.subheadline).foregroundStyle(.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.top, 8).lineLimit(3)
-                    
-                    HorizontalProgressView(progress: $progress).padding(.top)
-                    
-                }.padding(.trailing, 4).padding(.vertical)
-                
-                Image(systemName: "chevron.right").foregroundStyle(.textAdditional).font(.subheadline).padding(.trailing)
-                
-            }.clipShape(RoundedRectangle(cornerRadius: 16.0)).background() {
-                RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
-            }
+            }.padding(8).background() {
+                ColorBackgroundView(alignment: .topTrailing, size: 130)
+            }.clipShape(RoundedRectangle(cornerRadius: 20.0))
+            
         }.onAppear() {
             withAnimation {
                 progress = item.progress

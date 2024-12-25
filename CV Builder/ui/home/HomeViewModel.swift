@@ -26,6 +26,7 @@ class HomeViewModel: ObservableObject {
     @Published var cvList: [CVItem?] = []
     
     @Published var isLoading = false
+    @Published var listVisible = false
     @Published var sideMenuShown = false
     @Published var paywallSheetShown = false
     @Published var onboardSheetShown = false
@@ -90,6 +91,7 @@ class HomeViewModel: ObservableObject {
             }
         }
         cvList = list
+        listVisible = list.count > 0
         isLoading = false
     }
     
@@ -114,40 +116,52 @@ class HomeViewModel: ObservableObject {
         }
     }
     
+    @MainActor
     func duplicateCv () {
         if let selectedCV {
             Task {
-                await performDuplicate(cv: selectedCV)
+                let newCv = cvBuilder.duplicateCv(cv: selectedCV)
+                
+                if let cv = await loadEntity(id: newCv.id) {
+                    cvList.insert(cv, at: 0)
+                    listVisible = cvList.count > 0
+                }
+                
+                self.selectedCV = nil
+                AnalyticsManager.saveEvent(event: Events.CV_DUPLICTED)
             }
         } else {
             showDefaultErrorDialog()
         }
-    }
-    
-    @MainActor
-    private func performDuplicate (cv: CVEntity) async {
-        cvBuilder.duplicateCv(cv: cv)
-        await updateList()
-        selectedCV = nil
-        AnalyticsManager.saveEvent(event: Events.CV_DUPLICTED)
     }
     
     func deleteCv () {
         if let selectedCV {
-            Task {
-                await performDelete(cv: selectedCV)
+            let position = getCvPosition(entity: selectedCV)
+            if position != -1 {
+                cvBuilder.deleteCv(cv: selectedCV)
+                
+                cvList.remove(at: position)
+                listVisible = cvList.count > 0
+                
+                self.selectedCV = nil
+                AnalyticsManager.saveEvent(event: Events.CV_DELETED)
             }
         } else {
             showDefaultErrorDialog()
         }
     }
     
-    @MainActor
-    func performDelete (cv: CVEntity) async {
-        cvBuilder.deleteCv(cv: cv)
-        await updateList()
-        selectedCV = nil
-        AnalyticsManager.saveEvent(event: Events.CV_DELETED)
+    private func getCvPosition (entity: CVEntity) -> Int {
+        var position = -1
+        
+        for i in 0..<cvList.count {
+            if let cv = cvList[i], entity.id == cv.entity.id {
+                position = i
+            }
+        }
+        
+        return position
     }
     
     private func startOnBoardActions () {

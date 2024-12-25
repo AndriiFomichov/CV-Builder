@@ -10,37 +10,60 @@ import SwiftUI
 struct FontItemView: View {
     
     @Binding var font: String?
+    @Binding var fontSize: Int
+    var fontSizeRange: ClosedRange<Int> = 1...54
+    
     let fontType: String
+    
     let clickHandler: () -> Void
+    let sizeHandler: () -> Void
     
     var body: some View {
         if let font {
-            Button (action: clickHandler) {
-                HStack (spacing: 0) {
-                    
-                    ZStack {
+            VStack (spacing: 8) {
+                
+                Text(fontType).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal)
+                
+                Button (action: clickHandler) {
+                    VStack (spacing: 8) {
                         
-                        Text(font[0].uppercased()).font(SwiftUI.Font.custom(font, size: 32)).foregroundStyle(.accent)
+                        ZStack {
+                            
+                            Text(font).font(SwiftUI.Font.custom(font, size: 24)).foregroundStyle(.accent).lineLimit(1)
+                            
+                        }.frame(height: 48).frame(maxWidth: .infinity).background() {
+                            RoundedRectangle(cornerRadius: 16.0).foregroundStyle(Color.windowColored)
+                        }
                         
-                    }.frame(width: 48, height: 48).background() {
-                        RoundedRectangle(cornerRadius: 12.0).foregroundStyle(Color.windowTwo)
-                    }.padding(8)
-                    
-                    VStack (spacing: 0) {
+                        HStack (spacing: 0) {
+                            
+                            ZStack {
+                                
+                                Image(systemName: "textformat.characters").font(.headline).foregroundStyle(.accent)
+                                
+                            }.frame(width: 42, height: 42).background() {
+                                RoundedRectangle(cornerRadius: 32.0).fill(.windowTwo)
+                            }.padding(.trailing, 8)
+                            
+                            Text(NSLocalizedString("select_font", comment: "")).font(.subheadline).foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(1)
+                            
+                            Image(systemName: "chevron.right").foregroundStyle(.textAdditional).font(.subheadline)
+                        }
                         
-                        Text(fontType).font(.subheadline).foregroundStyle(.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.bottom, 4).lineLimit(1)
-                        
-                        Text(font).font(.title3).foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(2)
-                        
-                    }.padding(.trailing, 4).padding(.vertical, 8)
-                }.background() {
-                    RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                    }.padding(8).background() {
+                        RoundedRectangle(cornerRadius: 20.0).fill(Color.window)
+                    }
+                }.padding(.horizontal)
+                
+                SliderButtonView(text: NSLocalizedString("select_size", comment: ""), value: $fontSize, sliderRange: fontSizeRange).padding(.horizontal).onChange(of: fontSize) {
+                    sizeHandler()
                 }
-            }
+                
+            }.padding(.bottom)
         }
     }
 }
 
 #Preview {
-    FontItemView(font: .constant("Roboto"), fontType: "Headers", clickHandler: {})
+    FontItemView(font: .constant("Roboto"), fontSize: .constant(12), fontType: "Headers", clickHandler: {}, sizeHandler: {})
 }

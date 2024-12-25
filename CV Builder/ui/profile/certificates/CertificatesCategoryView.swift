@@ -28,25 +28,29 @@ struct CertificatesCategoryView: View, KeyboardReadable {
             
             VStack (spacing: 0) {
                 
-                TopBarView(header: .constant(NSLocalizedString("certificates_input_header", comment: "")), description: .constant(NSLocalizedString("certificates_input_description", comment: "")), progress: .constant(0.0), isLoading: .constant(false), isCollapsed: $isCollapsed, lineIllustration: "small_line_four_illustration")
+                TopBarView(header: .constant(NSLocalizedString("certificates_input_header", comment: "")), description: .constant(NSLocalizedString("certificates_input_description", comment: "")), isCollapsed: $isCollapsed)
 
                 VStack {
                     
-                    HStack {
+                    if viewModel.certificatesList.count == 0 {
                         
-                        ActionButtonView(icon: "plus", text: NSLocalizedString("add_certificate", comment: ""), clickHandler: {
+                        EmptyInputListView(icon: "text.document.fill", header: NSLocalizedString("empty_certificates_header", comment: ""), description: NSLocalizedString("empty_certificates_description", comment: ""), buttonOneName: NSLocalizedString("add_certificate", comment: ""), buttonOneIcon: "plus", buttonOneHandler: {
                             withAnimation {
                                 viewModel.addCertificate()
                             }
-                        }, addArrow: true)
-                        
-                    }.padding([.leading, .top, .trailing])
-                    
-                    if viewModel.certificatesList.count == 0 {
-                        
-                        EmptyInputListView(header: NSLocalizedString("empty_certificates_header", comment: ""), description: NSLocalizedString("empty_certificates_description", comment: "")).padding()
+                        }).padding()
                         
                     } else {
+                        
+                        HStack {
+                            
+                            ActionButtonView(icon: "plus", text: NSLocalizedString("add_certificate", comment: ""), clickHandler: {
+                                withAnimation {
+                                    viewModel.addCertificate()
+                                }
+                            }, addArrow: true)
+                            
+                        }.padding([.leading, .top, .trailing])
                         
                         ScrollView (showsIndicators: false) {
                             

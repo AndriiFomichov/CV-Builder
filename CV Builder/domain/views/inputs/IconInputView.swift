@@ -36,13 +36,11 @@ struct IconInputView: View {
                     }
                     
                 }.frame(width: 42, height: 42).background() {
-                    RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo)
+                    RoundedRectangle(cornerRadius: 32.0).fill(.windowTwo)
                 }.padding(8)
                 
             }.background() {
-                
-                RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
-                
+                RoundedRectangle(cornerRadius: 32.0).fill(Color.window)
             }
             
         }.onAppear() {

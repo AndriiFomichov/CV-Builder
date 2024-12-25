@@ -16,6 +16,7 @@ class ConstructorViewModel: ObservableObject {
     var cv: CVEntity?
     var jobTitle = ""
     var company = ""
+    var description = ""
     
     func setProfile (profile: ProfileEntity?) {
         self.profile = profile
@@ -25,9 +26,10 @@ class ConstructorViewModel: ObservableObject {
         style = id
     }
     
-    func saveTargetJob (jobTitle: String, company: String) {
+    func saveTargetJob (jobTitle: String, company: String, description: String) {
         self.jobTitle = jobTitle
         self.company = company
+        self.description = description
     }
     
     func saveCv (entity: CVEntity) {

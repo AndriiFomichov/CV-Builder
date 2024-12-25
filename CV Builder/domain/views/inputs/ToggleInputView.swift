@@ -20,18 +20,18 @@ struct ToggleInputView: View {
             
             ZStack {
                 
-                SwiftUI.Image(systemName: icon).font(.headline).foregroundStyle(isSelectedState ? .accent : .textAdditional)
+                Image(systemName: isSelectedState ? "checkmark.circle.fill" : icon).font(.headline).foregroundStyle(isSelectedState ? .accent : .textAdditional).contentTransition(.symbolEffect(.replace))
                 
             }.frame(width: 42, height: 42).background() {
-                RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo).stroke(isSelectedState ? .accent : .textAdditional.opacity(0.0), style: StrokeStyle(lineWidth: 2))
+                RoundedRectangle(cornerRadius: 24.0).fill(.windowTwo)
             }.padding(8)
             
-            Text(text).font(.title2).bold().foregroundStyle(isSelectedState ? .accent : .textAdditional).fixedSize().frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.trailing, 4).padding(.vertical, 4)
+            Text(text).font(.title2).bold().foregroundStyle(isSelectedState ? .accent : .textAdditional).fixedSize().frame(maxWidth: .infinity, alignment: .leading).lineLimit(1).padding(.trailing, 4).padding(.vertical, 4)
             
             Toggle("", isOn: $isSelected).toggleStyle(SwitchToggleStyle(tint: .accent)).padding(.trailing, 8)
             
         }.frame(maxWidth: .infinity).background() {
-            RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+            RoundedRectangle(cornerRadius: 32.0).fill(Color.window)
         }.onAppear() {
             withAnimation {
                 isSelectedState = isSelected

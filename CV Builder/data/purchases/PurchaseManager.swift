@@ -12,12 +12,13 @@ import SwiftyUserDefaults
 @MainActor
 class PurchaseManager: NSObject, ObservableObject {
     
-    private let productIds = ["slidey_monthly_premium_1", "slidey_annual_premium_1"]
+    private let productIds = ["cv_builder_weekly_premium_1", "cv_builder_monthly_premium_1"]
     
     @Published var products: [Product] = []
     @Published var purchasedProductIDs = Set<String>()
     @Published var isPremium: Bool?
     @Published var isCanceled = false
+    @Published var isPurchaseError = false
     
     @Published var productsLoaded = false
     private var updates: Task<Void, Never>? = nil
@@ -55,7 +56,7 @@ class PurchaseManager: NSObject, ObservableObject {
                 list.append(getSubscriptionFromProduct(product: products[i], position: i))
             }
             
-            if list[0].period != NSLocalizedString("annual_plan", comment: "") {
+            if list[0].period != NSLocalizedString("monthly_plan", comment: "") {
                 list.swapAt(0, 1)
             }
             
@@ -109,13 +110,13 @@ class PurchaseManager: NSObject, ObservableObject {
     
     private func updateSaveAmount (list: inout [Subscription]) {
         if list.count >= 2 {
-            var priceAnnual = 1.0
             var priceMonthly = 1.0
+            var priceWeekly = 1.0
             for subscription in list {
                 if let product = subscription.product {
                     if let subscriptionInfo = product.subscription {
-                        if subscriptionInfo.subscriptionPeriod.unit == Product.SubscriptionPeriod.Unit.year {
-                            priceAnnual = Double(truncating: product.price as NSNumber)
+                        if subscriptionInfo.subscriptionPeriod.unit == Product.SubscriptionPeriod.Unit.week {
+                            priceWeekly = Double(truncating: product.price as NSNumber)
                         } else if subscriptionInfo.subscriptionPeriod.unit == Product.SubscriptionPeriod.Unit.month {
                             priceMonthly = Double(truncating: product.price as NSNumber)
                         }
@@ -123,14 +124,14 @@ class PurchaseManager: NSObject, ObservableObject {
                 }
             }
             
-            if priceAnnual != 1.0 && priceMonthly != 1.0 {
-                let priceAnnualPerMonth = priceAnnual / 12
-                let savePercent = abs((priceAnnualPerMonth * 100 / priceMonthly) - 100)
+            if priceWeekly != 1.0 && priceMonthly != 1.0 {
+                let priceMonthlyPerWeek = priceMonthly / 4
+                let savePercent = abs((priceMonthlyPerWeek * 100 / priceWeekly) - 100)
                 for i in 0..<list.count {
                     let subscription = list[i]
                     if let product = subscription.product {
                         if let subscriptionInfo = product.subscription {
-                            if subscriptionInfo.subscriptionPeriod.unit == Product.SubscriptionPeriod.Unit.year {
+                            if subscriptionInfo.subscriptionPeriod.unit == Product.SubscriptionPeriod.Unit.month {
                                 subscription.saveAmount = NSLocalizedString("save_percent", comment: "").replacingOccurrences(of: "44", with: String(Int(savePercent)))
                                 list[i] = subscription
                             }
@@ -152,6 +153,7 @@ class PurchaseManager: NSObject, ObservableObject {
         case let .success(.unverified(_, error)):
             // Successful purchase but transaction/receipt can't be verified
             // Could be a jailbroken phone
+            self.isPurchaseError.toggle()
             break
         case .pending:
             // Transaction waiting on SCA (Strong Customer Authentication) or
@@ -161,7 +163,7 @@ class PurchaseManager: NSObject, ObservableObject {
             self.isCanceled.toggle()
             break
         @unknown default:
-            self.isCanceled.toggle()
+            self.isPurchaseError.toggle()
             break
         }
     }
@@ -187,6 +189,7 @@ class PurchaseManager: NSObject, ObservableObject {
             isPremium = premium
             AiManager.updateAttempts()
             print("Purchase update started 2")
+            AnalyticsManager.saveUserProperty(propertyName: "plan", value: String(premium ? 1 : 0))
         }
         
         let premium = isUserPremium()

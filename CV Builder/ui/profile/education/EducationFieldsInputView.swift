@@ -22,13 +22,13 @@ struct EducationFieldsInputView: View {
     var body: some View {
         VStack {
             
-            ActionButtonView(icon: "plus", text: NSLocalizedString("add_education", comment: ""), clickHandler: {
-                
-                addingClickHandler(nil)
-                
-            }, addArrow: true).padding(.bottom, 8)
-            
             if list.count > 0 {
+                
+                ActionButtonView(icon: "plus", text: NSLocalizedString("add_education", comment: ""), clickHandler: {
+                    
+                    addingClickHandler(nil)
+                    
+                }, addArrow: true).padding(.bottom, 8)
                 
                 ScrollView (showsIndicators: false) {
                     VStack {
@@ -58,7 +58,9 @@ struct EducationFieldsInputView: View {
                 }
                 
             } else {
-                EmptyInputListView(header: NSLocalizedString("empty_education_header", comment: ""), description: NSLocalizedString("empty_education_description", comment: ""))
+                EmptyInputListView(icon: "graduationcap.fill", header: NSLocalizedString("empty_education_header", comment: ""), description: NSLocalizedString("empty_education_description", comment: ""), buttonOneName: NSLocalizedString("add_education", comment: ""), buttonOneIcon: "plus", buttonOneHandler: {
+                    addingClickHandler(nil)
+                })
             }
             
         }.padding()

@@ -18,6 +18,8 @@ struct AIProofreadingMistakesView: View {
     @State var textsState = 0
     @State var typosState = 0
     
+    var namespaceAnimation: Namespace.ID
+    
     var body: some View {
         ZStack (alignment: .bottom) {
             
@@ -30,9 +32,9 @@ struct AIProofreadingMistakesView: View {
                             
                             VStack {
                                 
-                                Text(NSLocalizedString("complete", comment: "")).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                                Text(NSLocalizedString("complete", comment: "")).font(.title2).bold().foregroundStyle(Color.accent).foregroundLinearGradient(colors: [ .accentLight, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).matchedGeometryEffect(id: "Header", in: namespaceAnimation)
                                 
-                                Text(NSLocalizedString("ai_proofread_error", comment: "")).font(.subheadline).foregroundStyle(Color.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                                Text(NSLocalizedString("ai_proofread_error", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).matchedGeometryEffect(id: "Description", in: namespaceAnimation)
                                 
                             }.frame(maxWidth: .infinity, maxHeight: .infinity).padding(4)
                             
@@ -41,23 +43,19 @@ struct AIProofreadingMistakesView: View {
                         }.padding(.bottom, 8)
                         
                         HStack {
-                            TextsAnalyzedView(icon: "text.magnifyingglass", text: NSLocalizedString("texts_analyzed", comment: ""), number: texts, color: .text)
+                            TextsAnalyzedView(icon: "text.viewfinder", text: NSLocalizedString("texts_analyzed", comment: ""), number: texts, color: .text)
                             TextsAnalyzedView(icon: "exclamationmark.triangle.fill", text: NSLocalizedString("typos_found", comment: ""), number: typos, color: .error)
                         }
                         
                     }.padding(8).background() {
-                        ZStack (alignment: .bottomLeading) {
-                            RoundedRectangle(cornerRadius: 20.0).fill(Color.backgroundDark)
-                            
-                            Image("small_line_two_illustration").renderingMode(.template).resizable().scaledToFit().foregroundStyle(.backgroundDarker)
-                        }
-                    }
+                        ColorBackgroundView().matchedGeometryEffect(id: "Back", in: namespaceAnimation)
+                    }.clipShape(RoundedRectangle(cornerRadius: 20.0))
                     
                     ForEach(mistakes.indices, id: \.self) { index in
                         MistakeView(mistake: mistakes[index])
                     }
                     
-                }.padding()
+                }.padding(.horizontal).padding(.bottom)
                 
             }
             
@@ -74,5 +72,6 @@ struct AIProofreadingMistakesView: View {
 }
 
 #Preview {
-    AIProofreadingMistakesView(percent: 0.75, texts: 20, typos: 5, mistakes: [ Mistake.getDefault(), Mistake.getDefault() ])
+    @Previewable @Namespace var namespace
+    AIProofreadingMistakesView(percent: 0.75, texts: 20, typos: 5, mistakes: [ Mistake.getDefault(), Mistake.getDefault() ], namespaceAnimation: namespace)
 }

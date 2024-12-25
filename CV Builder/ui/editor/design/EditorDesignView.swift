@@ -12,6 +12,8 @@ struct EditorDesignView: View {
     @EnvironmentObject var parentViewModel: EditorViewModel
     @StateObject var viewModel = EditorDesignViewModel()
     
+    @State var pageParamsShown = 0
+    
     var body: some View {
         ZStack (alignment: .bottom) {
             Color.background.ignoresSafeArea()
@@ -25,8 +27,6 @@ struct EditorDesignView: View {
                     }).offset(x: 8)
                     
                     Spacer()
-                    
-                    
                     
                 }.padding()
                 
@@ -44,7 +44,7 @@ struct EditorDesignView: View {
                                     })
                                 }
                                 
-                            }.frame(height: 196).padding(.horizontal)
+                            }.padding(.vertical, 2).frame(height: 196).padding(.horizontal)
                         }.padding(.bottom)
                         
                         Text(NSLocalizedString("main_color", comment: "")).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal)
@@ -61,26 +61,34 @@ struct EditorDesignView: View {
                             }.frame(height: 64).padding(.horizontal)
                         }.padding(.bottom)
                         
-                        Text(NSLocalizedString("fonts", comment: "")).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal)
-                        
-                        HStack {
+                        if pageParamsShown == 0 {
                             
-                            FontItemView(font: $viewModel.fontHeaders, fontType: NSLocalizedString("headers", comment: ""), clickHandler: {
+                            FontItemView(font: $viewModel.fontName, fontSize: $viewModel.nameSize, fontSizeRange: 1...70, fontType: NSLocalizedString("name", comment: ""), clickHandler: {
                                 viewModel.showFontSheet(type: 0)
+                            }, sizeHandler: {
+                                viewModel.handleNameSizeChanged()
                             })
                             
-                            FontItemView(font: $viewModel.fontText, fontType: NSLocalizedString("text", comment: ""), clickHandler: {
+                            FontItemView(font: $viewModel.fontHeaders, fontSize: $viewModel.headersSize, fontSizeRange: 1...48, fontType: NSLocalizedString("headers", comment: ""), clickHandler: {
                                 viewModel.showFontSheet(type: 1)
+                            }, sizeHandler: {
+                                viewModel.handleHeaderSizeChanged()
                             })
                             
-                        }.padding(.horizontal)
-                        
-                        SliderButtonView(text: NSLocalizedString("headers_size", comment: ""), value: $viewModel.headersSize, sliderRange: 1...54).padding(.horizontal).onChange(of: viewModel.headersSize) {
-                            viewModel.handleHeaderSizeChanged()
-                        }
-                       
-                        SliderButtonView(text: NSLocalizedString("text_size", comment: ""), value: $viewModel.textSize, sliderRange: 1...30).padding(.horizontal).padding(.bottom).onChange(of: viewModel.textSize) {
-                            viewModel.handleTextSizeChanged()
+                            FontItemView(font: $viewModel.fontText, fontSize: $viewModel.textSize, fontSizeRange: 1...20, fontType: NSLocalizedString("text", comment: ""), clickHandler: {
+                                viewModel.showFontSheet(type: 2)
+                            }, sizeHandler: {
+                                viewModel.handleTextSizeChanged()
+                            })
+                            
+                        } else if pageParamsShown == 1 {
+                            
+                            Text(NSLocalizedString("cover_letter_text_size", comment: "")).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal)
+                            
+                            SliderButtonView(text: NSLocalizedString("select_size", comment: ""), value: $viewModel.coverSize, sliderRange: 1...30).padding(.horizontal).padding(.bottom).onChange(of: viewModel.coverSize) {
+                                viewModel.handleCoverTextSizeChanged()
+                            }
+                            
                         }
                         
                         Text(NSLocalizedString("margins", comment: "")).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal)
@@ -101,6 +109,11 @@ struct EditorDesignView: View {
             
         }.onAppear() {
             viewModel.updateData(parentViewModel: parentViewModel)
+            pageParamsShown = parentViewModel.page
+        }.onChange(of: parentViewModel.page) {
+            withAnimation {
+                pageParamsShown = parentViewModel.page
+            }
         }
     }
 }

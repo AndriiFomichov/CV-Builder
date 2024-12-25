@@ -15,10 +15,16 @@ class EditorDesignViewModel: ObservableObject {
     
     @Published var styles: [Style] = []
     @Published var colors: [ColorItem] = []
+    
+    @Published var fontName: String?
     @Published var fontHeaders: String?
     @Published var fontText: String?
+    
+    @Published var nameSize = 1
     @Published var headersSize = 1
     @Published var textSize = 1
+    @Published var coverSize = 1
+    
     @Published var marginsSize = 1
     
     var initialFontId = -1
@@ -40,6 +46,7 @@ class EditorDesignViewModel: ObservableObject {
         updateColorsList()
         updateFonts()
         updateMargins()
+        updateCoverLetter()
     }
     
     @MainActor
@@ -73,20 +80,29 @@ class EditorDesignViewModel: ObservableObject {
     
     private func updateFonts () {
         if let cv {
+            let nameFont = PreloadedDatabase.getFontId(id: cv.nameFont)
             let headersFont = PreloadedDatabase.getFontId(id: cv.headersFont)
             let textFont = PreloadedDatabase.getFontId(id: cv.textFont)
             
+            fontName = NSLocalizedString(nameFont.name, comment: "")
             fontHeaders = NSLocalizedString(headersFont.name, comment: "")
             fontText = NSLocalizedString(textFont.name, comment: "")
             
-            self.headersSize = cv.headersSize
-            self.textSize = cv.textSize
+            nameSize = cv.nameSize
+            headersSize = cv.headersSize
+            textSize = cv.textSize
         }
     }
     
     private func updateMargins () {
         if let cv {
             self.marginsSize = cv.marginsSize
+        }
+    }
+    
+    private func updateCoverLetter () {
+        if let cv, let coverLetter = cv.coverLetter {
+            self.coverSize = coverLetter.textSize
         }
     }
     
@@ -137,8 +153,10 @@ class EditorDesignViewModel: ObservableObject {
         if let cv {
             fontType = type
             if type == 0 {
-                initialFontId = cv.headersFont
+                initialFontId = cv.nameFont
             } else if type == 1 {
+                initialFontId = cv.headersFont
+            } else if type == 2 {
                 initialFontId = cv.textFont
             }
             fontSheetShown = true
@@ -148,18 +166,31 @@ class EditorDesignViewModel: ObservableObject {
     func handleFontSelection (id: Int) {
         if let cv {
             if fontType == 0 {
+                if cv.nameFont != id {
+                    cv.nameFont = id
+                    updatePreview()
+                    updateFonts()
+                }
+            } else if fontType == 1 {
                 if cv.headersFont != id {
                     cv.headersFont = id
                     updatePreview()
                     updateFonts()
                 }
-            } else if fontType == 1 {
+            } else if fontType == 2 {
                 if cv.textFont != id {
                     cv.textFont = id
                     updatePreview()
                     updateFonts()
                 }
             }
+        }
+    }
+    
+    func handleNameSizeChanged () {
+        if let cv {
+            cv.nameSize = nameSize
+            updatePreview()
         }
     }
     
@@ -184,6 +215,13 @@ class EditorDesignViewModel: ObservableObject {
         }
     }
     
+    func handleCoverTextSizeChanged () {
+        if let cv, let coverLetter = cv.coverLetter {
+            coverLetter.textSize = coverSize
+            updatePreview()
+        }
+    }
+    
     private func updatePreview () {
         DatabaseBox.saveContext()
         if let parentViewModel {
@@ -191,7 +229,7 @@ class EditorDesignViewModel: ObservableObject {
         }
     }
     
-    func back() {
+    func back () {
         if let parentViewModel {
             parentViewModel.updateState(state: 0)
         }

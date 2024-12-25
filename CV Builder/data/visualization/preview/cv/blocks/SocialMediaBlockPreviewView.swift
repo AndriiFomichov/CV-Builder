@@ -24,8 +24,9 @@ struct SocialMediaBlockPreviewView: View {
             VStack (spacing: 0) {
 
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 200))], spacing: CGFloat(cv.marginsSize / 3)) {
-                    ForEach(0..<block.list.count, id:\.self) { index in
-                        SocialMediaItemPreviewView(cv: cv, block: block, item: block.list[index], media: getMediaById(id: block.list[index].media), headerTextColor: headerTextColor, mainTextColor: mainTextColor)
+                    let list = block.list.sorted { $0.position < $1.position }
+                    ForEach(0..<list.count, id:\.self) { index in
+                        SocialMediaItemPreviewView(cv: cv, block: block, item: list[index], media: getMediaById(id: list[index].media), headerTextColor: headerTextColor, mainTextColor: mainTextColor)
                     }
                 }
                 
@@ -70,16 +71,12 @@ struct SocialMediaItemPreviewView: View {
             VStack (spacing: 0) {
                 
                 if !block.styleIconAdded {
-                    TextPreviewView(text: media.name, font: getFontByStyle(cv.textFont), color: headerTextColor, gravity: .leading, size: Int(Double(cv.headersSize) * 0.72), isBold: cv.isHeadersBold, isItalic: cv.isHeadersItalic, isUnderline: false, isUppercased: cv.isHeadersUppercased).padding(.bottom, CGFloat(cv.marginsSize / 4))
+                    TextPreviewView(text: media.name, font: cv.textFont, color: headerTextColor, gravity: .leading, size: Int(Double(cv.headersSize) * 0.72), isBold: cv.isHeadersBold, isItalic: cv.isHeadersItalic, isUnderline: false, isUppercased: cv.isHeadersUppercased).padding(.bottom, CGFloat(cv.marginsSize / 4))
                 }
                 
-                TextPreviewView(text: item.link, font: getFontByStyle(cv.textFont), color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false)
+                TextPreviewView(text: item.link, font: cv.textFont, color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false)
             }
         }
-    }
-    
-    private func getFontByStyle (_ id: Int) -> String {
-        return PreloadedDatabase.getFontId(id: id).name
     }
 }
 

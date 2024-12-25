@@ -29,11 +29,10 @@ class ShareFormatViewModel: ObservableObject {
             selectedFormat = parentViewModel.format
         }
         
-        var list: [Format] = []
-        list.append(Format(position: 0, icon: "illustration_pdf_vector", header: NSLocalizedString("format_pdf_vector_header", comment: ""), description: NSLocalizedString("format_pdf_vector_description", comment: ""), color: Color.pdf, isRecommended: true, isSelected: selectedFormat == 0))
-        list.append(Format(position: 1, icon: "illustration_pdf", header: NSLocalizedString("format_pdf_header", comment: ""), description: NSLocalizedString("format_pdf_description", comment: ""), color: Color.pdf, isRecommended: false, isSelected: selectedFormat == 1))
-        list.append(Format(position: 2, icon: "illustration_jpeg", header: NSLocalizedString("format_jpeg_header", comment: ""), description: NSLocalizedString("format_jpeg_description", comment: ""), color: Color.jpeg, isRecommended: false, isSelected: selectedFormat == 2))
-        list.append(Format(position: 3, icon: "illustration_png", header: NSLocalizedString("format_png_header", comment: ""), description: NSLocalizedString("format_png_description", comment: ""), color: Color.png, isRecommended: false, isSelected: selectedFormat == 3))
+        let list = PreloadedDatabase.getFormatsList()
+        if selectedFormat != -1 && selectedFormat < list.count {
+            list[selectedFormat].isSelected = true
+        }
         
         formatsList = list
         btnMainSelected = selectedFormat != -1

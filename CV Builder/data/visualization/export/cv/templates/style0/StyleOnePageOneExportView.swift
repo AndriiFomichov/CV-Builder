@@ -27,7 +27,7 @@ struct StyleOnePageOneExportView: View {
                 
             }.frame(width: width * 0.38)
             
-            ColumnExportView(page: 0, isMainBlock: true, cv: cv, addBlockPadding: true, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","#E2E2E2","","#E2E2E2","","#E2E2E2","","#E2E2E2","","#E2E2E2",""], blockStrokeColors: ["","","","","","","","","","",""]).frame(width: width * 0.62)
+            ColumnExportView(page: 0, isMainBlock: true, cv: cv, addBlockPadding: true, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","#EBEBEB","","#EBEBEB","","#EBEBEB","","#EBEBEB","","#EBEBEB",""], blockStrokeColors: ["","","","","","","","","","",""]).frame(width: width * 0.62)
             
         }.contentShape(Rectangle()).frame(width: width, height: height).background() {
             Color(hex: "#F5F5F5")

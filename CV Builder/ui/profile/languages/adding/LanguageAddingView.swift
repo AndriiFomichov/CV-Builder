@@ -14,7 +14,7 @@ struct LanguageAddingView: View, KeyboardReadable {
     @Environment(\.dismiss) var dismiss
     @StateObject var viewModel = LanguageAddingViewModel()
     
-    @State var keyboardVisible = false
+    @State var isCollapsed = false
     
     var body: some View {
         NavigationStack {
@@ -23,19 +23,23 @@ struct LanguageAddingView: View, KeyboardReadable {
                 
                 VStack (spacing: 0) {
                     
-                    EditableTopBarView(header: .constant(NSLocalizedString("languages_adding_header", comment: "")), description: .constant(NSLocalizedString("languages_adding_description", comment: "")), text: $viewModel.text, icon: "globe", hint: NSLocalizedString("languages_adding_hint", comment: ""), lineIllustration: "small_line_one_illustration", maxHeight: 200)
+                    TopBarView(header: .constant(NSLocalizedString("languages_adding_header", comment: "")), description: .constant(""), isCollapsed: $isCollapsed, icon: "globe", iconPlusAdded: true, maxHeight: 180)
 
                     VStack {
                         
                         ScrollView (showsIndicators: false) {
                             
-                            LazyVGrid(columns: [ GridItem(.adaptive(minimum: 120)) ]) {
+                            VStack {
                                 
-                                ForEach(viewModel.list.indices, id: \.self) { index in
-                                    LanguageView(item: $viewModel.list[index], clickHandler: {
-                                        viewModel.selectLanguage(index: index)
-                                    })
-                                }
+                                Text(NSLocalizedString("field_language_name", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                                
+                                TextInputView(text: $viewModel.text, icon: "link.circle.fill", hint: NSLocalizedString("field_language_name_hint", comment: ""), options: viewModel.languageOptions).padding(.bottom)
+                                
+                                Text(NSLocalizedString("field_language_level", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                                
+                                SelectionInputView(text: $viewModel.levelName, icon: "network", hint: NSLocalizedString("field_language_level_hint", comment: ""), options: viewModel.levelOptions, selectionHandler: { item in
+                                    viewModel.selectLevel(item: item)
+                                }).padding(.bottom)
                                 
                             }.padding()
                         }
@@ -44,7 +48,7 @@ struct LanguageAddingView: View, KeyboardReadable {
                         RoundedRectangle(cornerRadius: 20.0).fill(Color.background)
                     }.padding(.top, -24)
                     
-                    if keyboardVisible {
+                    if isCollapsed {
                         KeyboardActionsView(clearHanlder: {
                             self.endEditing()
                         }, doneHanlder: {
@@ -73,7 +77,7 @@ struct LanguageAddingView: View, KeyboardReadable {
                 viewModel.updateData(profile: profile)
             }.onReceive(keyboardPublisher) { newIsKeyboardVisible in
                 withAnimation {
-                    keyboardVisible = newIsKeyboardVisible
+                    isCollapsed = newIsKeyboardVisible
                 }
             }.onChange(of: viewModel.dismissed) {
                 dismiss()

@@ -30,15 +30,15 @@ struct ContactInfoBlockPreviewView: View {
     
     var body: some View {
         if let block = cv.contactBlock {
-            BlockContainerPreviewView(isMainBlock: block.isMainBlock, marginsSize: cv.marginsSize, text: block.textContact, font: getFontByStyle(cv.headersFont), textColor: headerTextColor, gravity: .leading, size: cv.headersSize, isBold: cv.isHeadersBold, isItalic: cv.isHeadersItalic, isUnderline: false, isUppercased: cv.isHeadersUppercased, headerPosition: block.styleHeaderPosition, headerDotAdded: cv.headerDotAdded, headerLineAdded: cv.headerLineAdded, dotColor: dotColor, dotSize: cv.dotSize, dotBackAdded: cv.dotBackAdded, dotStrokeAdded: cv.dotStrokeAdded, strokeWidth: cv.strokeWidth, strokeColor: dotStrokeColor, linePosition: cv.headerLinePosition, lineColor: lineColor, lineCirclesAdded: cv.lineCirclesAdded, lineCirclesColor: lineCirclesColor, lienWidth: cv.lineWidth, cornersRadius: CGFloat(cv.cornersRadius), blockBackgroundColor: blockBackgroundColor, blockStrokeColor: blockStrokeColor, addBlockPadding: addBlockPadding) {
+            BlockContainerPreviewView(isMainBlock: block.isMainBlock, marginsSize: cv.marginsSize, text: block.textContact, font: cv.headersFont, textColor: headerTextColor, gravity: .leading, size: cv.headersSize, isBold: cv.isHeadersBold, isItalic: cv.isHeadersItalic, isUnderline: false, isUppercased: cv.isHeadersUppercased, headerPosition: block.styleHeaderPosition, headerDotAdded: cv.headerDotAdded, headerLineAdded: cv.headerLineAdded, dotColor: dotColor, dotSize: cv.dotSize, dotBackAdded: cv.dotBackAdded, dotStrokeAdded: cv.dotStrokeAdded, strokeWidth: cv.strokeWidth, strokeColor: dotStrokeColor, linePosition: cv.headerLinePosition, lineColor: lineColor, lineCirclesAdded: cv.lineCirclesAdded, lineCirclesColor: lineCirclesColor, lienWidth: cv.lineWidth, cornersRadius: CGFloat(cv.cornersRadius), blockBackgroundColor: blockBackgroundColor, blockStrokeColor: blockStrokeColor, addBlockPadding: addBlockPadding) {
                 
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 140))], spacing: CGFloat(cv.marginsSize / 3)) {
                     ForEach (0...2, id: \.self) { index in
-                        if index == 0 {
+                        if index == 0 && !block.email.isEmpty {
                             ContactInfoItemPreviewView(cv: cv, block: block, text: block.email, icon: "envelope.fill", mainTextColor: mainTextColor, iconColor: iconColor, iconBackgroundColor: iconBackgroundColor, iconStrokeColor: iconStrokeColor)
-                        } else if index == 1 {
+                        } else if index == 1 && !block.phone.isEmpty {
                             ContactInfoItemPreviewView(cv: cv, block: block, text: block.phone, icon: "phone.fill", mainTextColor: mainTextColor, iconColor: iconColor, iconBackgroundColor: iconBackgroundColor, iconStrokeColor: iconStrokeColor)
-                        } else if index == 2 {
+                        } else if index == 2 && !block.websiteLink.isEmpty {
                             ContactInfoItemPreviewView(cv: cv, block: block, text: block.websiteLink, icon: "globe", mainTextColor: mainTextColor, iconColor: iconColor, iconBackgroundColor: iconBackgroundColor, iconStrokeColor: iconStrokeColor)
                         }
                     }
@@ -46,10 +46,6 @@ struct ContactInfoBlockPreviewView: View {
                 
             }
         }
-    }
-    
-    private func getFontByStyle (_ id: Int) -> String {
-        return PreloadedDatabase.getFontId(id: id).name
     }
 }
 
@@ -71,15 +67,11 @@ struct ContactInfoItemPreviewView: View {
         HStack (spacing: 0) {
             
             if block.styleIconAdded {
-                IconPreviewView(iconName: icon, size: cv.iconSize, font: getFontByStyle(cv.textFont), isBold: cv.iconIsBold, foregroundColor: iconColor, backgroundColor: iconBackgroundColor, cornersRadius: CGFloat(cv.cornersRadius), strokeWidth: cv.strokeWidth, strokeColor: iconStrokeColor, backAdded: cv.iconBackAdded, strokeAdded: cv.iconStrokeAdded).padding(.trailing, CGFloat(cv.marginsSize / 3))
+                IconPreviewView(iconName: icon, size: cv.iconSize, font: cv.textFont, isBold: cv.iconIsBold, foregroundColor: iconColor, backgroundColor: iconBackgroundColor, cornersRadius: CGFloat(cv.cornersRadius), strokeWidth: cv.strokeWidth, strokeColor: iconStrokeColor, backAdded: cv.iconBackAdded, strokeAdded: cv.iconStrokeAdded).padding(.trailing, CGFloat(cv.marginsSize / 3))
             }
             
-            TextPreviewView(text: text, font: getFontByStyle(cv.textFont), color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false)
+            TextPreviewView(text: text, font: cv.textFont, color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false)
         }
-    }
-    
-    private func getFontByStyle (_ id: Int) -> String {
-        return PreloadedDatabase.getFontId(id: id).name
     }
 }
 

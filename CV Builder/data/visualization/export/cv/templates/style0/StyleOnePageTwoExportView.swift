@@ -22,7 +22,7 @@ struct StyleOnePageTwoExportView: View {
                 Color(hex: "#262626")
             }
             
-            ColumnExportView(page: page, isMainBlock: true, cv: cv, addBlockPadding: true, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","#EAEAEA","","#EAEAEA","","#EAEAEA","","#EAEAEA","","#EAEAEA",""], blockStrokeColors: ["","","","","","","","","","",""]).frame(width: width * 0.62)
+            ColumnExportView(page: page, isMainBlock: true, cv: cv, addBlockPadding: true, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","#EBEBEB","","#EBEBEB","","#EBEBEB","","#EBEBEB","","#EBEBEB",""], blockStrokeColors: ["","","","","","","","","","",""]).frame(width: width * 0.62)
             
         }.contentShape(Rectangle()).frame(width: width, height: height).background() {
             Color(hex: "#F5F5F5")

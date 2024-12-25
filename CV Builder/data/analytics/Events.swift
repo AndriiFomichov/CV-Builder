@@ -56,4 +56,8 @@ enum Events: String {
     case AI_BACK_REMOVER_APPLIED = "ai_back_remover_applied"
     case AI_BACK_REMOVER_SAVED = "ai_back_remover_saved"
     
+    // Paywall
+    case PAYWALL_OPENED = "paywall_opened"
+    case PAYWALL_PLANS_LOADED = "paywall_pl_loaded"
+    case PAYWALL_PURCHASE_STARTED = "paywall_p_started"
 }

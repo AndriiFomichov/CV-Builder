@@ -18,7 +18,7 @@ class AiTranslatingViewModel: ObservableObject {
     @Published var btnMainSelected = false
     @Published var icon = "globe"
     @Published var header = NSLocalizedString("ai_translating", comment: "")
-    @Published var isLoading = true
+    @Published var isLoading = false
     @Published var loadingShown = false
     
     @Published var errorAlertShown = false

@@ -17,19 +17,22 @@ struct StyleTwoCoverPreviewView: View {
     var height: CGFloat = 841.66
     
     var body: some View {
-        VStack {
+        VStack (spacing: CGFloat(cv.marginsSize * 2)) {
             
-            if let coverLetter = cv.coverLetter {
-                TextFieldPreviewView(initialText: coverLetter.text, font: getFontByStyle(), color: cv.mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, isDisabled: isDisabled, textChangeHandler: textChangeHandler).padding(CGFloat(cv.marginsSize * 2))
+            StyleTwoCoverHeaderPreviewView(cv: cv, width: width, height: height)
+            
+            ZStack (alignment: .top) {
+                Color.clear
+                if let coverLetter = cv.coverLetter {
+                    TextFieldPreviewView(initialText: coverLetter.text, font: cv.textFont, color: cv.mainTextColor, gravity: .leading, size: coverLetter.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, isDisabled: isDisabled, textChangeHandler: textChangeHandler)
+                }
             }
             
-        }.contentShape(Rectangle()).frame(width: width, height: height).background() {
+            StyleTwoCoverBottomPreviewView(cv: cv)
+            
+        }.padding(CGFloat(cv.marginsSize * 2)).contentShape(Rectangle()).frame(width: width, height: height).background() {
             Color(hex: cv.mainColor)
         }
-    }
-    
-    private func getFontByStyle () -> String {
-        return PreloadedDatabase.getFontId(id: cv.textFont).name
     }
 }
 

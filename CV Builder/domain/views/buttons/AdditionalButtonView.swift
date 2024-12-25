@@ -23,7 +23,7 @@ struct AdditionalButtonView: View {
                 Text(text).font(.headline).bold().foregroundStyle(textColor)
                 
             }.frame(maxWidth: .infinity).padding().background() {
-                RoundedRectangle(cornerRadius: 16.0).fill(backColor)
+                RoundedRectangle(cornerRadius: 32.0).fill(backColor)
             }.padding(.horizontal)
         }
     }

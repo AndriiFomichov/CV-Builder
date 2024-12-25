@@ -16,19 +16,23 @@ struct EditorActionView: View {
             VStack {
                 ZStack {
                     
-                    if action.isIconSystem {
-                        Image(systemName: action.icon).font(.headline).foregroundStyle(.text)
-                    } else {
-                        Image(action.icon).resizable().scaledToFit().frame(width: 24, height: 24)
-                    }
+                    ZStack {
+                        if action.isIconSystem {
+                            Image(systemName: action.icon).font(.title2).foregroundStyle(.accent)
+                        } else {
+                            Image(action.icon).resizable().scaledToFit().frame(width: 28, height: 28)
+                        }
+                    }.frame(maxWidth: .infinity, maxHeight: .infinity).background() {
+                        Circle().fill(LinearGradient(colors: [ .windowColoredLight, .windowColored ], startPoint: .topLeading, endPoint: .bottomTrailing))
+                    }.padding(4)
                     
-                }.clipShape(RoundedRectangle(cornerRadius: 12.0)).frame(width: 52, height: 52).background() {
-                    RoundedRectangle(cornerRadius: 12.0).fill(.window)
+                }.clipShape(RoundedRectangle(cornerRadius: 16.0)).frame(width: 48, height: 48).background() {
+                    RoundedRectangle(cornerRadius: 16.0).fill(.window)
                 }
                 
-                Text(action.name).font(.subheadline).foregroundStyle(.textAdditional).lineLimit(1)
+                Text(action.name).font(.caption).foregroundStyle(.text).lineLimit(1)
             }
-        }.padding(.horizontal, 4)
+        }.padding(.horizontal, 6)
     }
 }
 

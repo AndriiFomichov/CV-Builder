@@ -5,7 +5,7 @@
 //  Created by Andrii Fomichov on 23.11.2024.
 //
 
-import Foundation
+import SwiftUI
 
 class GuideItem {
     
@@ -17,8 +17,9 @@ class GuideItem {
     var isHeaderHighlighted: Bool
     var isHeaderLarge: Bool
     var alignment: Int
+    var backgroundAlignment: Alignment
     
-    init(header: String, description: String, tip: String, illustration: String, lineIllustration: String, isHeaderHighlighted: Bool, isHeaderLarge: Bool, alignment: Int) {
+    init(header: String, description: String, tip: String, illustration: String, lineIllustration: String, isHeaderHighlighted: Bool, isHeaderLarge: Bool, alignment: Int, backgroundAlignment: Alignment) {
         self.header = header
         self.description = description
         self.tip = tip
@@ -27,9 +28,10 @@ class GuideItem {
         self.isHeaderHighlighted = isHeaderHighlighted
         self.isHeaderLarge = isHeaderLarge
         self.alignment = alignment
+        self.backgroundAlignment = backgroundAlignment
     }
     
     static func getDefault () -> GuideItem {
-        return GuideItem(header: "Header", description: "description", tip: "tip", illustration: "tip_job_speicific_one_illustration", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: true, isHeaderLarge: false, alignment: 0)
+        return GuideItem(header: "Header", description: "description", tip: "tip", illustration: "tip_job_speicific_one_illustration", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: true, isHeaderLarge: false, alignment: 0, backgroundAlignment: .bottomTrailing)
     }
 }

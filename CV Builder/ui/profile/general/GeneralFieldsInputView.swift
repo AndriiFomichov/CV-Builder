@@ -22,7 +22,7 @@ struct GeneralFieldsInputView: View {
                 
                 Text(NSLocalizedString("field_name", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                 
-                TextInputView(text: $name, icon: "person.crop.circle", hint: NSLocalizedString("field_name_hint", comment: "")).padding(.bottom)
+                TextInputView(text: $name, icon: "person.crop.circle", hint: NSLocalizedString("field_name_hint", comment: ""), keyboardType: .namePhonePad).padding(.bottom)
                 
                 if allFields {
                     Text(NSLocalizedString("field_location", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
@@ -37,7 +37,7 @@ struct GeneralFieldsInputView: View {
                 if allFields {
                     Text(NSLocalizedString("field_profile_description", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                     
-                    TextInputView(text: $description, icon: "text.document.fill", hint: NSLocalizedString("field_profile_description_hint", comment: ""))
+                    TextInputView(text: $description, icon: "text.bubble.fill", hint: NSLocalizedString("field_profile_description_hint", comment: ""))
                     
                     Text(NSLocalizedString("field_profile_description_tip", comment: "")).font(.subheadline).foregroundStyle(Color.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.bottom)
                 }

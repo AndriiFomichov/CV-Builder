@@ -16,11 +16,13 @@ class Style: Hashable {
     var hasAdditionalBlock: Bool
     
     var margins: Int
+    var fontName: Int
     var fontHeader: Int
     var fontText: Int
     var sizeName: Int
     var sizeHeader: Int
     var sizeText: Int
+    var sizeCover: Int
     
     var isHeaderBold: Bool
     var isHeaderUppercased: Bool
@@ -111,17 +113,19 @@ class Style: Hashable {
     
     var isSelected = false
     
-    init(id: Int, name: String, description: String, hasAdditionalBlock: Bool, margins: Int, fontHeader: Int, fontText: Int, sizeName: Int, sizeHeader: Int, sizeText: Int, isHeaderBold: Bool, isHeaderUppercased: Bool, isHeaderItalic: Bool, isHeaderDotAdded: Bool, isHeaderLineAdded: Bool, headerLinePosition: Int, lineCirclesAdded: Bool, cornersRadius: Int, strokeWidth: Int, lineWidth: Int, dotSize: Int, dotBackAdded: Bool, dotStrokeAdded: Bool, progressBarStyle: Int, progressBarPercentAdded: Bool, iconSize: Int, iconBackAdded: Bool, iconStrokeAdded: Bool, iconIsBold: Bool, chipBackAdded: Bool, chipStrokeAdded: Bool, photoZoom: Float, photoFilterEnabled: Bool, photoStrokeAdded: Bool, profileDescHeaderAdded: Bool, profileDescHeaderPosition: Int, profileDescQuotesAdded: Bool, contactIconAdded: Bool, contactHeaderAdded: Bool, contactHeaderPosition: Int, socialIconAdded: Bool, socialHeaderPosition: Int, qrBackAdded: Bool, educationDateWithHeader: Bool, educationDateAfterHeader: Bool, educationDateSeparated: Bool, educationDateInBrackets: Bool, educationMonthDisplayed: Bool, educationDotsAdded: Bool, educationDescritpionAsBulleted: Bool, educationHeaderPosition: Int, workDateWithHeader: Bool, workDateAfterHeader: Bool, workDateSeparated: Bool, workDateInBrackets: Bool, workMonthDisplayed: Bool, workDotsAdded: Bool, workDescritpionAsBulleted: Bool, workHeaderPosition: Int, languagesIsBulletedList: Bool, languagesIsProgressAdded: Bool, languagesIconAdded: Bool, languagesHeaderPosition: Int, skillsIsBulletedList: Bool, skillsIsChips: Bool, skillsIsProgressAdded: Bool, skillsHeaderPosition: Int, interestsIsBulletedList: Bool, interestsIsChips: Bool, interestsHeaderPosition: Int, certificatesIsBulletedList: Bool, certificatesHeaderPosition: Int, referencesIsBulletedList: Bool, referencesHeaderPosition: Int, palettes: [Palette], isSelected: Bool = false) {
+    init(id: Int, name: String, description: String, hasAdditionalBlock: Bool, margins: Int, fontName: Int, fontHeader: Int, fontText: Int, sizeName: Int, sizeHeader: Int, sizeText: Int, sizeCover: Int, isHeaderBold: Bool, isHeaderUppercased: Bool, isHeaderItalic: Bool, isHeaderDotAdded: Bool, isHeaderLineAdded: Bool, headerLinePosition: Int, lineCirclesAdded: Bool, cornersRadius: Int, strokeWidth: Int, lineWidth: Int, dotSize: Int, dotBackAdded: Bool, dotStrokeAdded: Bool, progressBarStyle: Int, progressBarPercentAdded: Bool, iconSize: Int, iconBackAdded: Bool, iconStrokeAdded: Bool, iconIsBold: Bool, chipBackAdded: Bool, chipStrokeAdded: Bool, photoZoom: Float, photoFilterEnabled: Bool, photoStrokeAdded: Bool, profileDescHeaderAdded: Bool, profileDescHeaderPosition: Int, profileDescQuotesAdded: Bool, contactIconAdded: Bool, contactHeaderAdded: Bool, contactHeaderPosition: Int, socialIconAdded: Bool, socialHeaderPosition: Int, qrBackAdded: Bool, educationDateWithHeader: Bool, educationDateAfterHeader: Bool, educationDateSeparated: Bool, educationDateInBrackets: Bool, educationMonthDisplayed: Bool, educationDotsAdded: Bool, educationDescritpionAsBulleted: Bool, educationHeaderPosition: Int, workDateWithHeader: Bool, workDateAfterHeader: Bool, workDateSeparated: Bool, workDateInBrackets: Bool, workMonthDisplayed: Bool, workDotsAdded: Bool, workDescritpionAsBulleted: Bool, workHeaderPosition: Int, languagesIsBulletedList: Bool, languagesIsProgressAdded: Bool, languagesIconAdded: Bool, languagesHeaderPosition: Int, skillsIsBulletedList: Bool, skillsIsChips: Bool, skillsIsProgressAdded: Bool, skillsHeaderPosition: Int, interestsIsBulletedList: Bool, interestsIsChips: Bool, interestsHeaderPosition: Int, certificatesIsBulletedList: Bool, certificatesHeaderPosition: Int, referencesIsBulletedList: Bool, referencesHeaderPosition: Int, palettes: [Palette], isSelected: Bool = false) {
         self.id = id
         self.name = name
         self.description = description
         self.hasAdditionalBlock = hasAdditionalBlock
         self.margins = margins
+        self.fontName = fontName
         self.fontHeader = fontHeader
         self.fontText = fontText
         self.sizeName = sizeName
         self.sizeHeader = sizeHeader
         self.sizeText = sizeText
+        self.sizeCover = sizeCover
         self.isHeaderBold = isHeaderBold
         self.isHeaderUppercased = isHeaderUppercased
         self.isHeaderItalic = isHeaderItalic

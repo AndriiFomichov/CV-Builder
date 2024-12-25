@@ -17,14 +17,14 @@ struct InterestView: View {
     var body: some View {
         Button (action: clickHandler) {
             
-            HStack (spacing: 0) {
+            HStack (spacing: 4) {
                 
                 Image(systemName: item.icon).font(.headline).foregroundStyle(isSelected ? .white : .text)
                 
                 Text(item.name).font(.subheadline).foregroundStyle(isSelected ? .white : .text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                 
             }.frame(maxWidth: .infinity).padding(8).padding(.horizontal, 4).background() {
-                RoundedRectangle(cornerRadius: 16.0).fill(isSelected ? Color.accent : Color.window)
+                RoundedRectangle(cornerRadius: 32.0).fill(isSelected ? Color.accent : Color.window)
             }
             
         }.onAppear() {

@@ -39,14 +39,14 @@ struct ContentBlockView: View {
                         Image(systemName: item.icon).font(.headline).foregroundStyle(.accent)
                         
                     }.frame(width: 42, height: 42).background() {
-                        RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo).stroke(.accent, style: StrokeStyle(lineWidth: 2))
+                        RoundedRectangle(cornerRadius: 32.0).fill(.windowTwo)
                     }.padding(.trailing, 8)
 
                     VStack {
                         Text(item.name).font(.title3).bold().foregroundStyle(.accent).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                     }
                     
-                    SelectedIndicatorView(isSelected: $isSelected)
+                    Image(systemName: isSelected ? "checkmark.seal.fill" : "circle").font(.title2).foregroundStyle(LinearGradient(colors: isSelected ? [ .accentLight, .accent ] : [ .textAdditional ], startPoint: .topLeading, endPoint: .bottomTrailing)).contentTransition(.symbolEffect(.replace))
                 }
             }.padding(8)
             
@@ -67,7 +67,7 @@ struct ContentBlockView: View {
             }
             
             if item.items.count > 0 {
-                LazyVStack {
+                VStack {
                     
                     ForEach(item.items.indices, id: \.self) { index in
                         ContentItemView(item: $item.items[index], itemTextChangeHandler: {
@@ -83,13 +83,13 @@ struct ContentBlockView: View {
                     }
                     
                 }.padding(8).background() {
-                    RoundedRectangle(cornerRadius: 12.0).fill(Color.windowTwo)
+                    RoundedRectangle(cornerRadius: 16.0).fill(Color.windowTwo)
                 }.padding(8)
             }
             
-        }.clipShape(RoundedRectangle(cornerRadius: 16.0)).borderLoadingAnimation(isAnimating: $isLoading).background() {
+        }.clipShape(RoundedRectangle(cornerRadius: 20.0)).borderLoadingAnimation(isAnimating: $isLoading).background() {
             
-            RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+            RoundedRectangle(cornerRadius: 20.0).fill(Color.window)
             
         }.onAppear() {
             text = item.text
@@ -116,7 +116,7 @@ struct ContentBlockView: View {
             withAnimation {
                 aiAvailable = networkStatus == .connected
             }
-        }.contentShape(.dragPreview, RoundedRectangle(cornerRadius: 16.0, style: .continuous))
+        }.contentShape(.dragPreview, RoundedRectangle(cornerRadius: 20.0, style: .continuous))
     }
 }
 

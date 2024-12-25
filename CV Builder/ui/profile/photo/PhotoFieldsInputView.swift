@@ -44,12 +44,12 @@ struct PhotoFieldsInputView: View {
                             Image(systemName: "plus").font(.headline).foregroundStyle(.white)
                             
                         }.frame(width: 48, height: 48).background() {
-                            Circle().fill(.accent)
+                            Circle().fill(LinearGradient(colors: [ .accentLight, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing))
                         }
                     }
                     
-                }.clipShape(RoundedRectangle(cornerRadius: 12.0)).padding(8).background {
-                    RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                }.clipShape(RoundedRectangle(cornerRadius: 16.0)).padding(8).background {
+                    RoundedRectangle(cornerRadius: 20.0).fill(Color.window)
                 }.padding(.horizontal).padding(.bottom, 8)
             }
             

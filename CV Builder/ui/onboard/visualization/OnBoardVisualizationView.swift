@@ -19,64 +19,75 @@ struct OnBoardVisualizationView: View {
     
     private let formViewControllerRepresentable = CV_BuilderApp.FormViewControllerRepresentable()
     
-    @StateObject var page: Page = .first()
-    
-    @State var noConnectionVisisble = false
+    @State var visualizationVisible = false
     @State var loadingPreview = false
-    
-    @State var header = ""
-    @State var description = ""
     
     var body: some View {
         ZStack {
             
-            Color.background.ignoresSafeArea()
+            ColoredBackgroundLargeView(animating: true).ignoresSafeArea()
             
             VStack (spacing: 0) {
                 
+                
+                ZStack {
+                    Color.clear
+                    
+                    VisualizationView(isGenerating: $viewModel.isGenerating, item: $viewModel.wrapper, clickHandler: { page in
+                        viewModel.showPreview(page: page)
+                    }).frame(maxHeight: 700).aspectRatio(0.65, contentMode: .fit).padding([.leading, .trailing]).padding(.bottom, loadingPreview ? 36 : 16)
+                }
+                
                 ZStack (alignment: .top) {
                     
-                    Color.backgroundDark.ignoresSafeArea()
-                    
-                    Image("large_line_illustration").renderingMode(.template).centerCropped().foregroundStyle(.backgroundDarker)
-                    
-                    LinearGradient(colors: [ .backgroundDark, .backgroundDark.opacity(0.0) ], startPoint: .top, endPoint: .bottom).frame(height: 20)
-                    
-                    VStack {
+                    VStack (spacing: 8) {
                         
-                        if noConnectionVisisble {
-                            NoConnectionView().padding([.leading, .trailing]).padding(.top, 4).transition(.move(edge: .top))
-                        }
-                        
-                        if loadingPreview {
+                        if visualizationVisible {
                             
-                            RoundedRectangle(cornerRadius: 16.0).skeleton(with: true, appearance: .solid(color: Color.window, background: Color.windowTwo), shape: .rounded(.radius(16.0, style: .circular))).aspectRatio(0.6, contentMode: .fit).borderLoadingAnimation(isAnimating: .constant(true)).padding([.leading, .top, .trailing])
+                            ZStack (alignment: .bottom) {
+                                ScrollView (showsIndicators: false) {
+                                    
+                                    VStack {
+                                        
+                                        Text(viewModel.description).font(.subheadline).foregroundStyle(Color.text).multilineTextAlignment(.center).padding(.horizontal)
+                                        
+                                        ForEach(viewModel.visualizationList.indices, id: \.self) { index in
+                                            VisualizationItemView(item: $viewModel.visualizationList[index], clickHandler: {
+                                                viewModel.selectVisualization(id: viewModel.visualizationList[index].id)
+                                            })
+                                        }
+                                        
+                                    }.padding(.horizontal).padding(.top)
+                                    
+                                }
+                                
+                                LinearGradient(colors: [ .clear, .windowColored ], startPoint: .top, endPoint: .bottom).frame(height: 10)
+                                
+                            }.frame(height: 150)
                             
                         } else {
-                            if viewModel.visualizationList.count > 0 {
-                                GeometryReader { geo in
-                                    
-                                    Pager(page: page, data: viewModel.visualizationList, id: \.id, content: { item in
-            
-                                        VisualizationView(item: $viewModel.visualizationList[item.id], clickHandler: {
-                                            viewModel.selectStyle(id: item.id)
-                                        })
-            
-                                    }).preferredItemSize(CGSize(width: geo.size.height * 0.6, height: geo.size.height)).itemSpacing(16).interactive(scale: 0.8).interactive(opacity: 0.5)
-                                    
-                                }.padding(.top)
-                            }
+                            Text(viewModel.header).font(.title).bold().foregroundLinearGradient(colors: [ .accentLight, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).padding(.horizontal).padding(.top).padding(.top)
+                            
+                            Text(viewModel.description).foregroundStyle(Color.text).multilineTextAlignment(.center).padding(.horizontal).padding(.bottom, 8)
                         }
                         
-                        VStack {
-                            
-                            Text(header).font(.title).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).padding(.bottom, 4)
-                            
-                            Text(description).foregroundStyle(Color.text).multilineTextAlignment(.center)
-                            
-                        }.padding()
+                        MainButtonView(isSelected: $viewModel.btnMainSelected, progressVisible: $viewModel.isLoading, text: viewModel.btnMainText, clickHandler: {
+                            viewModel.nextStep()
+                        }).padding(.top, 8)
                         
-                    }.padding(.bottom, 24)
+                    }.padding(.bottom).background() {
+                        UnevenRoundedRectangle(topLeadingRadius: 24.0, topTrailingRadius: 24.0).fill(Color.windowColored).ignoresSafeArea()
+                    }.padding(.horizontal, 8)
+                    
+                    if loadingPreview {
+                        ZStack {
+                            
+                            Image("sparkle_colored_icon").resizable().scaledToFit().frame(width: 28, height: 28)
+                            
+                        }.frame(width: 54, height: 54).background() {
+                            RoundedRectangle(cornerRadius: 32.0).fill(.window)
+                        }.offset(y: -32)
+                    }
                     
                 }.alert(NSLocalizedString("go_back_header", comment: ""), isPresented: $viewModel.goBackDialogShown) {
                     Button(NSLocalizedString("stay", comment: ""), role: .cancel, action: {})
@@ -95,18 +106,10 @@ struct OnBoardVisualizationView: View {
                     Text(NSLocalizedString("default_error", comment: ""))
                 }
                 
-                VStack {
-                    
-                    MainButtonView(isSelected: $viewModel.btnMainSelected, progressVisible: $viewModel.isLoading, text: viewModel.btnMainText, clickHandler: {
-                        viewModel.nextStep()
-                    }).padding(.vertical)
-                    
-                }.background() {
-                    RoundedRectangle(cornerRadius: 20.0).fill(Color.background)
-                }.padding(.top, -24)
-                
             }.background {
                 formViewControllerRepresentable.frame(width: .zero, height: .zero)
+            }.sheet(isPresented: $viewModel.previewSheetShown) {
+                EditorZoomablePreviewView(page: viewModel.previewPage, isCv: true, wrapper: $viewModel.wrapper).presentationDetents([.large])
             }
             
         }.navigationBarTitleDisplayMode(.inline).navigationBarBackButtonHidden().toolbar {
@@ -135,21 +138,13 @@ struct OnBoardVisualizationView: View {
             }
         }.onChange(of: viewModel.consentWindowShown) {
             consentManager.checkConsentOnAppStart(viewController: formViewControllerRepresentable.viewController)
-        }.onChange(of: viewModel.header) {
-            withAnimation {
-                header = viewModel.header
-            }
-        }.onChange(of: viewModel.description) {
-            withAnimation {
-                description = viewModel.description
-            }
         }.onChange(of: viewModel.isGenerating) {
             withAnimation {
                 loadingPreview = viewModel.isGenerating
             }
-        }.onChange(of: viewModel.isConnectionAvailable) {
+        }.onChange(of: viewModel.visualizationShown) {
             withAnimation {
-                noConnectionVisisble = !viewModel.isConnectionAvailable
+                visualizationVisible = viewModel.visualizationShown
             }
         }
     }

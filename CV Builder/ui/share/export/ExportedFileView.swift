@@ -21,25 +21,25 @@ struct ExportedFileView: View {
                         Image(file.fileIcon).resizable().scaledToFit().frame(width: 24, height: 24)
                         
                     }.frame(width: 42, height: 42).background() {
-                        RoundedRectangle(cornerRadius: 12.0).fill(Color.windowTwo)
+                        RoundedRectangle(cornerRadius: 24.0).fill(Color.windowTwo)
                     }.padding(8)
                     
                     Text(file.fileName).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.trailing, 4).padding(.vertical, 4).lineLimit(2)
                     
-                    HStack (spacing: 2) {
+                    HStack (spacing: 4) {
                         
-                        Text(NSLocalizedString("share", comment: "")).font(.subheadline).bold().foregroundStyle(Color.white).multilineTextAlignment(.leading).padding(.leading, 4).fixedSize()
+                        Text(NSLocalizedString("share", comment: "")).font(.subheadline).bold().foregroundStyle(Color.white).multilineTextAlignment(.leading).fixedSize()
                         
-                        Image(systemName: "square.and.arrow.up.fill").font(.subheadline).foregroundStyle(Color.white).padding(.trailing, 4)
+                        Image(systemName: "square.and.arrow.up.fill").font(.subheadline).foregroundStyle(Color.white)
                         
-                    }.padding(12).background() {
+                    }.padding(12).padding(.horizontal, 2).background() {
                         
-                        RoundedRectangle(cornerRadius: 12.0).fill(Color.accent)
+                        RoundedRectangle(cornerRadius: 32.0).fill(Color.accent)
                         
                     }.padding(8)
                     
                 }.frame(maxWidth: .infinity).background {
-                    RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                    RoundedRectangle(cornerRadius: 32.0).fill(Color.window)
                 }
             }
         }

@@ -66,7 +66,7 @@ class QRCodeGeneratorViewModel: ObservableObject {
         isLoading = true
         
         if let link, !link.isEmpty {
-            qrCodeGenerated = qrCodeGenerator.generateQR(text: link)
+            qrCodeGenerated = qrCodeGenerator.generateCode(type: .qrCode, text: link)
             await showPreview(data: qrCodeGenerated)
         }
         

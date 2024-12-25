@@ -14,7 +14,7 @@ struct TextInputView: View {
     let hint: String
     
     var keyboardType: UIKeyboardType = .default
-    var options: [String]? = nil
+    var options: [MenuItem]? = nil
     
     @State var isFilled = false
     @State var optionsShown = false
@@ -24,31 +24,25 @@ struct TextInputView: View {
             
             ZStack {
                 
-                Image(systemName: icon).font(.headline).foregroundStyle(isFilled ? .accent : .textAdditional)
+                Image(systemName: isFilled ? "checkmark.circle.fill" : icon).font(.headline).foregroundStyle(isFilled ? .accent : .textAdditional).contentTransition(.symbolEffect(.replace))
                 
             }.frame(width: 42, height: 42).background() {
-                RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo).stroke(isFilled ? .accent : .textAdditional.opacity(0.0), style: StrokeStyle(lineWidth: 2))
+                RoundedRectangle(cornerRadius: 24.0).fill(.windowTwo)
             }.padding(8)
             
             TextField("", text: $text, prompt: Text(hint).foregroundStyle(.textAdditional)).keyboardType(keyboardType).font(.title2).bold().foregroundStyle(.accent).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.trailing, 4).padding(.vertical, 4)
             
             if let options {
-                Menu {
-                    ForEach(options, id: \.self) { option in
-                        if option.contains(text) || text.isEmpty {
-                            Button(option, action: {
-                                text = option
-                            })
-                        }
-                    }
-                } label: {
+                SelectionMenuView(currentText: $text, options: options, selectionHandler: { item in
+                    text = item.name
+                }) {
                     ArrowExpandView(optionsShown: $optionsShown).padding(8)
                 }
             }
             
         }.frame(maxWidth: .infinity).background() {
             
-            RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+            RoundedRectangle(cornerRadius: 32.0).fill(Color.window)
             
         }.onAppear() {
             withAnimation {
@@ -64,5 +58,5 @@ struct TextInputView: View {
 
 #Preview {
     @Previewable @State var text = ""
-    TextInputView(text: $text, icon: "gear", hint: "Enter text", options: [ "Red", "Blue", "White"])
+    TextInputView(text: $text, icon: "gear", hint: "Enter text", options: [ MenuItem.getDefault(), MenuItem.getDefault() ])
 }

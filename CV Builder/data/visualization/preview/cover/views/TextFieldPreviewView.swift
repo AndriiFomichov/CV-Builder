@@ -10,7 +10,7 @@ import SwiftUI
 struct TextFieldPreviewView: View {
     
     var initialText: String
-    var font: String
+    var font: Int
     var color: String
     var gravity: Alignment
     var size: Int
@@ -27,7 +27,7 @@ struct TextFieldPreviewView: View {
     var body: some View {
         VStack {
             
-            TextField("", text: $text, prompt: Text("enter_text").foregroundStyle(Color(hex: color).opacity(0.7)), axis: .vertical).font(SwiftUI.Font.custom(NSLocalizedString(font, comment: ""), size: CGFloat(size))).frame(maxWidth: .infinity, alignment: gravity).multilineTextAlignment(getTextAlignment(gravity: gravity)).foregroundStyle(Color(hex: color)).bold(isBold).italic(isItalic).underline(isUnderline).lineLimit(1...1000).disabled(isDisabled)
+            TextField("", text: $text, prompt: Text("enter_text").foregroundStyle(Color(hex: color).opacity(0.7)), axis: .vertical).font(SwiftUI.Font.custom(NSLocalizedString(getFontByStyle(font), comment: ""), size: CGFloat(size))).frame(maxWidth: .infinity, alignment: .topLeading).multilineTextAlignment(getTextAlignment(gravity: gravity)).foregroundStyle(Color(hex: color)).bold(isBold).italic(isItalic).underline(isUnderline).lineLimit(1...1000).disabled(isDisabled)
             
         }.onAppear() {
             text = initialText
@@ -58,8 +58,12 @@ struct TextFieldPreviewView: View {
             return TextAlignment.leading
         }
     }
+    
+    private func getFontByStyle (_ id: Int) -> String {
+        return PreloadedDatabase.getFontId(id: id).name
+    }
 }
 
 #Preview {
-    TextFieldPreviewView(initialText: "My text own", font: "Roboto Mono", color: "#000CA0", gravity: .leading, size: 14, isBold: true, isItalic: false, isUnderline: true, isUppercased: true, textChangeHandler: { t in })
+    TextFieldPreviewView(initialText: "My text own", font: 0, color: "#000CA0", gravity: .leading, size: 14, isBold: true, isItalic: false, isUnderline: true, isUppercased: true, textChangeHandler: { t in })
 }

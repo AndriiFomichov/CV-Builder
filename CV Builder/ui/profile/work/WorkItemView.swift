@@ -22,13 +22,13 @@ struct WorkItemView: View {
                     Image(systemName: "briefcase.fill").font(.headline).foregroundStyle(.accent)
                     
                 }.frame(width: 42, height: 42).background() {
-                    RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo).stroke(.accent, style: StrokeStyle(lineWidth: 2))
+                    RoundedRectangle(cornerRadius: 32.0).fill(.windowTwo)
                 }.padding(8)
                 
                 VStack {
-                    Text(work.company).font(.title2).bold().foregroundStyle(.accent).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                    Text(work.company).font(.title2).bold().foregroundStyle(.accent).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(1)
                     
-                    Text(work.jobTitle.isEmpty ? work.location :work.jobTitle).font(.subheadline).foregroundStyle(.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                    Text(work.jobTitle.isEmpty ? work.location :work.jobTitle).font(.subheadline).foregroundStyle(.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(1)
                     
                 }.padding(.vertical, 8)
                 
@@ -42,11 +42,11 @@ struct WorkItemView: View {
                 
             }.frame(maxWidth: .infinity).background() {
                 
-                RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                RoundedRectangle(cornerRadius: 20.0).fill(Color.window)
                 
             }
             
-        }.contentShape(.dragPreview, RoundedRectangle(cornerRadius: 16.0, style: .continuous))
+        }.contentShape(.dragPreview, RoundedRectangle(cornerRadius: 20.0, style: .continuous))
     }
 }
 

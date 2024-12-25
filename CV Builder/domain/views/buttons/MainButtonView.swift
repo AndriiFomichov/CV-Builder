@@ -34,7 +34,7 @@ struct MainButtonView: View {
             clickHandler()
         }) {
             HStack {
-                Text(text).font(.headline).bold().foregroundStyle(Color.white)
+                Text(text).font(.headline).bold().foregroundStyle(Color.white).lineLimit(1)
                 
                 if let icon = icon, !icon.isEmpty {
                     if isIconSystem {
@@ -49,7 +49,7 @@ struct MainButtonView: View {
                 }
                 
             }.frame(maxWidth: .infinity).padding().background() {
-                RoundedRectangle(cornerRadius: 16.0).fill(selected ? Color.accent : Color.accentLight)
+                RoundedRectangle(cornerRadius: 32.0).fill(LinearGradient(colors: selected ? [ Color.accentLight, Color.accent ] : [Color.accentLightest], startPoint: .topLeading, endPoint: .bottomTrailing))
             }.padding(.horizontal)
             
         }.onChange(of: isSelected) {

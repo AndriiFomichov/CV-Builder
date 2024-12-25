@@ -22,11 +22,16 @@ struct ImagePreviewView: View {
     var filterColor: String
     var strokeWidth: Int
     var strokeColor: String
+    var isCenterCropped: Bool = true
     
     var body: some View {
         VStack {
             if let image = getUiImage() {
-                Image(uiImage: image).centerCropped().scaleEffect(zoom)
+                if isCenterCropped {
+                    Image(uiImage: image).centerCropped().scaleEffect(zoom)
+                } else {
+                    Image(uiImage: image).resizable().scaledToFit()
+                }
             } else {
                 Color(hex: filterColor)
             }

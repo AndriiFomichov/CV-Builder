@@ -33,6 +33,7 @@ class CVEntityWrapper: Hashable {
     var style: Int
     var hasAdditionalBlock: Bool
     
+    var nameFont: Int
     var headersFont: Int
     var textFont: Int
     
@@ -95,7 +96,7 @@ class CVEntityWrapper: Hashable {
     var chipBackgroundColor: String
     var chipStrokeColor: String
     
-    init(entity: CVEntity?, id: Int, wrapperName: String = "", generalBlock: GeneralInfoBlockEntityWrapper?, profileDescBlock: ProfileDescriptionBlockEntityWrapper?, contactBlock: ContactInfoBlockEntityWrapper?, socialBlock: SocialMediaBlockEntityWrapper?, qrCodesBlock: QRCodesBlockEntityWrapper?, educationBlock: EducationBlockEntityWrapper?, workBlock: WorkBlockEntityWrapper?, languagesBlock: LanguagesBlockEntityWrapper?, skillsBlock: SkillsBlockEntityWrapper?, interestsBlock: InterestsBlockEntityWrapper?, certificatesBlock: CertificatesBlockEntityWrapper?, referencesBlock: ReferencesBlockEntityWrapper?, coverLetter: CoverLetterEntityWrapper?, style: Int, hasAdditionalBlock: Bool, headersFont: Int, textFont: Int, nameSize: Int, headersSize: Int, textSize: Int, marginsSize: Int, isHeadersBold: Bool, isHeadersUppercased: Bool, isHeadersItalic: Bool, headerDotAdded: Bool, headerLineAdded: Bool, headerLinePosition: Int, lineCirclesAdded: Bool, cornersRadius: Int, strokeWidth: Int, lineWidth: Int, dotSize: Int, dotBackAdded: Bool, dotStrokeAdded: Bool, progressBarStyle: Int, progressBarPercentAdded: Bool, iconSize: Int, iconBackAdded: Bool, iconStrokeAdded: Bool, iconIsBold: Bool, chipBackAdded: Bool, chipStrokeAdded: Bool, textResume: String, textCV: String, textProfile: String, textThankYou: String, mainColor: String, headerTextColor: String, mainTextColor: String, lineColor: String, lineCirclesColor: String, dotColor: String, dotStrokeColor: String, iconColor: String, iconBackgroundColor: String, iconStrokeColor: String, qrForegroundColor: String, qrBackgroundColor: String, progressForegroundColor: String, progressBackgroundColor: String, chipTextColor: String, chipBackgroundColor: String, chipStrokeColor: String) {
+    init(entity: CVEntity?, id: Int, wrapperName: String = "", generalBlock: GeneralInfoBlockEntityWrapper?, profileDescBlock: ProfileDescriptionBlockEntityWrapper?, contactBlock: ContactInfoBlockEntityWrapper?, socialBlock: SocialMediaBlockEntityWrapper?, qrCodesBlock: QRCodesBlockEntityWrapper?, educationBlock: EducationBlockEntityWrapper?, workBlock: WorkBlockEntityWrapper?, languagesBlock: LanguagesBlockEntityWrapper?, skillsBlock: SkillsBlockEntityWrapper?, interestsBlock: InterestsBlockEntityWrapper?, certificatesBlock: CertificatesBlockEntityWrapper?, referencesBlock: ReferencesBlockEntityWrapper?, coverLetter: CoverLetterEntityWrapper?, style: Int, hasAdditionalBlock: Bool, nameFont: Int, headersFont: Int, textFont: Int, nameSize: Int, headersSize: Int, textSize: Int, marginsSize: Int, isHeadersBold: Bool, isHeadersUppercased: Bool, isHeadersItalic: Bool, headerDotAdded: Bool, headerLineAdded: Bool, headerLinePosition: Int, lineCirclesAdded: Bool, cornersRadius: Int, strokeWidth: Int, lineWidth: Int, dotSize: Int, dotBackAdded: Bool, dotStrokeAdded: Bool, progressBarStyle: Int, progressBarPercentAdded: Bool, iconSize: Int, iconBackAdded: Bool, iconStrokeAdded: Bool, iconIsBold: Bool, chipBackAdded: Bool, chipStrokeAdded: Bool, textResume: String, textCV: String, textProfile: String, textThankYou: String, mainColor: String, headerTextColor: String, mainTextColor: String, lineColor: String, lineCirclesColor: String, dotColor: String, dotStrokeColor: String, iconColor: String, iconBackgroundColor: String, iconStrokeColor: String, qrForegroundColor: String, qrBackgroundColor: String, progressForegroundColor: String, progressBackgroundColor: String, chipTextColor: String, chipBackgroundColor: String, chipStrokeColor: String) {
         self.entity = entity
         self.id = id
         self.wrapperName = wrapperName
@@ -114,6 +115,7 @@ class CVEntityWrapper: Hashable {
         self.coverLetter = coverLetter
         self.style = style
         self.hasAdditionalBlock = hasAdditionalBlock
+        self.nameFont = nameFont
         self.headersFont = headersFont
         self.textFont = textFont
         self.nameSize = nameSize
@@ -211,6 +213,7 @@ class CVEntityWrapper: Hashable {
         
         self.style = entity.style
         self.hasAdditionalBlock = entity.hasAdditionalBlock
+        self.nameFont = entity.nameFont
         self.headersFont = entity.headersFont
         self.textFont = entity.textFont
         self.nameSize = entity.nameSize
@@ -280,6 +283,7 @@ class CVEntityWrapper: Hashable {
         self.coverLetter = entity.coverLetter
         self.style = entity.style
         self.hasAdditionalBlock = entity.hasAdditionalBlock
+        self.nameFont = entity.nameFont
         self.headersFont = entity.headersFont
         self.textFont = entity.textFont
         self.nameSize = entity.nameSize
@@ -334,6 +338,7 @@ class CVEntityWrapper: Hashable {
         self.id = -1
         self.style = 0
         self.hasAdditionalBlock = false
+        self.nameFont = 0
         self.headersFont = 0
         self.textFont = 0
         self.nameSize = 0
@@ -555,6 +560,6 @@ class CVEntityWrapper: Hashable {
     }
     
     static func getDefault () -> CVEntityWrapper {
-        return CVEntityWrapper(entity: nil, id: -1, generalBlock: GeneralInfoBlockEntityWrapper.getDefault(position: 0, isMainBlock: true), profileDescBlock: ProfileDescriptionBlockEntityWrapper.getDefault(position: 1, isMainBlock: true), contactBlock: ContactInfoBlockEntityWrapper.getDefault(position: 2, isMainBlock: true), socialBlock: SocialMediaBlockEntityWrapper.getDefault(position: 3, isMainBlock: true), qrCodesBlock: QRCodesBlockEntityWrapper.getDefault(position: 4, isMainBlock: true), educationBlock: EducationBlockEntityWrapper.getDefault(position: 5, isMainBlock: true), workBlock: WorkBlockEntityWrapper.getDefault(position: 6, isMainBlock: true), languagesBlock: LanguagesBlockEntityWrapper.getDefault(position: 7, isMainBlock: true), skillsBlock: SkillsBlockEntityWrapper.getDefault(position: 8, isMainBlock: true), interestsBlock: InterestsBlockEntityWrapper.getDefault(position: 9, isMainBlock: true), certificatesBlock: CertificatesBlockEntityWrapper.getDefault(position: 10, isMainBlock: true), referencesBlock: ReferencesBlockEntityWrapper.getDefault(position: 0, isMainBlock: true), coverLetter: CoverLetterEntityWrapper.getDefault(), style: 0, hasAdditionalBlock: false, headersFont: 0, textFont: 0, nameSize: 64, headersSize: 24, textSize: 14, marginsSize: 12, isHeadersBold: true, isHeadersUppercased: true, isHeadersItalic: true, headerDotAdded: true, headerLineAdded: true, headerLinePosition: 0, lineCirclesAdded: true, cornersRadius: 12, strokeWidth: 2, lineWidth: 3, dotSize: 5, dotBackAdded: true, dotStrokeAdded: false, progressBarStyle: 0, progressBarPercentAdded: true, iconSize: 24, iconBackAdded: true, iconStrokeAdded: true, iconIsBold: true, chipBackAdded: true, chipStrokeAdded: false, textResume: NSLocalizedString("resume", comment: ""), textCV: NSLocalizedString("cv", comment: ""), textProfile: NSLocalizedString("profile", comment: ""), textThankYou: NSLocalizedString("thank_you", comment: ""), mainColor: "#FF23CA", headerTextColor: "", mainTextColor: "", lineColor: "", lineCirclesColor: "", dotColor: "", dotStrokeColor: "", iconColor: "", iconBackgroundColor: "", iconStrokeColor: "", qrForegroundColor: "", qrBackgroundColor: "", progressForegroundColor: "", progressBackgroundColor: "", chipTextColor: "", chipBackgroundColor: "", chipStrokeColor: "")
+        return CVEntityWrapper(entity: nil, id: -1, wrapperName: "Name", generalBlock: GeneralInfoBlockEntityWrapper.getDefault(position: 0, isMainBlock: true), profileDescBlock: ProfileDescriptionBlockEntityWrapper.getDefault(position: 1, isMainBlock: true), contactBlock: ContactInfoBlockEntityWrapper.getDefault(position: 2, isMainBlock: true), socialBlock: SocialMediaBlockEntityWrapper.getDefault(position: 3, isMainBlock: true), qrCodesBlock: QRCodesBlockEntityWrapper.getDefault(position: 4, isMainBlock: true), educationBlock: EducationBlockEntityWrapper.getDefault(position: 5, isMainBlock: true), workBlock: WorkBlockEntityWrapper.getDefault(position: 6, isMainBlock: true), languagesBlock: LanguagesBlockEntityWrapper.getDefault(position: 7, isMainBlock: true), skillsBlock: SkillsBlockEntityWrapper.getDefault(position: 8, isMainBlock: true), interestsBlock: InterestsBlockEntityWrapper.getDefault(position: 9, isMainBlock: true), certificatesBlock: CertificatesBlockEntityWrapper.getDefault(position: 10, isMainBlock: true), referencesBlock: ReferencesBlockEntityWrapper.getDefault(position: 0, isMainBlock: true), coverLetter: CoverLetterEntityWrapper.getDefault(), style: 0, hasAdditionalBlock: false, nameFont: 0, headersFont: 0, textFont: 0, nameSize: 64, headersSize: 24, textSize: 14, marginsSize: 12, isHeadersBold: true, isHeadersUppercased: true, isHeadersItalic: true, headerDotAdded: true, headerLineAdded: true, headerLinePosition: 0, lineCirclesAdded: true, cornersRadius: 12, strokeWidth: 2, lineWidth: 3, dotSize: 5, dotBackAdded: true, dotStrokeAdded: false, progressBarStyle: 0, progressBarPercentAdded: true, iconSize: 24, iconBackAdded: true, iconStrokeAdded: true, iconIsBold: true, chipBackAdded: true, chipStrokeAdded: false, textResume: NSLocalizedString("resume", comment: ""), textCV: NSLocalizedString("cv", comment: ""), textProfile: NSLocalizedString("profile", comment: ""), textThankYou: NSLocalizedString("thank_you", comment: ""), mainColor: "#FF23CA", headerTextColor: "", mainTextColor: "", lineColor: "", lineCirclesColor: "", dotColor: "", dotStrokeColor: "", iconColor: "", iconBackgroundColor: "", iconStrokeColor: "", qrForegroundColor: "", qrBackgroundColor: "", progressForegroundColor: "", progressBackgroundColor: "", chipTextColor: "", chipBackgroundColor: "", chipStrokeColor: "")
     }
 }

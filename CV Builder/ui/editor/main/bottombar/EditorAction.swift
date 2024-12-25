@@ -24,6 +24,6 @@ class EditorAction {
     }
     
     static func getDefault () -> EditorAction {
-        return EditorAction(id: 0, name: "Assistant", icon: "gear", isIconSystem: false, clickHandler: {})
+        return EditorAction(id: 0, name: "Assistant", icon: "gear", isIconSystem: true, clickHandler: {})
     }
 }

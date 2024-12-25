@@ -25,6 +25,7 @@ struct SkillsBlockPreviewView: View {
     var dotColor: String
     var dotStrokeColor: String
     
+    var chipTextColor: String
     var chipBackgroundColor: String
     var chipStrokeColor: String
     
@@ -32,19 +33,20 @@ struct SkillsBlockPreviewView: View {
     
     var body: some View {
         if let block = cv.skillsBlock {
-            BlockContainerPreviewView(isMainBlock: block.isMainBlock, marginsSize: cv.marginsSize, text: block.textSkills, font: getFontByStyle(cv.headersFont), textColor: headerTextColor, gravity: .leading, size: cv.headersSize, isBold: cv.isHeadersBold, isItalic: cv.isHeadersItalic, isUnderline: false, isUppercased: cv.isHeadersUppercased, headerPosition: block.styleHeaderPosition, headerDotAdded: cv.headerDotAdded, headerLineAdded: cv.headerLineAdded, dotColor: dotColor, dotSize: cv.dotSize, dotBackAdded: cv.dotBackAdded, dotStrokeAdded: cv.dotStrokeAdded, strokeWidth: cv.strokeWidth, strokeColor: dotStrokeColor, linePosition: cv.headerLinePosition, lineColor: lineColor, lineCirclesAdded: cv.lineCirclesAdded, lineCirclesColor: lineCirclesColor, lienWidth: cv.lineWidth, cornersRadius: CGFloat(cv.cornersRadius), blockBackgroundColor: blockBackgroundColor, blockStrokeColor: blockStrokeColor, addBlockPadding: addBlockPadding) {
+            BlockContainerPreviewView(isMainBlock: block.isMainBlock, marginsSize: cv.marginsSize, text: block.textSkills, font: cv.headersFont, textColor: headerTextColor, gravity: .leading, size: cv.headersSize, isBold: cv.isHeadersBold, isItalic: cv.isHeadersItalic, isUnderline: false, isUppercased: cv.isHeadersUppercased, headerPosition: block.styleHeaderPosition, headerDotAdded: cv.headerDotAdded, headerLineAdded: cv.headerLineAdded, dotColor: dotColor, dotSize: cv.dotSize, dotBackAdded: cv.dotBackAdded, dotStrokeAdded: cv.dotStrokeAdded, strokeWidth: cv.strokeWidth, strokeColor: dotStrokeColor, linePosition: cv.headerLinePosition, lineColor: lineColor, lineCirclesAdded: cv.lineCirclesAdded, lineCirclesColor: lineCirclesColor, lienWidth: cv.lineWidth, cornersRadius: CGFloat(cv.cornersRadius), blockBackgroundColor: blockBackgroundColor, blockStrokeColor: blockStrokeColor, addBlockPadding: addBlockPadding) {
                 
                 ZStack (alignment: .leading) {
+                    let list = block.list.sorted { $0.position < $1.position }
                     if block.styleIsChips {
                         ChipsLayout(alignment: .leading, spacing: CGFloat(cv.marginsSize / 3)) {
-                            ForEach(0..<block.list.count, id:\.self) { item in
-                                SkillsChipPreviewView(cv: cv, block: block, item: block.list[item], mainTextColor: mainTextColor, chipBackgroundColor: chipBackgroundColor, chipStrokeColor: chipStrokeColor)
+                            ForEach(0..<list.count, id:\.self) { item in
+                                SkillsChipPreviewView(cv: cv, block: block, item: list[item], chipTextColor: chipTextColor, chipBackgroundColor: chipBackgroundColor, chipStrokeColor: chipStrokeColor)
                             }
                         }
                     } else {
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: block.styleIsProgressAdded ? 240 : 90))], spacing: CGFloat(cv.marginsSize / 3)) {
-                            ForEach(0..<block.list.count, id:\.self) { item in
-                                SkillsItemPreviewView(cv: cv, block: block, item: block.list[item], mainTextColor: mainTextColor, progressForegroundColor: progressForegroundColor, progressBackgroundColor: progressBackgroundColor, dotColor: dotColor, dotStrokeColor: dotStrokeColor)
+                            ForEach(0..<list.count, id:\.self) { item in
+                                SkillsItemPreviewView(cv: cv, block: block, item: list[item], mainTextColor: mainTextColor, progressForegroundColor: progressForegroundColor, progressBackgroundColor: progressBackgroundColor, dotColor: dotColor, dotStrokeColor: dotStrokeColor)
                             }
                         }
                     }
@@ -52,10 +54,6 @@ struct SkillsBlockPreviewView: View {
                 
             }
         }
-    }
-    
-    private func getFontByStyle (_ id: Int) -> String {
-        return PreloadedDatabase.getFontId(id: id).name
     }
 }
 
@@ -79,7 +77,7 @@ struct SkillsItemPreviewView: View {
                 DotPreviewView(color: dotColor, width: cv.dotSize, height: cv.dotSize, strokeWidth: cv.strokeWidth, strokeColor: dotStrokeColor, backAdded: cv.dotBackAdded, strokeAdded: cv.dotStrokeAdded)
             }
             
-            TextPreviewView(text: item.name, font: getFontByStyle(cv.textFont), color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, isInfinite: false)
+            TextPreviewView(text: item.name, font: cv.textFont, color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, isInfinite: false).frame(width: setLongestItemWidth(block: block, id: cv.textFont, size: cv.textSize), alignment: .leading)
             
             Spacer()
             
@@ -87,18 +85,27 @@ struct SkillsItemPreviewView: View {
                 if cv.progressBarStyle == 0 || cv.progressBarStyle == 3 {
                     ProgressBarPreviewView(progress: item.level >= 0 ? item.level + 1 : 0, steps: 5, height: cv.textSize, style: cv.progressBarStyle, accentColor: progressForegroundColor, backgroundColor: progressBackgroundColor, cornersRadius: CGFloat(cv.cornersRadius))
                 } else {
-                    ProgressBarPreviewView(progress: item.level >= 0 ? item.level + 1 : 0, steps: 5, height: cv.textSize, style: cv.progressBarStyle, accentColor: progressForegroundColor, backgroundColor: progressBackgroundColor, cornersRadius: CGFloat(cv.cornersRadius)).frame(maxWidth: 170)
+                    ProgressBarPreviewView(progress: item.level >= 0 ? item.level + 1 : 0, steps: 5, height: cv.textSize, style: cv.progressBarStyle, accentColor: progressForegroundColor, backgroundColor: progressBackgroundColor, cornersRadius: CGFloat(cv.cornersRadius))
                 }
                 
                 if cv.progressBarPercentAdded && item.level >= 0 {
-                    TextPreviewView(text: String((item.level+1) * 100 / 5) + "%", font: getFontByStyle(cv.textFont), color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, isInfinite: false)
+                    TextPreviewView(text: String((item.level+1) * 100 / 5) + "%", font: cv.textFont, color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, isInfinite: false).frame(width: "100%".widthUsingFont(id: cv.textFont, size: cv.textSize))
                 }
             }
         }
     }
     
-    private func getFontByStyle (_ id: Int) -> String {
-        return PreloadedDatabase.getFontId(id: id).name
+    private func setLongestItemWidth (block: SkillsBlockEntityWrapper, id: Int, size: Int) -> CGFloat {
+        var longestText = ""
+        
+        for item in block.list {
+            if item.name.count > longestText.count {
+                longestText = item.name
+            }
+        }
+        longestText += " "
+        
+        return longestText.widthUsingFont(id: id, size: size)
     }
 }
 
@@ -108,17 +115,12 @@ struct SkillsChipPreviewView: View {
     var block: SkillsBlockEntityWrapper
     var item: SkillBlockItemEntityWrapper
     
-    var mainTextColor: String
-    
+    var chipTextColor: String
     var chipBackgroundColor: String
     var chipStrokeColor: String
     
     var body: some View {
-        ChipPreviewView(text: item.name, font: getFontByStyle(cv.textFont), color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, marginsSize: cv.marginsSize, cornersRadius: cv.cornersRadius, backColor: chipBackgroundColor, backAdded: cv.chipBackAdded, strokeWidth: cv.strokeWidth, strokeColor: chipStrokeColor, strokeAdded: cv.chipStrokeAdded)
-    }
-    
-    private func getFontByStyle (_ id: Int) -> String {
-        return PreloadedDatabase.getFontId(id: id).name
+        ChipPreviewView(text: item.name, font: cv.textFont, color: chipTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, marginsSize: cv.marginsSize, cornersRadius: cv.cornersRadius, backColor: chipBackgroundColor, backAdded: cv.chipBackAdded, strokeWidth: cv.strokeWidth, strokeColor: chipStrokeColor, strokeAdded: cv.chipStrokeAdded)
     }
 }
 
@@ -254,5 +256,5 @@ private extension VerticalAlignment {
         let wrapper = visualization.updatePositionsWrapperOne(style: Style.getDefault(), wrapper: defaultWrapper)
         
 //        @Previewable @State var wrapper = CVVisualizationBuilder().updatePositionsWrapperOne(style: Style.getDefault(), wrapper: CVEntityWrapper.getDefault())
-    SkillsBlockPreviewView(cv: wrapper, headerTextColor: "#000000", mainTextColor: "#000000", blockBackgroundColor: "", blockStrokeColor: "", progressForegroundColor: "", progressBackgroundColor: "", lineColor: "", lineCirclesColor: "", dotColor: "", dotStrokeColor: "", chipBackgroundColor: "", chipStrokeColor: "")
+    SkillsBlockPreviewView(cv: wrapper, headerTextColor: "#000000", mainTextColor: "#000000", blockBackgroundColor: "", blockStrokeColor: "", progressForegroundColor: "", progressBackgroundColor: "", lineColor: "", lineCirclesColor: "", dotColor: "", dotStrokeColor: "", chipTextColor: "", chipBackgroundColor: "", chipStrokeColor: "")
 }

@@ -10,42 +10,86 @@ import SwiftUI
 struct AiAssistantActionView: View {
     
     let action: AiAssistantAction
+    var namespaceAnimation: Namespace.ID
+    var ifHorizontal: Bool = false
+    
+    @State var animating = false
     
     var body: some View {
         Button (action: action.clickHandler) {
-            HStack (spacing: 0) {
-                
-                ZStack (alignment: .leading) {
-                    
-                    Image("linkedin_import_illustration").renderingMode(.template).cropped(horizontalOffset: 100, verticalOffset: 50).foregroundStyle(Color.windowTwo).opacity(0.5).frame(width: 60)
-                    
-                    ZStack {
+            VStack (spacing: 8) {
+                if ifHorizontal {
+                    HStack (spacing: 0) {
                         
-                        Image(systemName: action.icon).font(.title3).foregroundStyle(.accent)
+                        ZStack {
+                            
+                            Image(systemName: action.icon).font(.headline).foregroundStyle(.accent).symbolEffect(.bounce, value: animating).matchedGeometryEffect(id: "Icon", in: namespaceAnimation)
+                            
+                        }.frame(width: 42, height: 42).background() {
+                            RoundedRectangle(cornerRadius: 32.0).foregroundStyle(Color.window)
+                        }.padding(8)
                         
-                    }.frame(width: 54, height: 54).background() {
-                        RoundedRectangle(cornerRadius: 12.0).foregroundStyle(Color.window).shadow(color: Color.black.opacity(0.05), radius: 6)
-                    }.padding([.leading, .top, .bottom])
-                    
-                }.padding(.trailing)
+                        VStack (spacing: 4) {
+                            
+                            Text(action.header).font(.title3).bold().foregroundStyle(.accent).foregroundLinearGradient(colors: [ .accentLight, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(2).matchedGeometryEffect(id: "Header", in: namespaceAnimation)
+                            
+                            Text(action.description).font(.subheadline).foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(3)
+                            
+                        }.padding(.trailing, 8).padding(.vertical)
+                        
+                        HStack (spacing: 4) {
+                            
+                            Text(NSLocalizedString("perform", comment: "")).font(.headline).bold().foregroundStyle(.white).multilineTextAlignment(.center).fixedSize()
+                            
+                            Image("sparkle_colored_icon").renderingMode(.template).resizable().scaledToFit().foregroundStyle(.white).frame(width: 24, height: 24)
+                            
+                        }.padding(8).padding(.horizontal, 4).background() {
+                            RoundedRectangle(cornerRadius: 32.0).fill(LinearGradient(colors: [ .accentLight, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing))
+                        }.padding(.trailing, 8)
+                    }
+                } else {
+                    VStack (spacing: 0) {
+                        
+                        HStack (spacing: 0) {
+                            ZStack {
+                                
+                                Image(systemName: action.icon).font(.headline).foregroundStyle(.accent).symbolEffect(.bounce, value: animating).matchedGeometryEffect(id: "Icon", in: namespaceAnimation)
+                                
+                            }.frame(width: 42, height: 42).background() {
+                                RoundedRectangle(cornerRadius: 32.0).foregroundStyle(Color.window)
+                            }.padding(8)
+                            
+                            Text(action.header).font(.title3).bold().foregroundStyle(.accent).foregroundLinearGradient(colors: [ .accentLight, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(2).matchedGeometryEffect(id: "Header", in: namespaceAnimation)
+                        }.padding(.bottom, 4)
+                        
+                        Text(action.description).font(.subheadline).foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(3).padding(.horizontal, 8).padding(.bottom, 4)
+
+                        HStack (spacing: 4) {
+                            
+                            Text(NSLocalizedString("perform", comment: "")).font(.headline).bold().foregroundStyle(.white).multilineTextAlignment(.center).fixedSize()
+                            
+                            Image("sparkle_colored_icon").renderingMode(.template).resizable().scaledToFit().foregroundStyle(.white).frame(width: 24, height: 24)
+                            
+                        }.frame(maxWidth: .infinity).padding(8).padding(.horizontal, 4).background() {
+                            RoundedRectangle(cornerRadius: 32.0).fill(LinearGradient(colors: [ .accentLight, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing))
+                        }.padding(8)
+                    }
+                }
+            }.background() {
                 
-                VStack (spacing: 0) {
-                    
-                    Text(action.header).font(.title2).bold().foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(2)
-                    
-                    Text(action.description).font(.subheadline).foregroundStyle(.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.top, 8).lineLimit(3)
-                    
-                }.padding(.trailing, 4).padding(.vertical)
+                ColorBackgroundView().matchedGeometryEffect(id: "Back", in: namespaceAnimation)
                 
-                Image(systemName: "chevron.right").foregroundStyle(.textAdditional).font(.subheadline).padding(.trailing)
-                
-            }.clipShape(RoundedRectangle(cornerRadius: 16.0)).background() {
-                RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+            }.clipShape(RoundedRectangle(cornerRadius: 20.0))
+            
+        }.onAppear() {
+            withAnimation {
+                animating = true
             }
         }
     }
 }
 
 #Preview {
-    AiAssistantActionView(action: AiAssistantAction.getDefault())
+    @Previewable @Namespace var namespace
+    AiAssistantActionView(action: AiAssistantAction.getDefault(), namespaceAnimation: namespace)
 }

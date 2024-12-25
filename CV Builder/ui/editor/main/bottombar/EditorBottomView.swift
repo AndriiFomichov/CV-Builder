@@ -15,16 +15,16 @@ struct EditorBottomView: View {
         HStack {
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
+                HStack (spacing: 0) {
                     ForEach(viewModel.bottomActionsList.indices, id: \.self) { index in
                         EditorActionView(action: viewModel.bottomActionsList[index])
                     }
-                }.padding()
+                }.padding(.vertical, 12).padding(.horizontal, 6)
             }
             
             SmallButtonView(isSelected: .constant(true), text: NSLocalizedString("share", comment: ""), icon: "square.and.arrow.up.fill", clickHandler: {
                 viewModel.share()
-            }).padding(8)
+            }, isGradient: true).padding(8)
             
         }.background() {
             UnevenRoundedRectangle(cornerRadii: RectangleCornerRadii(topLeading: 20.0, topTrailing: 20.0)).fill(Color.background)

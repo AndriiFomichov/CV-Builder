@@ -14,14 +14,14 @@ struct AiActionView: View {
     
     var body: some View {
         Button (action: clickHandler) {
-            HStack {
+            HStack (spacing: 2) {
                 
                 Image("sparkle_colored_icon").resizable().scaledToFit().frame(width: 24, height: 24)
                 
-                Text(name).font(.subheadline).foregroundStyle(Color.text).multilineTextAlignment(.leading).fixedSize().lineLimit(1)
+                Text(name).font(.subheadline).foregroundStyle(Color.accent).multilineTextAlignment(.leading).fixedSize().lineLimit(1)
                 
-            }.padding(8).padding(.horizontal, 4).background() {
-                RoundedRectangle(cornerRadius: 12.0).fill(Color.windowTwo)
+            }.padding(6).padding(.horizontal, 4).background() {
+                RoundedRectangle(cornerRadius: 24.0).fill(Color.windowColored)
             }
         }
     }

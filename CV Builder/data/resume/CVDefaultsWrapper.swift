@@ -30,13 +30,13 @@ class CVDefaultsWrapper {
         if let block {
             if block.name.isEmpty {
                 block.name = NSLocalizedString("dummy_name", comment: "")
+                if block.jobTitle.isEmpty {
+                    block.jobTitle = NSLocalizedString("dummy_job_title", comment: "")
+                }
             }
-            if block.location.isEmpty {
-                block.location = NSLocalizedString("dummy_location", comment: "")
-            }
-            if block.jobTitle.isEmpty {
-                block.jobTitle = NSLocalizedString("dummy_job_title", comment: "")
-            }
+//            if block.location.isEmpty {
+//                block.location = NSLocalizedString("dummy_location", comment: "")
+//            }
         }
         return block
     }
@@ -52,13 +52,9 @@ class CVDefaultsWrapper {
     
     private func fullfillContactInfoBlock (block: ContactInfoBlockEntityWrapper?) -> ContactInfoBlockEntityWrapper? {
         if let block {
-            if block.email.isEmpty {
+            if block.email.isEmpty && block.phone.isEmpty && block.websiteLink.isEmpty {
                 block.email = NSLocalizedString("dummy_email", comment: "")
-            }
-            if block.phone.isEmpty {
                 block.phone = NSLocalizedString("dummy_phone", comment: "")
-            }
-            if block.websiteLink.isEmpty {
                 block.websiteLink = NSLocalizedString("dummy_website", comment: "")
             }
         }

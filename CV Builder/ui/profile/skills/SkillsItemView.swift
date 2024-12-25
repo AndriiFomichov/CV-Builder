@@ -17,7 +17,6 @@ struct SkillsItemView: View {
     
     @State var isFilled = false
     @State var text = ""
-    @State var level = -1
     @State var preview: UIImage?
     
     var body: some View {
@@ -29,16 +28,16 @@ struct SkillsItemView: View {
                     Image(systemName: "lightbulb.max.fill").font(.headline).foregroundStyle(isFilled ? .accent : .textAdditional)
                     
                 }.frame(width: 42, height: 42).background() {
-                    RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo).stroke(isFilled ? .accent : .clear, style: StrokeStyle(lineWidth: 2))
+                    RoundedRectangle(cornerRadius: 32.0).fill(.windowTwo)
                 }.padding(8)
                 
-                VStack {
+                VStack (spacing: 4) {
                     
                     TextField("", text: $text, prompt: Text(NSLocalizedString("enter_skill_name", comment: "")).foregroundStyle(.textAdditional)).font(.title2).bold().foregroundStyle(.accent).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).onChange(of: text) {
                         item.name = text
                     }
                     
-                    ProfileItemLevelView(level: $level, changeHandler: { level in
+                    ProfileItemLevelView(level: item.level, options: PreloadedDatabase.getSkillLevelsOptions(), changeHandler: { level in
                         item.level = level
                     })
                     
@@ -54,7 +53,7 @@ struct SkillsItemView: View {
                 
             }.frame(maxWidth: .infinity).background() {
                 
-                RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                RoundedRectangle(cornerRadius: 20.0).fill(Color.window)
                 
             }
             
@@ -64,12 +63,9 @@ struct SkillsItemView: View {
             
         }.onAppear() {
             text = item.name
-            level = item.level
             preview = item.iconPreview
         }.onChange(of: item.name) {
             text = item.name
-        }.onChange(of: item.level) {
-            level = item.level
         }.onChange(of: item.iconPreview) {
             withAnimation {
                 preview = item.iconPreview
@@ -78,7 +74,7 @@ struct SkillsItemView: View {
             withAnimation {
                 isFilled = text.count > 0
             }
-        }.contentShape(.dragPreview, RoundedRectangle(cornerRadius: 16.0, style: .continuous))
+        }.contentShape(.dragPreview, RoundedRectangle(cornerRadius: 20.0, style: .continuous))
     }
 }
 

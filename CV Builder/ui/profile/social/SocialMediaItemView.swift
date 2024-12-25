@@ -28,14 +28,14 @@ struct SocialMediaItemView: View {
                     }
                     
                 }.frame(width: 42, height: 42).background() {
-                    RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo).stroke(.accent, style: StrokeStyle(lineWidth: 2))
+                    RoundedRectangle(cornerRadius: 32.0).fill(.windowTwo)
                 }.padding(8)
                 
                 VStack {
-                    Text(item.link).font(.title2).bold().foregroundStyle(.accent).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                    Text(item.link).font(.title2).bold().foregroundStyle(.accent).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(1)
                     
                     if let media = PreloadedDatabase.getSocialMediaById(id: item.media) {
-                        Text(media.name).font(.subheadline).foregroundStyle(.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                        Text(media.name).font(.subheadline).foregroundStyle(.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(1)
                     }
                     
                 }.padding(.vertical, 8)
@@ -50,7 +50,7 @@ struct SocialMediaItemView: View {
                 
             }.frame(maxWidth: .infinity).background() {
                 
-                RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                RoundedRectangle(cornerRadius: 20.0).fill(Color.window)
                 
             }
             
@@ -68,12 +68,12 @@ struct SocialMediaItemView: View {
                         }
                         
                     }.frame(width: 42, height: 42).background() {
-                        RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo)
+                        RoundedRectangle(cornerRadius: 32.0).fill(.windowTwo)
                     }.padding(8)
                     
                 }.background() {
                     
-                    RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                    RoundedRectangle(cornerRadius: 32.0).fill(Color.window)
                     
                 }
             }.onAppear() {
@@ -86,7 +86,7 @@ struct SocialMediaItemView: View {
                 }
             }
             
-        }.contentShape(.dragPreview, RoundedRectangle(cornerRadius: 16.0, style: .continuous))
+        }.contentShape(.dragPreview, RoundedRectangle(cornerRadius: 20.0, style: .continuous))
     }
 }
 

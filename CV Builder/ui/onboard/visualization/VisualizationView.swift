@@ -9,74 +9,72 @@ import SwiftUI
 
 struct VisualizationView: View {
     
-    @Binding var item: VisualizationItem
-    var clickHandler: () -> Void
-    
-    @State var isSelected = false
-    @State private var scale: CGFloat = 1.0
+    @Binding var isGenerating: Bool
+    @Binding var item: CVEntityWrapper?
+    var clickHandler: (_ page: Int) -> Void
     
     var body: some View {
         VStack (spacing: 0) {
             
             ZStack {
-                RoundedRectangle(cornerRadius: 12.0).foregroundStyle(Color.windowTwo.shadow(.inner(color: .text.opacity(0.08), radius: 16, x: 1, y: 1)))
                 
-                CVMakerPreviewView(cv: item.wrapper, isLoading: .constant(false), pageUpdateHandler: {
+                if let item {
+                    ZStack (alignment: .bottomTrailing) {
+                        RoundedRectangle(cornerRadius: 12.0).foregroundStyle(Color.windowTwo.shadow(.inner(color: .text.opacity(0.08), radius: 16, x: 1, y: 1)))
+                        
+                        CVMakerPreviewView(cv: item, isLoading: .constant(false), pageUpdateHandler: {
+                            
+                            savePagesUpdated()
+                            
+                        }, doubleTapHandler: { page, _ in
+                            
+                            clickHandler(page)
+                            
+                        }).padding(.horizontal)
+                        
+                        Button (action: {
+                            clickHandler(0)
+                        }) {
+                            ZStack {
+                                
+                                Image(systemName: "plus.magnifyingglass").font(.headline).foregroundStyle(.white)
+                                
+                            }.frame(width: 48, height: 48).background() {
+                                Circle().fill(LinearGradient(colors: [ .accentLight, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing))
+                            }.padding()
+                        }
+                    }
                     
-                    savePagesUpdated()
-                    
-                }, doubleTapHandler: { i, b in }).padding(.horizontal)
+                } else if isGenerating {
+                    RoundedRectangle(cornerRadius: 12.0).skeleton(with: true, appearance: .solid(color: Color.window, background: Color.backgroundDark), shape: .rounded(.radius(12.0, style: .circular)))
+                } else {
+                    RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo)
+                }
                 
             }.padding(8)
             
-            HStack {
+            if let item {
                 VStack {
-                    Text(NSLocalizedString(item.wrapper.wrapperName, comment: "")).font(.headline).bold().foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(2)
-                }
-                
-                HStack {
                     
-                    if isSelected {
-                        Image(systemName: "checkmark").font(.headline).bold().foregroundStyle(.white)
-                    } else {
-                        Text(NSLocalizedString("select", comment: "")).font(.headline).bold().foregroundStyle(.white).multilineTextAlignment(.leading).fixedSize().lineLimit(1)
-                    }
+                    Text(NSLocalizedString(item.wrapperName, comment: "")).font(.headline).bold().foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).lineLimit(2)
                     
-                }.padding(10).padding(.horizontal, isSelected ? 2 : 8).frame(height: 44).background() {
-                    RoundedRectangle(cornerRadius: 16.0).fill(Color.accent)
-                }
-                
-            }.padding([.leading, .bottom, .trailing], 8)
+                }.padding([.leading, .bottom, .trailing], 8)
+            }
             
         }.background() {
-            RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
-        }.overlay {
-            RoundedRectangle(cornerRadius: 16.0).fill(.clear).stroke(isSelected ? Color.accent : Color.clear, style: StrokeStyle(lineWidth: 3))
-        }.onTapGesture {
-            clickHandler()
-        }.onAppear() {
-            withAnimation {
-                self.isSelected = item.isSelected
-            }
-            withAnimation(.spring(response: 0.5, dampingFraction: 0.3, blendDuration: 0.5)) {
-                scale = item.isSelected ? 1.1 : 1.0
-            }
-        }.onChange(of: item.isSelected) {
-            withAnimation {
-                self.isSelected = item.isSelected
-            }
-            withAnimation(.spring(response: 0.5, dampingFraction: 0.3, blendDuration: 0.5)) {
-                scale = item.isSelected ? 1.1 : 1.0
-            }
-        }.padding(2)
+            
+            RoundedRectangle(cornerRadius: 20.0).fill(Color.window).borderLoadingAnimation(isAnimating: $isGenerating, cornersRadius: 20.0)
+            
+        }
     }
     
     private func savePagesUpdated () {
-        self.item.wrapper = self.item.wrapper
+        self.item = self.item
     }
 }
 
 #Preview {
-    @Previewable @State var item = VisualizationItem.getDefault()
-    VisualizationView(item: $item, clickHandler: {})
+    @Previewable @State var item: CVEntityWrapper? = CVEntityWrapper.getDefault()
+    @Previewable @State var isGenerating = true
+    VisualizationView(isGenerating: $isGenerating, item: $item, clickHandler: { i in })
 }

@@ -21,7 +21,7 @@ struct GuideView: View {
                 
                 VStack (spacing: 0) {
                     
-                    TopBarView(header: $viewModel.header, description: .constant(""), progress: .constant(0.0), isLoading: .constant(false), isCollapsed: .constant(false), lineIllustration: "small_line_two_illustration", illustration: viewModel.illustration, maxHeight: 180)
+                    TopBarView(header: $viewModel.header, description: .constant(""), isCollapsed: .constant(false), icon: viewModel.icon, isIconSystem: viewModel.isIconSystem, maxHeight: 180)
 
                     VStack {
                         
@@ -82,15 +82,15 @@ struct GuideView: View {
 struct GuideOneView: View {
     var body: some View {
         VStack {
-            GuideItemView(item: GuideItem(header: NSLocalizedString("general_data_tip_one_header", comment: ""), description: NSLocalizedString("general_data_tip_one_description", comment: ""), tip: NSLocalizedString("general_data_tip_one_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0))
+            GuideItemView(item: GuideItem(header: NSLocalizedString("general_data_tip_one_header", comment: ""), description: NSLocalizedString("general_data_tip_one_description", comment: ""), tip: NSLocalizedString("general_data_tip_one_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0, backgroundAlignment: .bottomTrailing))
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("general_data_tip_two_header", comment: ""), description: NSLocalizedString("general_data_tip_two_description", comment: ""), tip: NSLocalizedString("general_data_tip_two_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0)).padding(.bottom)
+            GuideItemView(item: GuideItem(header: NSLocalizedString("general_data_tip_two_header", comment: ""), description: NSLocalizedString("general_data_tip_two_description", comment: ""), tip: NSLocalizedString("general_data_tip_two_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0, backgroundAlignment: .bottomLeading)).padding(.bottom)
             
-            Text(NSLocalizedString("some_tips", comment: "")).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).padding(.bottom, 8)
+            Text(NSLocalizedString("some_tips", comment: "")).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading)
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("general_data_tip_three_header", comment: ""), description: NSLocalizedString("general_data_tip_three_description", comment: ""), tip: NSLocalizedString("general_data_tip_three_source", comment: ""), illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0))
+            GuideItemView(item: GuideItem(header: NSLocalizedString("general_data_tip_three_header", comment: ""), description: NSLocalizedString("general_data_tip_three_description", comment: ""), tip: NSLocalizedString("general_data_tip_three_source", comment: ""), illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0, backgroundAlignment: .topTrailing))
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("general_data_tip_four_header", comment: ""), description: NSLocalizedString("general_data_tip_four_description", comment: ""), tip: "", illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0)).padding(.bottom)
+            GuideItemView(item: GuideItem(header: NSLocalizedString("general_data_tip_four_header", comment: ""), description: NSLocalizedString("general_data_tip_four_description", comment: ""), tip: "", illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0, backgroundAlignment: .bottomLeading)).padding(.bottom)
         }
     }
 }
@@ -99,21 +99,22 @@ struct GuideTwoView: View {
     var body: some View {
         VStack {
             HStack (alignment: .top) {
-                GuideItemView(item: GuideItem(header: NSLocalizedString("education_tip_one_header", comment: ""), description: NSLocalizedString("education_tip_one_description", comment: ""), tip: NSLocalizedString("education_tip_one_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0))
+                GuideItemView(item: GuideItem(header: NSLocalizedString("education_tip_one_header", comment: ""), description: NSLocalizedString("education_tip_one_description", comment: ""), tip: NSLocalizedString("education_tip_one_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0, backgroundAlignment: .bottomLeading))
                 
-                GuideItemView(item: GuideItem(header: NSLocalizedString("education_tip_two_header", comment: ""), description: NSLocalizedString("education_tip_two_description", comment: ""), tip: NSLocalizedString("education_tip_two_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0))
+                GuideItemView(item: GuideItem(header: NSLocalizedString("education_tip_two_header", comment: ""), description: NSLocalizedString("education_tip_two_description", comment: ""), tip: NSLocalizedString("education_tip_two_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0, backgroundAlignment: .topLeading))
             }
+            
             HStack (alignment: .top) {
-                GuideItemView(item: GuideItem(header: NSLocalizedString("education_tip_three_header", comment: ""), description: NSLocalizedString("education_tip_three_description", comment: ""), tip: NSLocalizedString("education_tip_three_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0))
+                GuideItemView(item: GuideItem(header: NSLocalizedString("education_tip_three_header", comment: ""), description: NSLocalizedString("education_tip_three_description", comment: ""), tip: NSLocalizedString("education_tip_three_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0, backgroundAlignment: .topTrailing))
                 
-                GuideItemView(item: GuideItem(header: NSLocalizedString("education_tip_four_header", comment: ""), description: NSLocalizedString("education_tip_four_description", comment: ""), tip: NSLocalizedString("education_tip_four_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0))
+                GuideItemView(item: GuideItem(header: NSLocalizedString("education_tip_four_header", comment: ""), description: NSLocalizedString("education_tip_four_description", comment: ""), tip: NSLocalizedString("education_tip_four_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0, backgroundAlignment: .bottomTrailing))
             }.padding(.bottom)
             
-            Text(NSLocalizedString("some_tips", comment: "")).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).padding(.bottom, 8)
+            Text(NSLocalizedString("some_tips", comment: "")).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading)
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("education_tip_five_header", comment: ""), description: NSLocalizedString("education_tip_five_description", comment: ""), tip: "", illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0))
+            GuideItemView(item: GuideItem(header: NSLocalizedString("education_tip_five_header", comment: ""), description: NSLocalizedString("education_tip_five_description", comment: ""), tip: "", illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0, backgroundAlignment: .bottomLeading))
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("education_tip_six_header", comment: ""), description: NSLocalizedString("education_tip_six_description", comment: ""), tip: "", illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0)).padding(.bottom)
+            GuideItemView(item: GuideItem(header: NSLocalizedString("education_tip_six_header", comment: ""), description: NSLocalizedString("education_tip_six_description", comment: ""), tip: "", illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0, backgroundAlignment: .topTrailing)).padding(.bottom)
         }
     }
 }
@@ -122,22 +123,24 @@ struct GuideThreeView: View {
     var body: some View {
         VStack {
             HStack (alignment: .top) {
-                GuideItemView(item: GuideItem(header: NSLocalizedString("work_tip_one_header", comment: ""), description: NSLocalizedString("work_tip_one_description", comment: ""), tip: NSLocalizedString("work_tip_one_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0))
                 
-                GuideItemView(item: GuideItem(header: NSLocalizedString("work_tip_two_header", comment: ""), description: NSLocalizedString("work_tip_two_description", comment: ""), tip: NSLocalizedString("work_tip_two_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0))
+                GuideItemView(item: GuideItem(header: NSLocalizedString("work_tip_one_header", comment: ""), description: NSLocalizedString("work_tip_one_description", comment: ""), tip: NSLocalizedString("work_tip_one_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0, backgroundAlignment: .bottomLeading))
+                
+                GuideItemView(item: GuideItem(header: NSLocalizedString("work_tip_two_header", comment: ""), description: NSLocalizedString("work_tip_two_description", comment: ""), tip: NSLocalizedString("work_tip_two_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0, backgroundAlignment: .topTrailing))
+                
             }
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("work_tip_three_header", comment: ""), description: NSLocalizedString("work_tip_three_description", comment: ""), tip: NSLocalizedString("work_tip_three_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0)).padding(.bottom)
+            GuideItemView(item: GuideItem(header: NSLocalizedString("work_tip_three_header", comment: ""), description: NSLocalizedString("work_tip_three_description", comment: ""), tip: NSLocalizedString("work_tip_three_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0, backgroundAlignment: .bottomLeading)).padding(.bottom)
             
-            Text(NSLocalizedString("some_tips", comment: "")).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).padding(.bottom, 8)
+            Text(NSLocalizedString("some_tips", comment: "")).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading)
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("work_tip_four_header", comment: ""), description: NSLocalizedString("work_tip_four_description", comment: ""), tip: "", illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0))
+            GuideItemView(item: GuideItem(header: NSLocalizedString("work_tip_four_header", comment: ""), description: NSLocalizedString("work_tip_four_description", comment: ""), tip: "", illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0, backgroundAlignment: .topTrailing))
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("work_tip_five_header", comment: ""), description: NSLocalizedString("work_tip_five_description", comment: ""), tip: "", illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0))
+            GuideItemView(item: GuideItem(header: NSLocalizedString("work_tip_five_header", comment: ""), description: NSLocalizedString("work_tip_five_description", comment: ""), tip: "", illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0, backgroundAlignment: .topLeading))
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("work_tip_six_header", comment: ""), description: NSLocalizedString("work_tip_six_description", comment: ""), tip: "", illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0))
+            GuideItemView(item: GuideItem(header: NSLocalizedString("work_tip_six_header", comment: ""), description: NSLocalizedString("work_tip_six_description", comment: ""), tip: "", illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0, backgroundAlignment: .bottomTrailing))
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("work_tip_seven_header", comment: ""), description: NSLocalizedString("work_tip_seven_description", comment: ""), tip: "", illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0)).padding(.bottom)
+            GuideItemView(item: GuideItem(header: NSLocalizedString("work_tip_seven_header", comment: ""), description: NSLocalizedString("work_tip_seven_description", comment: ""), tip: "", illustration: "", lineIllustration: "small_line_one_illustration", isHeaderHighlighted: false, isHeaderLarge: false, alignment: 0, backgroundAlignment: .topLeading)).padding(.bottom)
         }
     }
 }
@@ -146,18 +149,20 @@ struct GuideFourView: View {
     var body: some View {
         VStack {
             HStack (alignment: .top) {
-                GuideItemView(item: GuideItem(header: NSLocalizedString("job_specific_tip_one_header", comment: ""), description: NSLocalizedString("job_specific_tip_one_description", comment: ""), tip: NSLocalizedString("job_specific_tip_one_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: true, isHeaderLarge: true, alignment: 0))
                 
-                GuideItemView(item: GuideItem(header: NSLocalizedString("job_specific_tip_two_header", comment: ""), description: NSLocalizedString("job_specific_tip_two_description", comment: ""), tip: NSLocalizedString("job_specific_tip_two_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: true, isHeaderLarge: true, alignment: 0))
-            }
+                GuideItemView(item: GuideItem(header: NSLocalizedString("job_specific_tip_one_header", comment: ""), description: NSLocalizedString("job_specific_tip_one_description", comment: ""), tip: NSLocalizedString("job_specific_tip_one_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: true, isHeaderLarge: true, alignment: 0, backgroundAlignment: .bottomLeading))
+                
+                GuideItemView(item: GuideItem(header: NSLocalizedString("job_specific_tip_two_header", comment: ""), description: NSLocalizedString("job_specific_tip_two_description", comment: ""), tip: NSLocalizedString("job_specific_tip_two_source", comment: ""), illustration: "", lineIllustration: "small_line_two_illustration", isHeaderHighlighted: true, isHeaderLarge: true, alignment: 0, backgroundAlignment: .topTrailing))
+                
+            }.padding(.bottom)
             
-            Text(NSLocalizedString("allow_ai_to_optimize_cv", comment: "")).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).padding(.bottom, 8)
+            Text(NSLocalizedString("allow_ai_to_optimize_cv", comment: "")).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading)
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("job_specific_tip_three_header", comment: ""), description: NSLocalizedString("job_specific_tip_three_description", comment: ""), tip: "", illustration: "tip_job_speicific_one_illustration", lineIllustration: "", isHeaderHighlighted: true, isHeaderLarge: false, alignment: 0))
+            GuideItemView(item: GuideItem(header: NSLocalizedString("job_specific_tip_three_header", comment: ""), description: NSLocalizedString("job_specific_tip_three_description", comment: ""), tip: "", illustration: "tip_job_speicific_one_illustration", lineIllustration: "", isHeaderHighlighted: true, isHeaderLarge: false, alignment: 0, backgroundAlignment: .topTrailing))
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("job_specific_tip_four_header", comment: ""), description: NSLocalizedString("job_specific_tip_four_description", comment: ""), tip: "", illustration: "tip_job_speicific_two_illustration", lineIllustration: "", isHeaderHighlighted: true, isHeaderLarge: false, alignment: 1))
+            GuideItemView(item: GuideItem(header: NSLocalizedString("job_specific_tip_four_header", comment: ""), description: NSLocalizedString("job_specific_tip_four_description", comment: ""), tip: "", illustration: "tip_job_speicific_two_illustration", lineIllustration: "", isHeaderHighlighted: true, isHeaderLarge: false, alignment: 1, backgroundAlignment: .topLeading))
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("job_specific_tip_five_header", comment: ""), description: NSLocalizedString("job_specific_tip_five_description", comment: ""), tip: "", illustration: "tip_job_speicific_three_illustration", lineIllustration: "", isHeaderHighlighted: true, isHeaderLarge: false, alignment: 0)).padding(.bottom)
+            GuideItemView(item: GuideItem(header: NSLocalizedString("job_specific_tip_five_header", comment: ""), description: NSLocalizedString("job_specific_tip_five_description", comment: ""), tip: "", illustration: "tip_job_speicific_three_illustration", lineIllustration: "", isHeaderHighlighted: true, isHeaderLarge: false, alignment: 0, backgroundAlignment: .bottomTrailing)).padding(.bottom)
         }
     }
 }
@@ -166,11 +171,11 @@ struct GuideFiveView: View {
     var body: some View {
         VStack {
 
-            GuideItemView(item: GuideItem(header: NSLocalizedString("essential_info_tip_one_header", comment: ""), description: NSLocalizedString("essential_info_tip_one_description", comment: ""), tip: NSLocalizedString("essential_info_tip_one_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0))
+            GuideItemView(item: GuideItem(header: NSLocalizedString("essential_info_tip_one_header", comment: ""), description: NSLocalizedString("essential_info_tip_one_description", comment: ""), tip: NSLocalizedString("essential_info_tip_one_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0, backgroundAlignment: .topTrailing))
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("essential_info_tip_two_header", comment: ""), description: NSLocalizedString("essential_info_tip_two_description", comment: ""), tip: NSLocalizedString("essential_info_tip_two_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0))
+            GuideItemView(item: GuideItem(header: NSLocalizedString("essential_info_tip_two_header", comment: ""), description: NSLocalizedString("essential_info_tip_two_description", comment: ""), tip: NSLocalizedString("essential_info_tip_two_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0, backgroundAlignment: .bottomLeading))
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("essential_info_tip_three_header", comment: ""), description: NSLocalizedString("essential_info_tip_three_description", comment: ""), tip: NSLocalizedString("essential_info_tip_three_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0)).padding(.bottom)
+            GuideItemView(item: GuideItem(header: NSLocalizedString("essential_info_tip_three_header", comment: ""), description: NSLocalizedString("essential_info_tip_three_description", comment: ""), tip: NSLocalizedString("essential_info_tip_three_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0, backgroundAlignment: .bottomTrailing)).padding(.bottom)
         }
     }
 }
@@ -179,15 +184,15 @@ struct GuideSixView: View {
     var body: some View {
         VStack {
 
-            GuideItemView(item: GuideItem(header: NSLocalizedString("skills_tip_one_header", comment: ""), description: NSLocalizedString("skills_tip_one_description", comment: ""), tip: NSLocalizedString("skills_tip_one_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0))
+            GuideItemView(item: GuideItem(header: NSLocalizedString("skills_tip_one_header", comment: ""), description: NSLocalizedString("skills_tip_one_description", comment: ""), tip: NSLocalizedString("skills_tip_one_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0, backgroundAlignment: .topTrailing))
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("skills_tip_two_header", comment: ""), description: NSLocalizedString("skills_tip_two_description", comment: ""), tip: NSLocalizedString("skills_tip_two_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0))
+            GuideItemView(item: GuideItem(header: NSLocalizedString("skills_tip_two_header", comment: ""), description: NSLocalizedString("skills_tip_two_description", comment: ""), tip: NSLocalizedString("skills_tip_two_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0, backgroundAlignment: .topLeading))
             
-            GuideItemView(item: GuideItem(header: NSLocalizedString("skills_tip_three_header", comment: ""), description: NSLocalizedString("skills_tip_three_description", comment: ""), tip: NSLocalizedString("skills_tip_three_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0)).padding(.bottom)
+            GuideItemView(item: GuideItem(header: NSLocalizedString("skills_tip_three_header", comment: ""), description: NSLocalizedString("skills_tip_three_description", comment: ""), tip: NSLocalizedString("skills_tip_three_source", comment: ""), illustration: "", lineIllustration: "small_line_four_illustration", isHeaderHighlighted: false, isHeaderLarge: true, alignment: 0, backgroundAlignment: .bottomTrailing)).padding(.bottom)
         }
     }
 }
 
 #Preview {
-    GuideView(guideId: 5)
+    GuideView(guideId: 3)
 }

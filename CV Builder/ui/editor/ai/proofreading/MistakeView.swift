@@ -39,11 +39,11 @@ struct MistakeView: View {
                     
                 }
             }.frame(height: expanded ? 120 : 48).background() {
-                RoundedRectangle(cornerRadius: 12.0).fill(Color.windowTwo)
+                RoundedRectangle(cornerRadius: 16.0).fill(Color.windowTwo)
             }.padding([.leading, .bottom, .trailing], 8)
             
         }.background() {
-            RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+            RoundedRectangle(cornerRadius: 20.0).fill(Color.window)
         }
     }
     

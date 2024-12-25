@@ -19,39 +19,40 @@ struct OnBoardFrontView: View {
     var body: some View {
         ZStack {
             
-            Color.background.ignoresSafeArea()
+            ColoredBackgroundLargeView(animating: true).ignoresSafeArea()
             
             VStack (spacing: 0) {
                 
                 ZStack {
-                    Color.backgroundDark.ignoresSafeArea()
-                    
-                    Image("large_line_illustration").renderingMode(.template).centerCropped().foregroundStyle(.backgroundDarker)
-                    
-                    VStack {
-                        
-                        Image("logo_1024_rounded").resizable().scaledToFit().frame(width: 64, height: 64).clipShape(RoundedRectangle(cornerRadius: 12.0)).padding(.bottom)
-                        
-                        Text(NSLocalizedString("front_header", comment: "")).font(.title).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).padding(.bottom)
-                        
-                        HStack {
-                            Text(NSLocalizedString("front_description", comment: "")).foregroundStyle(Color.text).multilineTextAlignment(.center)
-                            
-                            Image("sparkle_colored_icon").resizable().scaledToFit().frame(width: 24, height: 24)
-                        }
-                        
-                    }.padding().padding(.bottom, 24)
+                    Color.clear
+                    FrontIllustrationView().frame(maxHeight: 700).padding(42)
                 }
                 
-                VStack {
+                ZStack (alignment: .top) {
                     
-                    MainButtonView(isSelected: .constant(true), text: NSLocalizedString("get_started", comment: ""), clickHandler: {
-                        viewModel.nextStep()
-                    }).padding(.vertical)
+                    VStack (spacing: 8) {
+                        
+                        Text(NSLocalizedString("front_header", comment: "")).font(.title).bold().foregroundLinearGradient(colors: [ .accentLight, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).padding(.horizontal)
+                        
+                        Text(NSLocalizedString("front_description", comment: "")).foregroundStyle(Color.text).multilineTextAlignment(.center).padding(.horizontal)
+                        
+                        MainButtonView(isSelected: .constant(true), text: NSLocalizedString("get_started", comment: ""), clickHandler: {
+                            viewModel.nextStep()
+                        }).padding(.top)
+                        
+                    }.padding(.vertical).padding(.top).background() {
+                        UnevenRoundedRectangle(topLeadingRadius: 24.0, topTrailingRadius: 24.0).fill(Color.windowColored).ignoresSafeArea()
+                    }.padding(.horizontal, 8)
                     
-                }.background() {
-                    RoundedRectangle(cornerRadius: 20.0).fill(Color.background)
-                }.padding(.top, -24)
+                    ZStack {
+                        
+                        Image("sparkle_colored_icon").resizable().scaledToFit().frame(width: 28, height: 28)
+                        
+                    }.frame(width: 54, height: 54).background() {
+                        RoundedRectangle(cornerRadius: 32.0).fill(.window)
+                    }.offset(y: -32)
+                    
+                }
             }
             
         }.navigationBarTitleDisplayMode(.inline).navigationDestination(isPresented: $viewModel.nextStepPresented) {

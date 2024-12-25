@@ -26,25 +26,29 @@ struct LanguagesCategoryView: View {
             
             VStack (spacing: 0) {
                 
-                TopBarView(header: .constant(NSLocalizedString("languages_input_header", comment: "")), description: .constant(NSLocalizedString("languages_input_description", comment: "")), progress: .constant(0.0), isLoading: .constant(false), isCollapsed: .constant(false), lineIllustration: "small_line_four_illustration")
+                TopBarView(header: .constant(NSLocalizedString("languages_input_header", comment: "")), description: .constant(NSLocalizedString("languages_input_description", comment: "")), isCollapsed: .constant(false))
 
                 VStack {
                     
-                    HStack {
+                    if viewModel.languagesList.count == 0 {
                         
-                        ActionButtonView(icon: "plus", text: NSLocalizedString("add_language", comment: ""), clickHandler: {
+                        EmptyInputListView(icon: "globe", header: NSLocalizedString("empty_languages_header", comment: ""), description: NSLocalizedString("empty_languages_description", comment: ""), buttonOneName: NSLocalizedString("add_language", comment: ""), buttonOneIcon: "plus", buttonOneHandler: {
                             withAnimation {
                                 viewModel.showLanguageAdding()
                             }
-                        }, addArrow: true)
-                        
-                    }.padding([.leading, .top, .trailing])
-                    
-                    if viewModel.languagesList.count == 0 {
-                        
-                        EmptyInputListView(header: NSLocalizedString("empty_languages_header", comment: ""), description: NSLocalizedString("empty_languages_description", comment: "")).padding()
+                        }).padding()
                         
                     } else {
+                        
+                        HStack {
+                            
+                            ActionButtonView(icon: "plus", text: NSLocalizedString("add_language", comment: ""), clickHandler: {
+                                withAnimation {
+                                    viewModel.showLanguageAdding()
+                                }
+                            }, addArrow: true)
+                            
+                        }.padding([.leading, .top, .trailing])
                         
                         ScrollView (showsIndicators: false) {
                             

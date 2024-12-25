@@ -29,3 +29,18 @@ extension NSMutableAttributedString {
       self.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
   }
 }
+
+extension String {
+    func sizeUsingFont(usingFont font: UIFont) -> CGSize {
+        let fontAttributes = [NSAttributedString.Key.font: font]
+        return self.size(withAttributes: fontAttributes)
+    }
+    func widthUsingFont(id: Int, size: Int) -> CGFloat {
+        let fontName = PreloadedDatabase.getFontId(id: id).name
+        if let font = UIFont(name: NSLocalizedString(fontName, comment: ""), size: CGFloat(size)) {
+            let fontAttributes = [NSAttributedString.Key.font: font]
+            return self.size(withAttributes: fontAttributes).width
+        }
+        return 0.0
+    }
+}

@@ -21,13 +21,13 @@ struct AiAssistantButtonView: View {
             clickHandler()
         }) {
             HStack {
-                Text(text).font(.headline).bold().foregroundStyle(.white)
+                Text(text).font(.headline).bold().foregroundStyle(.white).lineLimit(1)
                 
-                SwiftUI.Image("sparkle_colored_icon").renderingMode(.template).resizable().scaledToFit().foregroundStyle(.white).frame(width: 24, height: 24).padding(.leading, 2)
+                Image("sparkle_colored_icon").renderingMode(.template).resizable().scaledToFit().foregroundStyle(.white).frame(width: 24, height: 24)
                 
-            }.frame(maxWidth: .infinity).padding().background() {
-                RoundedRectangle(cornerRadius: 16.0).fill(selected ? LinearGradient(colors: [ .accentDarker, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing) : LinearGradient(colors: [ .accentLight, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing))
-            }.padding(.horizontal)
+            }.padding(.horizontal, 8).padding().background() {
+                RoundedRectangle(cornerRadius: 32.0).fill(LinearGradient(colors: selected ? [ .accentLight, .accent ] : [.accentLightest], startPoint: .topLeading, endPoint: .bottomTrailing))
+            }
             
         }.onChange(of: isSelected) {
             if selected != isSelected {
@@ -40,5 +40,5 @@ struct AiAssistantButtonView: View {
 }
 
 #Preview {
-    AiAssistantButtonView(isSelected: .constant(true), text: "AI Assistant", clickHandler: {})
+    AiAssistantButtonView(isSelected: .constant(false), text: "AI Assistant", clickHandler: {})
 }

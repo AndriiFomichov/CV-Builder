@@ -15,7 +15,8 @@ class SocialAddingViewModel: ObservableObject {
     
     var selectedMedia = -1
     @Published var link = ""
-    @Published var list: [SocialMedia] = []
+    @Published var mediaName = ""
+    @Published var medias: [MenuItem] = []
     
     @Published var dismissed = false
     
@@ -24,43 +25,46 @@ class SocialAddingViewModel: ObservableObject {
         updateMediaList()
     }
     
-    private func updateMediaList () {
-        list = PreloadedDatabase.getSocialMedia()
+    func updateMediaList () {
+        var list: [MenuItem] = []
+        let media = PreloadedDatabase.getSocialMedia()
+        for m in media {
+            list.append(MenuItem(id: m.id, name: m.name))
+        }
+        medias = list
     }
     
     func handleLinkChange () {
         if link.lowercased().contains("linkedin") {
-            selectMedia(id: 0)
+            selectMedia(index: 0)
         } else if link.lowercased().contains("facebook") {
-            selectMedia(id: 1)
+            selectMedia(index: 1)
         } else if link.lowercased().contains("instagram") {
-            selectMedia(id: 2)
+            selectMedia(index: 2)
         } else if link.lowercased().contains("youtube") {
-            selectMedia(id: 3)
+            selectMedia(index: 3)
         } else if link.lowercased().contains("tiktok") {
-            selectMedia(id: 4)
+            selectMedia(index: 4)
         } else if link.lowercased().contains("snapchat") {
-            selectMedia(id: 5)
+            selectMedia(index: 5)
         } else if link.lowercased().contains("x.com") || link.contains("twitter") {
-            selectMedia(id: 6)
+            selectMedia(index: 6)
         } else if link.lowercased().contains("thread") {
-            selectMedia(id: 7)
+            selectMedia(index: 7)
         }
     }
     
-    func selectMedia (id: Int) {
-        if id != selectedMedia {
-            for i in 0...list.count-1 {
-                let item = list[i]
-                if i == id {
-                    item.isSelected = true
-                } else {
-                    item.isSelected = false
-                }
-                list[i] = item
-            }
-            selectedMedia = id
+    func selectMedia (index: Int) {
+        if medias.count > index {
+            let menu = medias[index]
+            selectedMedia = menu.id
+            mediaName = menu.name
         }
+    }
+    
+    func selectMedia (item: MenuItem) {
+        selectedMedia = item.id
+        mediaName = item.name
     }
     
     func save () {

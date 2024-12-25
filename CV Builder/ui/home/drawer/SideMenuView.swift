@@ -41,38 +41,38 @@ struct SideMenuView: View {
                             Color.window.ignoresSafeArea()
                         }
                         
-                        
                         HStack (spacing: 0) {
                             
                             ZStack {
                                 
-                                Color.windowTwo
+                                Rectangle().fill(isPremiumState ? .accentLight : .window)
                                 
-                                Image(systemName: "photo").font(.headline).foregroundStyle(Color.textAdditional)
-                                
-                                if let preview = photoState {
-                                    Image(uiImage: preview).centerCropped()
+                                if let photoState {
+                                    Image(uiImage: photoState).centerCropped()
+                                } else {
+                                    Image(systemName: "photo").font(.headline).foregroundStyle(isPremiumState ? .white : .accent)
                                 }
                                 
-                            }.clipShape(RoundedRectangle(cornerRadius: 16.0)).frame(width: 84, height: 84)
+                            }.clipShape(RoundedRectangle(cornerRadius: 16.0)).padding(6).background {
+                                
+                                RoundedRectangle(cornerRadius: 20.0).fill(isPremiumState ? .accent : .windowTwo)
+                                
+                            }.frame(width: 84, height: 84)
                             
                             VStack (spacing: 0) {
-                                Text(nameState.isEmpty ? NSLocalizedString("user_name", comment: "") : nameState).font(.title2).bold().foregroundStyle(isPremiumState ? Color.white : Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(1).padding(.horizontal, 3)
+                                Text(nameState.isEmpty ? NSLocalizedString("user_name", comment: "") : nameState).font(.title2).bold().foregroundStyle(isPremiumState ? .white : .text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(1).padding(.horizontal, 3)
                                 
                                 HStack {
                                     Button (action: {
                                         viewModel.openSubscriptionsList()
                                     }) {
-                                        Text(isPremiumState ? NSLocalizedString("premium_plan", comment: "") : NSLocalizedString("free_plan", comment: "")).font(.subheadline).foregroundStyle(isPremiumState ? Color.white : Color.text).frame(alignment: .center).lineLimit(1).padding(8).background() {
-                                            RoundedRectangle(cornerRadius: 12.0).fill(isPremiumState ? Color.accent : Color.windowTwo)
-                                        }
+                                        LabelView(text: isPremiumState ? NSLocalizedString("premium_plan", comment: "") : NSLocalizedString("free_plan", comment: ""), backColor: isPremiumState ? .accent : .windowTwo, textColor: isPremiumState ? .white : .text)
                                     }
-                                    Spacer()
                                 }.padding(.top, 8)
                                 
                             }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).padding(.horizontal, 8)
                             
-                            CircleProgressView(progress: fillState, backColor: .windowTwo, font: .subheadline).frame(maxHeight: 64)
+                            CircleProgressView(progress: fillState, backColor: isPremiumState ? .white : .windowTwo, progressColor: .accent, textColor: isPremiumState ? .white : .text, font: .subheadline).frame(maxHeight: 64)
                             
                         }.padding()
                         
@@ -108,7 +108,7 @@ struct SideMenuView: View {
                                     Image(systemName: "square.and.arrow.up.fill").font(.headline).foregroundStyle(.accent)
                                     
                                 }.frame(width: 42, height: 42).background() {
-                                    RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo)
+                                    RoundedRectangle(cornerRadius: 32.0).fill(.windowTwo)
                                 }.padding(8)
                                 
                                 Text(NSLocalizedString("share_app", comment: "")).font(.subheadline).foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.trailing, 4).padding(.vertical, 4).lineLimit(2)
@@ -116,7 +116,7 @@ struct SideMenuView: View {
                                 Image(systemName: "chevron.right").foregroundStyle(.textAdditional).font(.subheadline).padding(.trailing)
                                 
                             }.frame(maxWidth: .infinity).background() {
-                                RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                                RoundedRectangle(cornerRadius: 32.0).fill(Color.window)
                             }
                         }.padding(.horizontal).padding(.bottom, 8)
                         
@@ -135,17 +135,13 @@ struct SideMenuView: View {
                             requestReview()
                         }, addArrow: true).padding(.horizontal).padding(.bottom, 8)
                         
-                        LargeActionButtonView(icon: "instagram_icon", text: NSLocalizedString("our_instagram", comment: ""), clickHandler: {
-                            
+                        ActionButtonView(icon: "instagram_icon", text: NSLocalizedString("our_instagram", comment: ""), clickHandler: {
                             openLink(link: "https://www.instagram.com/enpower_apps")
-                            
-                        }, isIconSystem: false, addArrow: true).padding(.horizontal).padding(.bottom, 8)
+                        }, addArrow: true, isIconSystem: false).padding(.horizontal).padding(.bottom, 8)
                         
-                        LargeActionButtonView(icon: "facebook_icon", text: NSLocalizedString("our_facebook", comment: ""), clickHandler: {
-                            
+                        ActionButtonView(icon: "facebook_icon", text: NSLocalizedString("our_facebook", comment: ""), clickHandler: {
                             openLink(link: "https://www.facebook.com/groups/921211245533804")
-                            
-                        }, isIconSystem: false, addArrow: true).padding(.horizontal).padding(.bottom)
+                        }, addArrow: true, isIconSystem: false).padding(.horizontal).padding(.bottom)
                         
                         Text(viewModel.version).font(.subheadline).foregroundStyle(Color.textAdditional).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal)
                     }

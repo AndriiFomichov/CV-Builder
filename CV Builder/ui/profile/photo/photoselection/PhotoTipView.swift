@@ -18,8 +18,8 @@ struct PhotoTipView: View {
                 if !tip.imageOne.isEmpty {
                     ZStack (alignment: .topTrailing) {
                         Image(tip.imageOne).centerCropped().background() {
-                            Color.windowTwo
-                        }.clipShape(RoundedRectangle(cornerRadius: 12.0))
+                            Color.windowColored
+                        }.clipShape(RoundedRectangle(cornerRadius: 16.0))
                         
                         if !tip.imageTwo.isEmpty {
                             Image(systemName: "xmark.circle").font(.headline).foregroundStyle(.white).padding(4)
@@ -31,8 +31,8 @@ struct PhotoTipView: View {
                 if !tip.imageTwo.isEmpty {
                     ZStack (alignment: .topTrailing) {
                         Image(tip.imageTwo).centerCropped().background() {
-                            Color.windowTwo
-                        }.clipShape(RoundedRectangle(cornerRadius: 12.0))
+                            Color.windowColored
+                        }.clipShape(RoundedRectangle(cornerRadius: 16.0))
                         
                         Image(systemName: "checkmark.circle.fill").font(.headline).foregroundStyle(.accent).padding(4)
                         
@@ -43,7 +43,7 @@ struct PhotoTipView: View {
                     Text(tip.header).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                     
                     if !tip.description.isEmpty {
-                        Text(tip.description).font(.subheadline).foregroundStyle(Color.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                        Text(tip.description).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                     }
                 }.padding(.vertical, 8)
             } else {
@@ -52,15 +52,15 @@ struct PhotoTipView: View {
                     Text(tip.header).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                     
                     if !tip.description.isEmpty {
-                        Text(tip.description).font(.subheadline).foregroundStyle(Color.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                        Text(tip.description).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                     }
                 }.padding(.vertical, 8).padding(.leading, 8)
                 
                 if !tip.imageOne.isEmpty {
                     ZStack (alignment: .topTrailing) {
                         Image(tip.imageOne).centerCropped().background() {
-                            Color.windowTwo
-                        }.clipShape(RoundedRectangle(cornerRadius: 12.0))
+                            Color.windowColored
+                        }.clipShape(RoundedRectangle(cornerRadius: 16.0))
                         
                         if !tip.imageTwo.isEmpty {
                             Image(systemName: "xmark.circle").font(.headline).foregroundStyle(.white).padding(4)
@@ -72,8 +72,8 @@ struct PhotoTipView: View {
                 if !tip.imageTwo.isEmpty {
                     ZStack (alignment: .topTrailing) {
                         Image(tip.imageTwo).centerCropped().background() {
-                            Color.windowTwo
-                        }.clipShape(RoundedRectangle(cornerRadius: 12.0))
+                            Color.windowColored
+                        }.clipShape(RoundedRectangle(cornerRadius: 16.0))
                         
                         Image(systemName: "checkmark.circle.fill").font(.headline).foregroundStyle(.accent).padding(4)
                         
@@ -82,8 +82,10 @@ struct PhotoTipView: View {
             }
             
         }.padding(8).background() {
-            RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
-        }
+            
+            ColorBackgroundView(alignment: tip.backgroundAlignment)
+            
+        }.clipShape(RoundedRectangle(cornerRadius: 20.0))
     }
 }
 

@@ -10,8 +10,12 @@ import SwiftyUserDefaults
 
 class OnBoardTargetViewModel: ObservableObject {
     
+    let profileManager = ProfileManager()
+    var profile: ProfileEntity?
+    
     @Published var jobTitle = ""
     @Published var company = ""
+    @Published var description = ""
     
     @Published var attemptsVisible = false
     @Published var attemptsText = ""
@@ -19,6 +23,8 @@ class OnBoardTargetViewModel: ObservableObject {
     @Published var nextStepPresented = false
     
     @Published var guideSheetShown = false
+    @Published var connectionSheetShown = false
+    @Published var profileFillAlertShown = false
     @Published var limitSheetShown = false
     @Published var paywallSheetShown = false
     
@@ -35,6 +41,8 @@ class OnBoardTargetViewModel: ObservableObject {
         if let parentViewModel {
             jobTitle = parentViewModel.jobTitle
             company = parentViewModel.company
+            description = parentViewModel.description
+            profile = parentViewModel.profile
         }
     }
     
@@ -61,6 +69,14 @@ class OnBoardTargetViewModel: ObservableObject {
         }
     }
     
+    func showConnectionSheet () {
+        connectionSheetShown = true
+    }
+    
+    func showProfileAlertSheet () {
+        profileFillAlertShown = true
+    }
+    
     func showLimitsSheet () {
         limitSheetShown = true
     }
@@ -71,8 +87,15 @@ class OnBoardTargetViewModel: ObservableObject {
     
     func nextStep () {
         if AiManager.getCurrentAttempts() > 0 {
-            saveData()
-            nextStepPresented = true
+            if let profile {
+                if profileManager.getIfProfileMainFilled(profile: profile) {
+                    checkReachibility()
+                } else {
+                    showProfileAlertSheet()
+                }
+            } else {
+                checkReachibility()
+            }
         } else {
             let isUserPremium = Defaults.KEY_ACCOUNT_TYPE != 0
             if isUserPremium {
@@ -84,10 +107,22 @@ class OnBoardTargetViewModel: ObservableObject {
         }
     }
     
+    func checkReachibility () {
+        if Reachability.isConnectedToNetwork() {
+            startNextStep()
+        } else {
+            showConnectionSheet()
+        }
+    }
+    
+    func startNextStep () {
+        saveData()
+        nextStepPresented = true
+    }
+    
     private func saveData () {
         if let parentViewModel {
-            parentViewModel.jobTitle = jobTitle
-            parentViewModel.company = company
+            parentViewModel.saveTargetJob(jobTitle: jobTitle, company: company, description: description)
         }
     }
 }

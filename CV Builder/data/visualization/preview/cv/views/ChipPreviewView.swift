@@ -10,7 +10,7 @@ import SwiftUI
 struct ChipPreviewView: View {
     
     var text: String
-    var font: String
+    var font: Int
     var color: String
     var gravity: Alignment
     var size: Int
@@ -39,5 +39,5 @@ struct ChipPreviewView: View {
 }
 
 #Preview {
-    ChipPreviewView(text: "My text own", font: "Roboto Mono", color: "#000CA0", gravity: .leading, size: 14, isBold: true, isItalic: false, isUnderline: true, isUppercased: true, marginsSize: 14, cornersRadius: 14, backColor: "", backAdded: true, strokeWidth: 3, strokeColor: "", strokeAdded: true)
+    ChipPreviewView(text: "My text own", font: 0, color: "#000CA0", gravity: .leading, size: 14, isBold: true, isItalic: false, isUnderline: true, isUppercased: true, marginsSize: 14, cornersRadius: 14, backColor: "", backAdded: true, strokeWidth: 3, strokeColor: "", strokeAdded: true)
 }

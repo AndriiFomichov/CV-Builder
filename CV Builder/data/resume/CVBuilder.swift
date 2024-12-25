@@ -50,7 +50,7 @@ class CVBuilder {
             cvName = cvName + " - " + profile.name
         }
         
-        let cv = CVEntity(generalBlock: generalBlock, profileDescBlock: profileDescriptionBlock, contactBlock: contactBlock, socialBlock: socialBlock, qrCodesBlock: qrCodesBlock, educationBlock: educationBlock, workBlock: workBlock, languagesBlock: languagesBlock, skillsBlock: skillsBlock, interestsBlock: interestsBlock, certificatesBlock: certificatesBlock, referencesBlock: referencesBlock, coverLetter: nil, name: cvName, lastModified: Date(), bookmarked: false, tagretJob: targetJob, tagretCompany: targetInstitution, previewOne: nil, previewTwo: nil, style: styleId, hasAdditionalBlock: style.hasAdditionalBlock, headersFont: style.fontHeader, textFont: style.fontText, nameSize: style.sizeName, headersSize: style.sizeHeader, textSize: style.sizeText, marginsSize: style.margins, isHeadersBold: style.isHeaderBold, isHeadersUppercased: style.isHeaderUppercased, isHeadersItalic: style.isHeaderItalic, headerDotAdded: style.isHeaderDotAdded, headerLineAdded: style.isHeaderLineAdded, headerLinePosition: style.headerLinePosition, lineCirclesAdded: style.lineCirclesAdded, cornersRadius: style.cornersRadius, strokeWidth: style.strokeWidth, lineWidth: style.lineWidth, dotSize: style.dotSize, dotBackAdded: style.dotBackAdded, dotStrokeAdded: style.dotStrokeAdded, progressBarStyle: style.progressBarStyle, progressBarPercentAdded: style.progressBarPercentAdded, iconSize: style.iconSize, iconBackAdded: style.iconBackAdded, iconStrokeAdded: style.iconStrokeAdded, iconIsBold: style.iconIsBold, chipBackAdded: style.chipBackAdded, chipStrokeAdded: style.chipStrokeAdded, textResume: NSLocalizedString("resume", comment: ""), textCV: NSLocalizedString("cv", comment: ""), textProfile: NSLocalizedString("profile", comment: ""), textThankYou: NSLocalizedString("thank_you", comment: ""), mainColor: palette.mainColor, headerTextColor: palette.headerTextColor, mainTextColor: palette.mainTextColor, lineColor: palette.lineColor, lineCirclesColor: palette.lineCirclesColor, dotColor: palette.dotColor, dotStrokeColor: palette.dotStrokeColor, iconColor: palette.iconColor, iconBackgroundColor: palette.iconBackgroundColor, iconStrokeColor: palette.iconStrokeColor, qrForegroundColor: palette.qrForegroundColor, qrBackgroundColor: palette.qrBackgroundColor, progressForegroundColor: palette.progressForegroundColor, progressBackgroundColor: palette.progressBackgroundColor, chipTextColor: palette.chipTextColor, chipBackgroundColor: palette.chipBackgroundColor, chipStrokeColor: palette.chipStrokeColor)
+        let cv = CVEntity(generalBlock: generalBlock, profileDescBlock: profileDescriptionBlock, contactBlock: contactBlock, socialBlock: socialBlock, qrCodesBlock: qrCodesBlock, educationBlock: educationBlock, workBlock: workBlock, languagesBlock: languagesBlock, skillsBlock: skillsBlock, interestsBlock: interestsBlock, certificatesBlock: certificatesBlock, referencesBlock: referencesBlock, coverLetter: nil, name: cvName, lastModified: Date(), bookmarked: false, tagretJob: targetJob, tagretCompany: targetInstitution, previewOne: nil, previewTwo: nil, style: styleId, hasAdditionalBlock: style.hasAdditionalBlock, nameFont: style.fontName, headersFont: style.fontHeader, textFont: style.fontText, nameSize: style.sizeName, headersSize: style.sizeHeader, textSize: style.sizeText, marginsSize: style.margins, isHeadersBold: style.isHeaderBold, isHeadersUppercased: style.isHeaderUppercased, isHeadersItalic: style.isHeaderItalic, headerDotAdded: style.isHeaderDotAdded, headerLineAdded: style.isHeaderLineAdded, headerLinePosition: style.headerLinePosition, lineCirclesAdded: style.lineCirclesAdded, cornersRadius: style.cornersRadius, strokeWidth: style.strokeWidth, lineWidth: style.lineWidth, dotSize: style.dotSize, dotBackAdded: style.dotBackAdded, dotStrokeAdded: style.dotStrokeAdded, progressBarStyle: style.progressBarStyle, progressBarPercentAdded: style.progressBarPercentAdded, iconSize: style.iconSize, iconBackAdded: style.iconBackAdded, iconStrokeAdded: style.iconStrokeAdded, iconIsBold: style.iconIsBold, chipBackAdded: style.chipBackAdded, chipStrokeAdded: style.chipStrokeAdded, textResume: NSLocalizedString("resume", comment: ""), textCV: NSLocalizedString("cv", comment: ""), textProfile: NSLocalizedString("profile", comment: ""), textThankYou: NSLocalizedString("thank_you", comment: ""), mainColor: palette.mainColor, headerTextColor: palette.headerTextColor, mainTextColor: palette.mainTextColor, lineColor: palette.lineColor, lineCirclesColor: palette.lineCirclesColor, dotColor: palette.dotColor, dotStrokeColor: palette.dotStrokeColor, iconColor: palette.iconColor, iconBackgroundColor: palette.iconBackgroundColor, iconStrokeColor: palette.iconStrokeColor, qrForegroundColor: palette.qrForegroundColor, qrBackgroundColor: palette.qrBackgroundColor, progressForegroundColor: palette.progressForegroundColor, progressBackgroundColor: palette.progressBackgroundColor, chipTextColor: palette.chipTextColor, chipBackgroundColor: palette.chipBackgroundColor, chipStrokeColor: palette.chipStrokeColor)
         
         DatabaseBox.saveEntity(item: cv)
 //        
@@ -257,7 +257,8 @@ class CVBuilder {
     }
     
     func saveCoverLetter (cv: CVEntity, text: String) {
-        let coverLetter = CoverLetterEntity(text: text, textCoverLetter: NSLocalizedString("cover_letter", comment: ""))
+        let style = PreloadedDatabase.getStyleId(id: cv.style)
+        let coverLetter = CoverLetterEntity(text: text, textCoverLetter: NSLocalizedString("cover_letter", comment: ""), textSize: style.sizeCover)
         DatabaseBox.saveEntity(item: coverLetter)
         
         cv.coverLetter = coverLetter
@@ -354,6 +355,7 @@ class CVBuilder {
         let palette = style.palettes[Int.random(in: 0..<style.palettes.count)]
         updateCvPalette(cv: cv, palette: palette)
         
+        cv.nameFont = style.fontName
         cv.headersFont = style.fontHeader
         cv.textFont = style.fontText
         cv.nameSize = style.sizeName
@@ -389,6 +391,10 @@ class CVBuilder {
         
         cv.chipBackAdded = style.chipBackAdded
         cv.chipStrokeAdded = style.chipStrokeAdded
+        
+        if let coverLetter = cv.coverLetter {
+            coverLetter.textSize = style.sizeCover
+        }
         
         if let block = cv.generalBlock {
             block.stylePhotoZoom = style.photoZoom
@@ -442,6 +448,7 @@ class CVBuilder {
         if let block = cv.languagesBlock {
             block.styleIsBulletedList = style.languagesIsBulletedList
             block.styleIsProgressAdded = style.languagesIsProgressAdded
+            block.styleIconAdded = style.languagesIconAdded
             block.styleHeaderPosition = style.languagesHeaderPosition
         }
         
@@ -489,7 +496,7 @@ class CVBuilder {
         cv.chipStrokeColor = palette.chipStrokeColor
     }
     
-    func duplicateCv (cv: CVEntity) {
+    func duplicateCv (cv: CVEntity) -> CVEntity {
         let newCv = CVEntity(entity: cv)
         
         if let generalBlock = cv.generalBlock {
@@ -545,6 +552,8 @@ class CVBuilder {
         }
         
         DatabaseBox.saveEntity(item: newCv)
+        
+        return newCv
     }
     
     private func duplicateCoverLetter (base: CoverLetterEntity) -> CoverLetterEntity {

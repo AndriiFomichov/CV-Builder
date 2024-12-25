@@ -38,34 +38,31 @@ struct EmptyCoverView: View {
     
     var body: some View {
         ZStack {
-            Color.background
-            
-            Image("large_line_illustration").renderingMode(.template).centerCropped().foregroundStyle(Color.backgroundDark)
+            ColoredBackgroundLargeView()
             
             VStack {
                 
-                VStack {
-                    
-                    Text(NSLocalizedString("cover_letter_header", comment: "")).font(.largeTitle).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).padding(.bottom, 8)
-                    
-                    Text(NSLocalizedString("cover_letter_description", comment: "")).font(.subheadline).foregroundStyle(Color.textAdditional).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).padding(.bottom)
-                    
-                }.frame(maxWidth: .infinity, maxHeight: .infinity).padding(.horizontal)
-                
-                Button (action: generateClickHandler) {
-                    HStack {
-                        Text(NSLocalizedString("generate", comment: "")).font(.headline).bold().foregroundStyle(Color.white)
+                if isLoading {
+                    ProgressAnimationView(isLoading: $isLoading, initialIcon: "wand.and.sparkles").frame(width: 96, height: 96)
+                } else {
+                    VStack (spacing: 8) {
                         
-                        Image("sparkle_colored_icon").renderingMode(.template).resizable().scaledToFit().foregroundStyle(Color.white).frame(width: 24, height: 24).padding(.leading, 2)
-                        
-                        if isLoading {
-                            ProgressView().tint(Color.white).padding(.leading, 4)
+                        ZStack {
+                            
+                            Image("sparkle_colored_icon").resizable().scaledToFit().frame(width: 28, height: 28)
+                            
+                        }.frame(width: 54, height: 54).background() {
+                            RoundedRectangle(cornerRadius: 32.0).fill(.window)
                         }
                         
-                    }.frame(maxWidth: .infinity).padding().background() {
-                        RoundedRectangle(cornerRadius: 16.0).fill(isLoading ? LinearGradient(colors: [.accentLight, .accentLight], startPoint: .topLeading, endPoint: .bottomTrailing) : LinearGradient(colors: [.accentDarker, .accent], startPoint: .topLeading, endPoint: .bottomTrailing))
-                    }
-                }.padding()
+                        Text(NSLocalizedString("cover_letter_header", comment: "")).font(.largeTitle).bold().foregroundStyle(Color.accent).foregroundLinearGradient(colors: [ .accentLight, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center)
+                        
+                        Text(NSLocalizedString("cover_letter_description", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).padding(.bottom)
+                        
+                    }.frame(maxWidth: .infinity, maxHeight: .infinity).padding(.horizontal)
+                    
+                    MainButtonView(isSelected: .constant(true), text: NSLocalizedString("generate", comment: ""), icon: "sparkle_colored_icon", isIconSystem: false, clickHandler: generateClickHandler).padding(.vertical)
+                }
                 
             }.onChange(of: isGenerating) {
                 withAnimation {
@@ -73,10 +70,10 @@ struct EmptyCoverView: View {
                 }
             }
             
-        }.borderLoadingAnimation(isAnimating: $isLoading, cornersRadius: 12.0).clipShape(RoundedRectangle(cornerRadius: 12.0)).aspectRatio(0.707070707, contentMode: .fit).padding(.vertical, 16)
+        }.borderLoadingAnimation(isAnimating: $isLoading, cornersRadius: 16.0).clipShape(RoundedRectangle(cornerRadius: 16.0)).aspectRatio(0.707070707, contentMode: .fit).padding(.vertical)
     }
 }
 
 #Preview {
-    EditorCoverView(wrapper: .constant(CVEntityWrapper.getDefault()), isLoading: .constant(false), isGenerating: .constant(false), generateClickHandler: {}, textChangeHandler: { t in }, doubleTapHandler: { i, b in })
+    EditorCoverView(wrapper: .constant(nil), isLoading: .constant(false), isGenerating: .constant(false), generateClickHandler: {}, textChangeHandler: { t in }, doubleTapHandler: { i, b in })
 }

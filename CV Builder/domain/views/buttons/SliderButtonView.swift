@@ -21,7 +21,7 @@ struct SliderButtonView: View {
                 Text(String(value)).font(.headline).foregroundStyle(.accent).lineLimit(1)
                 
             }.frame(width: 42, height: 42).background() {
-                RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo)
+                RoundedRectangle(cornerRadius: 32.0).fill(.windowTwo)
             }.padding(8)
             
             Text(text).font(.subheadline).foregroundStyle(.text).frame(width: 80, alignment: .leading).multilineTextAlignment(.leading).padding(.trailing).padding(.vertical, 4).lineLimit(2)
@@ -29,7 +29,7 @@ struct SliderButtonView: View {
             SliderView(value: $value, dragEndHandler: {}, sliderRange: sliderRange).frame(height: 24).padding(.trailing, 4)
             
         }.frame(maxWidth: .infinity).background() {
-            RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+            RoundedRectangle(cornerRadius: 32.0).fill(Color.window)
         }
     }
 }

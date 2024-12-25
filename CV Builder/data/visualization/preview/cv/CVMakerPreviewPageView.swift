@@ -78,13 +78,12 @@ struct CVMakerPreviewPageView: View {
                     VStack {}.frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 
-            }.scaleEffect(pageHeight / height).frame(width: pageWidth, height: pageHeight).clipShape(RoundedRectangle(cornerRadius: 8.0))
-                
+            }.scaleEffect(pageHeight / height).frame(width: pageWidth, height: pageHeight).clipShape(RoundedRectangle(cornerRadius: 16.0))
                 .opacity(isLoading ? 0.6 : 1.0)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .borderLoadingAnimation(isAnimating: $loading, cornersRadius: 16.0)
                 .onTapGesture(count: 2) {
                 doubleTapHandler(page, true)
-            }.borderLoadingAnimation(isAnimating: $loading, cornersRadius: 8.0)
+            }.frame(maxWidth: .infinity, maxHeight: .infinity)
             
         }.onChange(of: isLoading) {
             withAnimation {

@@ -29,6 +29,6 @@ class Format {
     }
     
     static func getDefault () -> Format {
-        return Format(position: 0, icon: "illustration_pdf", header: "PDF", description: "Format of file", color: Color.yellow, isRecommended: true, isSelected: false)
+        return Format(position: 0, icon: "icon_pdf", header: "PDF", description: "Format of file", color: Color.yellow, isRecommended: true, isSelected: false)
     }
 }

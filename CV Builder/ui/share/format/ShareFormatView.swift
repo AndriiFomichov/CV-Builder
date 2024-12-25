@@ -22,7 +22,7 @@ struct ShareFormatView: View {
             
             VStack (spacing: 0) {
                 
-                TopBarView(header: .constant(NSLocalizedString("select_format", comment: "")), description: .constant(""), progress: .constant(0.0), isLoading: .constant(false), isCollapsed: .constant(false), lineIllustration: "small_line_four_illustration")
+                TopBarView(header: .constant(NSLocalizedString("select_format", comment: "")), description: .constant(""), isCollapsed: .constant(false), maxHeight: 180)
 
                 VStack {
                     
@@ -47,7 +47,7 @@ struct ShareFormatView: View {
                     
                     MainButtonView(isSelected: $viewModel.btnMainSelected, text: NSLocalizedString("continue", comment: ""), clickHandler: {
                         viewModel.nextStep()
-                    }).padding(.bottom)
+                    }).padding(.vertical)
                 }
                 
             }.alert(NSLocalizedString("select_format", comment: ""), isPresented: $viewModel.errorDialogShown) {

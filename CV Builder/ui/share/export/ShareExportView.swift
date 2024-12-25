@@ -21,40 +21,28 @@ struct ShareExportView: View {
     var body: some View {
         ZStack {
             
-            Color.background.ignoresSafeArea()
+            ColoredBackgroundLargeView(animating: true).ignoresSafeArea()
             
             VStack (spacing: 0) {
                 
                 ZStack {
-                    Color.backgroundDark.ignoresSafeArea()
-                    
-                    Image("large_line_illustration").renderingMode(.template).centerCropped().foregroundStyle(.backgroundDarker)
+                    Color.clear
                     
                     VStack {
                         
-                        ProgressAnimationView(isLoading: $isLoading, initialIcon: "square.and.arrow.up.fill").frame(width: 96, height: 96).padding(.bottom)
+                        ProgressAnimationView(isLoading: $isLoading, initialIcon: "square.and.arrow.up.fill", lineWidth: 8).frame(width: 146, height: 146).padding(.bottom)
                         
-                        Text(viewModel.header).font(.title).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).padding(.bottom)
                         
-                        Text(NSLocalizedString("couple_minutes_save_hours", comment: "")).foregroundStyle(Color.text).multilineTextAlignment(.center)
                         
                     }.padding().padding(.bottom, 24)
                 }
                 
-                VStack {
+                ZStack (alignment: .top) {
                     
-                    if filesListVisible {
-                        
-                        if viewModel.exportedFiles.count < 4 {
-                            VStack {
-                                
-                                ForEach(viewModel.exportedFiles.indices, id: \.self) { index in
-                                    ExportedFileView(file: viewModel.exportedFiles[index])
-                                }
-                                
-                            }.padding([.top, .horizontal])
-                        } else {
-                            ScrollView (showsIndicators: false) {
+                    VStack (spacing: 8) {
+                        if filesListVisible {
+                            
+                            if viewModel.exportedFiles.count < 4 {
                                 VStack {
                                     
                                     ForEach(viewModel.exportedFiles.indices, id: \.self) { index in
@@ -62,18 +50,43 @@ struct ShareExportView: View {
                                     }
                                     
                                 }.padding([.top, .horizontal])
-                            }.frame(height: 270)
+                            } else {
+                                ScrollView (showsIndicators: false) {
+                                    VStack {
+                                        
+                                        ForEach(viewModel.exportedFiles.indices, id: \.self) { index in
+                                            ExportedFileView(file: viewModel.exportedFiles[index])
+                                        }
+                                        
+                                    }.padding([.top, .horizontal])
+                                }.frame(height: 270)
+                            }
+                            
+                        } else {
+                            
+                            Text(viewModel.header).font(.title).bold().foregroundLinearGradient(colors: [ .accentLight, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).padding(.horizontal)
+                            
+                            Text(NSLocalizedString("couple_minutes_save_hours", comment: "")).foregroundStyle(Color.text).multilineTextAlignment(.center).padding(.horizontal)
                         }
-                    }
+                        
+                        MainButtonView(isSelected: $viewModel.btnMainSelected, text: NSLocalizedString("finish", comment: ""), clickHandler: {
+                            viewModel.nextStep()
+                        }).padding(.top)
+                        
+                    }.padding(.vertical).padding(.top).background() {
+                        UnevenRoundedRectangle(topLeadingRadius: 24.0, topTrailingRadius: 24.0).fill(Color.windowColored).ignoresSafeArea()
+                    }.padding(.horizontal, 8)
                     
-                    MainButtonView(isSelected: .constant(true), text: NSLocalizedString("finish", comment: ""), clickHandler: {
-                        viewModel.nextStep()
-                    }).padding(.vertical)
+                    ZStack {
+                        
+                        Image("sparkle_colored_icon").resizable().scaledToFit().frame(width: 28, height: 28)
+                        
+                    }.frame(width: 54, height: 54).background() {
+                        RoundedRectangle(cornerRadius: 32.0).fill(.window)
+                    }.offset(y: -32)
                     
-                }.background() {
-                    RoundedRectangle(cornerRadius: 20.0).fill(Color.background)
-                }.padding(.top, -24).alert(NSLocalizedString("default_error", comment: ""), isPresented: $viewModel.errorUnknownDialogShown) {
-                    Button(NSLocalizedString("c_continue", comment: "")) {}
+                }.alert(NSLocalizedString("default_error", comment: ""), isPresented: $viewModel.errorUnknownDialogShown) {
+                    Button(NSLocalizedString("continue", comment: "")) {}
                 }
                 
             }.onChange(of: viewModel.reviewAsked) {

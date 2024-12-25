@@ -24,8 +24,6 @@ struct EducationAddingView: View, KeyboardReadable {
     @State private var selectedMonth: Int = Calendar.current.component(.month, from: Date())
     @State private var selectedYear: Int = Calendar.current.component(.year, from: Date())
     
-    @State private var datePickerVisible = false
-    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -33,7 +31,7 @@ struct EducationAddingView: View, KeyboardReadable {
                 
                 VStack (spacing: 0) {
                     
-                    TopBarView(header: .constant(NSLocalizedString("education", comment: "")), description: .constant(""), progress: .constant(0.0), isLoading: .constant(false), isCollapsed: $isCollapsed, lineIllustration: "small_line_one_illustration", illustration: "education_illustration", maxHeight: 200)
+                    TopBarView(header: .constant(NSLocalizedString("education", comment: "")), description: .constant(""), isCollapsed: $isCollapsed, icon: "graduationcap.fill", iconPlusAdded: true, maxHeight: 180)
 
                     VStack {
                         
@@ -47,37 +45,49 @@ struct EducationAddingView: View, KeyboardReadable {
                                 
                                 Text(NSLocalizedString("field_education_institution", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                                 
-                                TextInputView(text: $viewModel.institution, icon: "building.columns.fill", hint: NSLocalizedString("field_education_institution_hint", comment: "")).padding(.bottom)
+                                HStack {
+                                    
+                                    TextInputView(text: $viewModel.institution, icon: "building.columns.fill", hint: NSLocalizedString("field_education_institution_hint", comment: ""))
+                                    
+                                    IconInputView(preview: $viewModel.logo, icon: "photo", selectionHandler: { photos in
+                                        viewModel.handleImageSelection(selectedPhotos: photos)
+                                    })
+                                    
+                                }.padding(.bottom)
                                 
                                 Text(NSLocalizedString("field_field_of_study", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                                 
                                 TextInputView(text: $viewModel.field, icon: "lightbulb.max.fill", hint: NSLocalizedString("field_field_of_study_hint", comment: ""), options: getFieldOptions()).padding(.bottom)
                                 
-                                Text(NSLocalizedString("field_dates", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
-                                
                                 HStack {
                                     
-                                    Button (action: {
-                                        updateSelectedDates(type: 0, date: viewModel.startDate)
-                                        self.endEditing()
-                                        withAnimation {
-                                            datePickerVisible = true
+                                    VStack {
+                                        
+                                        Text(NSLocalizedString("field_start_date", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                                        
+                                        Button (action: {
+                                            updateSelectedDates(type: 0, date: viewModel.startDate)
+                                            self.endEditing()
+                                            viewModel.showDatePicker()
+                                        }) {
+                                            DateInputView(date: $viewModel.startDate, isNow: .constant(false), hint: NSLocalizedString("field_select_start_hint", comment: ""))
                                         }
-                                    }) {
-                                        DateInputView(date: $viewModel.startDate, isNow: .constant(false), hint: NSLocalizedString("field_select_start_hint", comment: ""))
                                     }
                                     
-                                    if viewModel.isStillLearning {
-                                        DateInputView(date: $viewModel.endDate, isNow: $viewModel.isStillLearning, hint: NSLocalizedString("field_select_end_hint", comment: ""))
-                                    } else {
-                                        Button (action: {
-                                            updateSelectedDates(type: 1, date: viewModel.endDate)
-                                            self.endEditing()
-                                            withAnimation {
-                                                datePickerVisible = true
-                                            }
-                                        }) {
+                                    VStack {
+                                        
+                                        Text(NSLocalizedString("field_end_date", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                                        
+                                        if viewModel.isStillLearning {
                                             DateInputView(date: $viewModel.endDate, isNow: $viewModel.isStillLearning, hint: NSLocalizedString("field_select_end_hint", comment: ""))
+                                        } else {
+                                            Button (action: {
+                                                updateSelectedDates(type: 1, date: viewModel.endDate)
+                                                self.endEditing()
+                                                viewModel.showDatePicker()
+                                            }) {
+                                                DateInputView(date: $viewModel.endDate, isNow: $viewModel.isStillLearning, hint: NSLocalizedString("field_select_end_hint", comment: ""))
+                                            }
                                         }
                                     }
                                 }
@@ -118,23 +128,15 @@ struct EducationAddingView: View, KeyboardReadable {
                             self.endEditing()
                         })
                     } else {
-                        VStack {
-                            
-                            if datePickerVisible {
-                                DatePickerView(selectedMonth: $selectedMonth, selectedYear: $selectedYear, applyHandler: {
-                                    viewModel.saveDate(dateType: selectingDate, date: convertSelectedMonthYearToDate())
-                                    withAnimation {
-                                        datePickerVisible = false
-                                    }
-                                }).transition(.move(edge: .bottom))
-                            } else {
-                                MainButtonView(isSelected: .constant(true), text: viewModel.btnMainText, clickHandler: {
-                                    viewModel.save()
-                                }).padding(.vertical)
-                            }
-                            
-                        }
+                        MainButtonView(isSelected: .constant(true), text: viewModel.btnMainText, clickHandler: {
+                            viewModel.save()
+                        }).padding(.vertical)
                     }
+                    
+                }.sheet(isPresented: $viewModel.datePickerSheetShown) {
+                    DatePickerView(selectedMonth: $selectedMonth, selectedYear: $selectedYear, applyHandler: {
+                        viewModel.saveDate(dateType: selectingDate, date: convertSelectedMonthYearToDate())
+                    }).presentationDetents([.medium])
                 }
                 
             }.navigationTitle(isCollapsed ? NSLocalizedString("education", comment: "") : "").navigationBarTitleDisplayMode(.inline).toolbar {
@@ -161,7 +163,6 @@ struct EducationAddingView: View, KeyboardReadable {
                 viewModel.updateData(profile: profile, entity: entity)
             }.onReceive(keyboardPublisher) { newIsKeyboardVisible in
                 withAnimation {
-                    datePickerVisible = false
                     isCollapsed = newIsKeyboardVisible
                 }
             }.onChange(of: viewModel.dismissed) {
@@ -186,26 +187,26 @@ struct EducationAddingView: View, KeyboardReadable {
         return Calendar.current.date(from: components)
     }
     
-    private func getLevelOptions () -> [String] {
-        var list: [String] = []
+    private func getLevelOptions () -> [MenuItem] {
+        var list: [MenuItem] = []
         for i in 0..<7 {
-            list.append(NSLocalizedString("field_education_level_sug_" + String(i), comment: ""))
+            list.append(MenuItem(id: i, name: NSLocalizedString("field_education_level_sug_" + String(i), comment: "")))
         }
         return list
     }
     
-    private func getFieldOptions () -> [String] {
-        var list: [String] = []
+    private func getFieldOptions () -> [MenuItem] {
+        var list: [MenuItem] = []
         for i in 0..<20 {
-            list.append(NSLocalizedString("field_field_of_study_sug_" + String(i), comment: ""))
+            list.append(MenuItem(id: i, name: NSLocalizedString("field_field_of_study_sug_" + String(i), comment: "")))
         }
         return list
     }
     
-    private func getDegreeOptions () -> [String] {
-        var list: [String] = []
+    private func getDegreeOptions () -> [MenuItem] {
+        var list: [MenuItem] = []
         for i in 0..<20 {
-            list.append(NSLocalizedString("field_degree_earned_sug_" + String(i), comment: ""))
+            list.append(MenuItem(id: i, name: NSLocalizedString("field_degree_earned_sug_" + String(i), comment: "")))
         }
         return list
     }

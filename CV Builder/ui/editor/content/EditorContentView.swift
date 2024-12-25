@@ -40,25 +40,26 @@ struct EditorContentView: View, KeyboardReadable {
                 }.padding()
                 
                 ScrollView(showsIndicators: false) {
+                    
                     LazyVStack {
                         
                         HStack {
                             
                             Button (action: {
-                                viewModel.startProfileEditing()
+                                parentViewModel.openProfile()
                             }) {
                                 HStack (spacing: 0) {
                                     
                                     ZStack {
                                         
-                                        Image(systemName: "photo").font(.headline).foregroundStyle(.textAdditional)
-                                        
                                         if let photo = parentViewModel.userPhoto {
                                             Image(uiImage: photo).centerCropped()
+                                        } else {
+                                            Image(systemName: "person.crop.circle").font(.headline).foregroundStyle(.accent)
                                         }
                                         
-                                    }.clipShape(RoundedRectangle(cornerRadius: 12.0)).frame(width: 42, height: 42).background() {
-                                        RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo)
+                                    }.clipShape(RoundedRectangle(cornerRadius: 32.0)).frame(width: 42, height: 42).background() {
+                                        RoundedRectangle(cornerRadius: 32.0).fill(.windowTwo)
                                     }.padding(8)
                                     
                                     Text(NSLocalizedString("edit_profile", comment: "")).font(.subheadline).foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.trailing, 4).padding(.vertical, 4).lineLimit(2)
@@ -66,7 +67,7 @@ struct EditorContentView: View, KeyboardReadable {
                                     Image(systemName: "chevron.right").foregroundStyle(.textAdditional).font(.subheadline).padding(.trailing)
                                     
                                 }.frame(maxWidth: .infinity).background() {
-                                    RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                                    RoundedRectangle(cornerRadius: 32.0).fill(Color.window)
                                 }
                             }
                             
@@ -146,9 +147,9 @@ struct EditorContentView: View, KeyboardReadable {
                             }.padding(.bottom)
                         }
                         
-                        Text(NSLocalizedString("made_with_ai_description", comment: "")).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.bottom)
+                        LargeAttemptsLabel(text: $viewModel.attemptsText).padding(.bottom, 8)
                         
-                        AttemptsLabel(text: $viewModel.attemptsText).padding(.bottom)
+                        Text(NSLocalizedString("made_with_ai_description", comment: "")).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.bottom)
                         
                     }.padding(.horizontal).padding(.bottom)
                     
@@ -162,10 +163,6 @@ struct EditorContentView: View, KeyboardReadable {
                     }).transition(.asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom)))
                 }
                 
-            }.sheet(isPresented: $viewModel.profileSheetShown, onDismiss: {
-                viewModel.handleProfileUpdated()
-            }) {
-                ProfileView().presentationDetents([.large])
             }.sheet(isPresented: $viewModel.contentSheetShown) {
                 EditorContentSelectionView(cv: viewModel.cv, finishHandler: { isChanged in
                     viewModel.handleContentSelection(isChanged: isChanged)
@@ -175,7 +172,7 @@ struct EditorContentView: View, KeyboardReadable {
             }) {
                 PaywallView(benefitsId: 0, source: "Content ai text").presentationDetents([.large])
             }.sheet(isPresented: $viewModel.limitSheetShown) {
-                AiLimitView().presentationDetents([.large])
+                AiLimitView(type: 2).presentationDetents([.large])
             }
             
             if !keywordVisible {

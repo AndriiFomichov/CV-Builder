@@ -24,7 +24,7 @@ struct CertificateItemView: View {
                     Image(systemName: "text.document.fill").font(.headline).foregroundStyle(isFilled ? .accent : .textAdditional)
                     
                 }.frame(width: 42, height: 42).background() {
-                    RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo).stroke(isFilled ? .accent : .clear, style: StrokeStyle(lineWidth: 2))
+                    RoundedRectangle(cornerRadius: 32.0).fill(.windowTwo)
                 }.padding(8)
                 
                 VStack {
@@ -45,7 +45,7 @@ struct CertificateItemView: View {
                 
             }.frame(maxWidth: .infinity).background() {
                 
-                RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                RoundedRectangle(cornerRadius: 20.0).fill(Color.window)
                 
             }
             

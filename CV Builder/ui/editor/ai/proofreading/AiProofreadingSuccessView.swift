@@ -17,31 +17,31 @@ struct AiProofreadingSuccessView: View {
     @State var textsState = 0
     @State var typosState = 0
     
+    var namespaceAnimation: Namespace.ID
+    
     var body: some View {
         VStack {
             
             VStack {
                 
-                CircleProgressView(progress: percentState, backColor: .window, progressColor: .success).frame(maxHeight: 90).padding(.bottom)
+                CircleProgressView(progress: percentState, backColor: .window, progressColor: .accent).frame(maxHeight: 90).padding(.bottom)
                 
-                Text(NSLocalizedString("complete", comment: "")).font(.title).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).padding(.bottom, 8)
+                Text(NSLocalizedString("complete", comment: "")).font(.title).bold().foregroundStyle(Color.accent).foregroundLinearGradient(colors: [ .accentLight, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).padding(.bottom, 4).matchedGeometryEffect(id: "Header", in: namespaceAnimation)
                 
-                Text(NSLocalizedString("ai_proofread_success", comment: "")).foregroundStyle(Color.text).multilineTextAlignment(.center)
+                Text(NSLocalizedString("ai_proofread_success", comment: "")).font(.subheadline).foregroundStyle(Color.text).multilineTextAlignment(.center).matchedGeometryEffect(id: "Description", in: namespaceAnimation)
                 
             }.frame(maxWidth: .infinity, maxHeight: .infinity).padding(.horizontal, 12)
             
             HStack {
-                TextsAnalyzedView(icon: "text.magnifyingglass", text: NSLocalizedString("texts_analyzed", comment: ""), number: texts, color: .text)
-                TextsAnalyzedView(icon: "exclamationmark.triangle.fill", text: NSLocalizedString("typos_found", comment: ""), number: typos, color: .success)
+                TextsAnalyzedView(icon: "text.viewfinder", text: NSLocalizedString("texts_analyzed", comment: ""), number: texts, color: .text)
+                TextsAnalyzedView(icon: "exclamationmark.triangle.fill", text: NSLocalizedString("typos_found", comment: ""), number: typos, color: .accent)
             }
             
         }.padding(8).background() {
-            ZStack (alignment: .bottomLeading) {
-                RoundedRectangle(cornerRadius: 20.0).fill(Color.backgroundDark)
-                
-                Image("small_line_two_illustration").renderingMode(.template).resizable().scaledToFit().foregroundStyle(.backgroundDarker)
-            }
-        }.padding().onAppear() {
+            
+            ColoredBackgroundLargeView().matchedGeometryEffect(id: "Back", in: namespaceAnimation)
+            
+        }.clipShape(RoundedRectangle(cornerRadius: 20.0)).padding(.horizontal).padding(.bottom).onAppear() {
             withAnimation {
                 percentState = CGFloat(percent)
                 textsState = texts
@@ -52,5 +52,6 @@ struct AiProofreadingSuccessView: View {
 }
 
 #Preview {
-    AiProofreadingSuccessView(percent: 1.0, texts: 23, typos: 0)
+    @Previewable @Namespace var namespace
+    AiProofreadingSuccessView(percent: 1.0, texts: 23, typos: 0, namespaceAnimation: namespace)
 }

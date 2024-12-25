@@ -33,7 +33,7 @@ struct QRCodeGeneratorView: View {
                         
                         if isLoading {
                             
-                            RoundedRectangle(cornerRadius: 16.0).skeleton(with: true, appearance: .solid(color: Color.window, background: Color.windowTwo), shape: .rounded(.radius(16.0, style: .circular))).onAppear() {
+                            RoundedRectangle(cornerRadius: 20.0).skeleton(with: true, appearance: .solid(color: Color.window, background: Color.windowTwo), shape: .rounded(.radius(20.0, style: .circular))).onAppear() {
                                 withAnimation(.linear(duration: 1.6).repeatForever(autoreverses: false)) {
                                     self.isAnimating = true
                                 }
@@ -42,7 +42,7 @@ struct QRCodeGeneratorView: View {
                         } else {
                             
                             ZStack {
-                                RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                                RoundedRectangle(cornerRadius: 20.0).fill(Color.window)
                                 
                                 if let preview {
                                     Image(uiImage: preview).resizable().scaledToFit().padding()

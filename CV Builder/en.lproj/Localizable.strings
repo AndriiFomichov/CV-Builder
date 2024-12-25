@@ -26,9 +26,12 @@
 "keep" = "Keep";
 "create" = "Create";
 "duplicate" = "Duplicate";
+"optimize" = "Optimize";
+"skip" = "Skip";
 
 "get_started" = "Get started";
 "skip_later" = "Skip, I’ll do it later";
+"save_and_edit" = "Save and edit";
 "go_back" = "Go back";
 "back" = "Back";
 
@@ -40,10 +43,12 @@
 "complete" = "Complete";
 "error" = "Error";
 "default_error" = "Something went wrong. Please try again";
+"enter_text" = "Enter text here";
+"optional" = "Optional";
 
 // Onboarding
 // front
-"front_header" = "Create an inspiring CV to stand out";
+"front_header" = "Create an inspiring CV to get your dream job";
 "front_description" = "Powered by AI";
 
 // create profile
@@ -71,16 +76,22 @@
 // Resume generation
 "select_style_header" = "Select your CV style";
 "select_style_description" = "Choose a visual style that best suits the industry in which you plan to work";
+"select_style" = "Select style";
 
 "target_vacancy_header" = "Now describe the target vacancy";
 "target_vacancy_description" = "Describe the position for which you are preparing a resume. This is optional, but highly-recommeded";
 "generate_your_cv" = "Generate your CV";
 "field_company_name" = "Institute name";
 "field_company_name_hint" = "E.g. Coca Cola";
+"field_job_description_name" = "Job description";
+"field_job_description_name_hint" = "Paste description here";
+"why_important_to_optimize" = "Why is it important to optimize your resume for the job?";
+
+"profile_fill_alert_header" = "Your profile is missing important information for your resume";
+"profile_fill_alert_description" = "Therefore, for visualization, we will add some template data. You can then edit your profile at any time, add information and it will automatically be pulled into the resume.";
 
 "generating_your_cv" = "Generating your CV";
-"select_visualization_header" = "Select visualization";
-"select_visualization_description" = "Choose how best to visualize information from your profile";
+"explore_visualization" = "Explore more visualization suggestions";
 
 "go_back_header" = "Are you sure you want to go back?";
 "go_back_description" = "CV generation attempt will be lost";
@@ -88,9 +99,21 @@
 "made_with_ai_header" = "AI Assistant";
 "made_with_ai_description" = "The text was generated using the ChatGPT-3.5 model. Please check the entire text before sending your resume.";
 
-"no_connection_header" = "No connection";
-"no_connection_description" = "AI generation does not work without internet. Check your connection and generate your resume again.";
-"check_connection" = "Please check internet connection";
+"no_connection_header" = "Please check internet connection";
+"no_connection_description" = "AI requires an internet connection to work.";
+"no_connection_description_offline" = "AI requires an internet connection to work. You can also continue offline.";
+"no_connection_description_purchase" = "Purchases require an internet connection.";
+"continue_offline" = "Continue offline";
+"check_connection" = "Please check connection";
+
+
+// Preview
+"preview" = "Preview";
+"end_preview" = "End preview";
+"pinch_to_zoom" = "Pinch to zoom and move the preview";
+"next_page" = "Next page";
+"previous_page" = "Previous page";
+
 
 // Profile fill
 "profile" = "Profile";
@@ -154,7 +177,8 @@
 "field_education_institution_hint" = "E.g. University of Oxford";
 "field_field_of_study" = "Field of study";
 "field_field_of_study_hint" = "E.g. Engineering";
-"field_dates" = "Dates";
+"field_start_date" = "Start date";
+"field_end_date" = "End date";
 "field_dates_now" = "Now";
 "field_select_start_hint" = "Select start";
 "field_select_end_hint" = "Select end";
@@ -244,11 +268,17 @@
 "add_hard_skill" = "Add hard skill";
 "soft_skills" = "Soft skills";
 "hard_skills" = "Hard skills";
-"level" = "Level";
+"select_level" = "Select level";
 "enter_skill_name" = "Enter skill name";
 
 "empty_skills_header" = "Skills";
 "empty_skills_description" = "Click on the buttons \"Add skill\" to add your soft and hard skills";
+
+"skill_level_sug_0" = "Novice";
+"skill_level_sug_1" = "Advanced beginner";
+"skill_level_sug_2" = "Competent";
+"skill_level_sug_3" = "Proficient";
+"skill_level_sug_4" = "Expert";
 
 "languages_input_header" = "Let's add your languages";
 "languages_input_description" = "Add a list of your languages and their level";
@@ -258,8 +288,18 @@
 "empty_languages_description" = "Click on the buttons \"Add language\" to add your languages";
 
 "languages_adding_header" = "Language";
-"languages_adding_description" = "Enter your languages or select from list";
-"languages_adding_hint" = "Enter languages in commas";
+
+"field_language_name" = "Name";
+"field_language_name_hint" = "E.g. English";
+"field_language_level" = "Level";
+"field_language_level_hint" = "Select level";
+
+"language_level_sug_0" = "Beginner (A1)";
+"language_level_sug_1" = "Elementary (A2)";
+"language_level_sug_2" = "Intermediate (B1)";
+"language_level_sug_3" = "Upper-intermediate (B2)";
+"language_level_sug_4" = "Advanced (C1)";
+"language_level_sug_5" = "Proficient (C2)";
 
 "indonesian" = "Bahasa Indonesia";
 "catala" = "Català";
@@ -297,8 +337,8 @@
 "empty_interests_description" = "Click on the buttons \"Add interests\" to add your interests";
 
 "interests_adding_header" = "Interests";
-"interests_adding_description" = "Enter your interests or select from list";
-"interests_adding_hint" = "Enter interests in commas";
+"field_interest_name" = "Or enter your own interests separated by commas";
+"field_interest_name_hint" = "Enter interests in commas";
 
 "interests_category_0" = "Arts and Crafts";
 "interests_category_1" = "Culinary";
@@ -361,7 +401,7 @@
 "add_certificate" = "Add certificate";
 "enter_certificate_name" = "Enter certificate name";
 
-"empty_certificates_header" = "Interests";
+"empty_certificates_header" = "Certificates";
 "empty_certificates_description" = "Click on the buttons \"Add certificates\" to add your certificates";
 
 "social_media_input_header" = "Let's add your social media links";
@@ -372,8 +412,11 @@
 "empty_social_media_description" = "Click on the buttons \"Add social media page\" to add links to your social media pages";
 
 "social_media_adding_header" = "Social media";
-"social_media_adding_description" = "Add a link in the box below and select a social network";
-"social_media_adding_hint" = "Paste link here";
+
+"field_media_link" = "Link";
+"field_media_link_hint" = "E.g. linkedin.com/in/name";
+"field_media_media" = "Social media";
+"field_media_media_hint" = "Select network";
 
 "social_media_sug_0" = "LinkedIn";
 "social_media_sug_1" = "Facebook";
@@ -408,6 +451,7 @@
 "edit_profile" = "Edit profile";
 "manage_subscriptions" = "Manage subscriptions";
 "privacy_policy" = "Privacy policy";
+"terms_of_use" = "Terms of use";
 "rights" = "Rights";
 "share_app" = "Share app";
 "contact_us" = "Contact us";
@@ -424,13 +468,17 @@
 "content" = "Content";
 "design" = "Design";
 "generate" = "Generate";
+"perform" = "Perform";
 
 "cover_letter_header" = "Cover letter";
 "cover_letter_description" = "Generate an effective cover letter to complement your resume in one click with AI";
+"cover_letter_generation_alert" = "Please add information about your position or target vacancy to generate a cover letter";
+"cover_to_profile" = "Edit profile";
+"cover_to_assistant" = "Optimize for target job";
 
 "ai_wait_alert" = "Please wait for AI Assistant to complete";
 
-"ai_proofread_header" = "Proofread text";
+"ai_proofread_header" = "Proofread";
 "ai_proofread_description" = "Profread your resume and cover letter with AI in one click";
 "ai_proofreading" = "Proofreading the text";
 "ai_proofread_success" = "Artificial intelligence did not find any typos in the text";
@@ -438,16 +486,17 @@
 "texts_analyzed" = "Texts analyzed";
 "typos_found" = "Typos found";
 
-"ai_optimize_header" = "Optimize for a vacancy";
+"ai_optimize_header" = "Optimize";
 "ai_optimize_description" = "Optimize your resume and cover letter for another position with AI in one click";
 "ai_optimizing" = "Optimizing your CV";
 "optimize_your_cv" = "Optimize your CV";
 "enter_target_alert" = "Please enter target vacancy details";
 
-"ai_translate_header" = "Translate text";
+"ai_translate_header" = "Translate";
 "ai_translate_description" = "Translate your resume and cover letter with AI in one click";
 "ai_translating" = "Translating your CV";
 "translate_your_cv" = "Translate your CV";
+"select_language" = "Select language";
 "select_language_alert" = "Please select language";
 
 
@@ -469,6 +518,7 @@
 
 "content_header" = "Content";
 "content_description" = "Select the information you want to include in your resume";
+"general_block_fixed_header" = "General data - placement depends on the chosen style";
 
 "content_category_0" = "General data";
 "content_category_1" = "Profile description";
@@ -485,13 +535,28 @@
 
 "styles" = "Styles";
 "main_color" = "Main color";
-"fonts" = "Fonts";
+"select_font" = "Select font";
+"select_size" = "Size";
+"name" = "Name";
 "headers" = "Headers";
 "text" = "Text";
-"headers_size" = "Headers size";
-"text_size" = "Text size";
 "margins" = "Margins";
 "margins_size" = "Margins size";
+"cover_letter_text_size" = "Cover letter text size";
+
+
+// Profile changes
+"profile_changes_header" = "Profile changes";
+"profile_changes_description" = "You have made changes to your profile that we can adapt and add to this resume";
+"select_changes" = "Select the changes you would like to add";
+"generate_description" = "Generate description";
+"generate_text" = "Generate text";
+"profile_changes_note_header" = "Please take note!";
+"profile_changes_note_description" = "When updating data, translation results and descriptions may not be saved and will be replaced with new data.";
+"add_changes" = "Add changes to resume";
+"profile_changes_alert_header" = "Are you sure you want to apply changes?";
+"profile_changes_alert_description" = "You may lose pre-generated text and translation";
+
 
 // Sharing page
 "select_format" = "Select the format to export your resume";
@@ -514,7 +579,8 @@
 
 "select_options" = "Choose the main options for exporting the file";
 "create_files" = "Create files";
-"watermark_btn" = "Watermark “Made with CV Builder”";
+"watermark" = "Watermark";
+"watermark_added" = "Watermark added";
 "file_name" = "File name";
 "export_quality" = "Export quality";
 "quality_compressed" = "Compressed";
@@ -524,6 +590,7 @@
 "exporting_files" = "Exporting files";
 "cover_letter" = "Cover letter";
 "resume" = "Resume";
+"letter" = "Letter";
 
 
 // Background remover
@@ -543,15 +610,111 @@
 // Paywall
 "free_plan" = "Free plan";
 "premium_plan" = "Pro";
+
 "free_attempts_left" = "3 free attempts left";
 "attempts_left_today" = "3 attempts left today";
 
+"free_attempts_text_left" = "3 free AI text improvements left";
+"attempts_text_left_today" = "3 AI text improvements left today";
+
+"free_attempts_assistant_left" = "3 free AI Assistant actions left";
+"attempts_assistant_left_today" = "3 AI Assistant actions left today";
+
 "unlock_pro_header" = "Unlock Pro access";
-"unlock_pro_description" = "Unlimited resumes, AI optimization, translation and much more";
+"unlock_pro_description" = "Unlimited resumes, AI optimization, proofreading and much more";
+"upgrade_plan" = "Upgrade plan";
 
+"paywall_header_ai" = "Get one step closer to your dream job with AI";
+"paywall_header_ai_with_name" = ", get one step closer to your dream job with AI";
+"paywall_header_back_remover" = "Remove backgrounds without limits";
+"paywall_header_back_remover_with_name" = ", remove backgrounds without limits";
+"paywall_header_export" = "Export resumes without limits";
+"paywall_header_export_with_name" = ", export resumes without limits";
+"paywall_header_qr_codes" = "Create QR-codes without limits";
+"paywall_header_qr_codes_with_name" = ", create QR-codes without limits";
 
+"paywall_description_ai" = "Unlimited high-quality AI-optimized resumes, full AI Assistant capabilities and much more.";
+"paywall_description_back_remover" = "AI background remover, unlimited high-quality AI-optimized resumes and much more.";
+"paywall_description_export" = "Best quality export, no watermarks, AI-optimized resumes and much more.";
+"paywall_description_qr_codes" = "Unlimited QR-codes, unlimited high-quality AI-optimized resumes and much more.";
 
+"pro_access" = "Pro Access";
+"pro_access_includes" = "Pro Access includes";
 
+"benefit_ai_resume" = "AI-optimized resumes";
+"benefit_ai_assistant" = "AI Assistant";
+"benefit_ai_text_generation" = "AI text generation";
+"benefit_ai_cover" = "AI-generated cover letters";
+"benefit_ai_back_remover" = "AI background remover";
+"benefit_no_watermarks" = "Without watermarks";
+"benefit_unlimited_export" = "Unlimited export";
+"benefit_qr_codes" = "QR-codes";
+
+"how_free_trial_works" = "How free trial works";
+"free_trial_today" = "Today";
+"free_trial_today_description" = "Get instant access and see how it can change your life";
+"free_trial_day_five" = "Day 5";
+"free_trial_day_five_description" = "You will be notified with an email that your trial is ending";
+"free_trial_day_seven" = "Day 7";
+"free_trial_day_seven_description_own" = "You\'ll be charged on:";
+"free_trial_day_seven_description_two" = "Cancel anytime before";
+
+"ai_limits" = "AI limits per day";
+"ai_limits_desc_one" = "Note that the AI ​​functions have a slight limit per day in order not to overload the system.";
+"ai_limits_desc_two" = "Pro Access brings you one step closer to your dream job and create a large number of job-optimized resumes every day. Limits reset every 24 hours.";
+"ai_limits_resumes" = "AI-generated resumes";
+"ai_limits_assistant" = "AI Assistant actions";
+"ai_limits_text" = "AI text imporovements";
+
+"additional_links" = "Additional links";
+
+"save_percent" = "Save 44%";
+"free_trial" = "Free 7 Day Trial";
+"free_trial_then" = "7 days free trial, then";
+"annual" = "year";
+"annual_plan" = "Annually";
+"annual_billing" = "Billed annually";
+"month" = "month";
+"monthly_plan" = "Monthly";
+"monthly_billing" = "Billed monthly";
+"quarter" = "3 months";
+"quarterly_plan" = "Quarterly";
+"quarterly_billing" = "Billed quarterly";
+"semi_annual" = "6 months";
+"semi_annual_plan" = "Semi-annually";
+"semi_annual_billing" = "Billed semi-annually";
+"week" = "week";
+"weekly_plan" = "Weekly";
+"weekly_billing" = "Billed weekly";
+"tip_free_trial" = "You won\'t be charged until the end of free trial. Cancel anytime before.";
+"tip_base" = "Get instant access to all features. You will be able to cancel your subscription at any time.";
+"start_free_trial" = "Start free trial";
+"start_subscription" = "Start subscription";
+"restore_purchases" = "Restore purchases";
+
+"premium_congratulation" = "Congratulations, you have successfully accessed Pro!";
+"premium_congratulation_description" = "Thank you for your purchase! You have access to the full functionality of the application.";
+
+"premium_error" = "Something went wrong. Please try again later";
+"premium_error_description" = "Please try purchasing later or try restarting the app. Contact us if you need help.";
+
+"have_more_questions" = "Have more questions?";
+"have_more_questions_desc" = "Feel free to contact us with the email";
+
+// AI limits
+"ai_limit_header" = "You have reached your daily AI usage limit";
+"ai_limit_description_generation" = "You have reached the maximum limit for generating resumes per day using AI. Unfortunately, the system can’t handle more requests.";
+"ai_limit_description_text" = "You have reached the maximum limit of text improvement per day using AI. Unfortunately, the system can’t handle more requests.";
+"ai_limit_description_assistant" = "You have reached the maximum limit of AI Assistant actions per day using. Unfortunately, the system can’t handle more requests.";
+
+"number_resumes_header" = "30 resume";
+"number_resumes_description" = "Successfully generated today";
+"number_texts_header" = "200 texts";
+"number_texts_description" = "Successfully improved today";
+"number_assistant_header" = "20 actions";
+"number_assistant_description" = "Successfully performed today";
+
+"contact_us_for_attempts" = "Contact us in case you need additional attempts";
 
 // tips
 
@@ -710,6 +873,19 @@
 "month_9" = "Oct";
 "month_10" = "Nov";
 "month_11" = "Dec";
+
+"month_f_0" = "January";
+"month_f_1" = "February";
+"month_f_2" = "March";
+"month_f_3" = "April";
+"month_f_4" = "May";
+"month_f_5" = "June";
+"month_f_6" = "July";
+"month_f_7" = "August";
+"month_f_8" = "September";
+"month_f_9" = "October";
+"month_f_10" = "November";
+"month_f_11" = "December";
 
 // cv dummy texts
 "dummy_name" = "Reese Miller";

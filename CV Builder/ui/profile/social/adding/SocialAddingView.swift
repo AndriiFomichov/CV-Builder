@@ -14,7 +14,7 @@ struct SocialAddingView: View, KeyboardReadable {
     @Environment(\.dismiss) var dismiss
     @StateObject var viewModel = SocialAddingViewModel()
     
-    @State var keyboardVisible = false
+    @State var isCollapsed = false
     
     var body: some View {
         NavigationStack {
@@ -23,19 +23,23 @@ struct SocialAddingView: View, KeyboardReadable {
                 
                 VStack (spacing: 0) {
                     
-                    EditableTopBarView(header: .constant(NSLocalizedString("social_media_adding_header", comment: "")), description: .constant(NSLocalizedString("social_media_adding_description", comment: "")), text: $viewModel.link, icon: "globe", hint: NSLocalizedString("social_media_adding_hint", comment: ""), lineIllustration: "small_line_one_illustration", maxHeight: 200)
+                    TopBarView(header: .constant(NSLocalizedString("social_media_adding_header", comment: "")), description: .constant(""), isCollapsed: $isCollapsed, icon: "link.circle.fill", iconPlusAdded: true, maxHeight: 180)
 
                     VStack {
                         
                         ScrollView (showsIndicators: false) {
                             
-                            LazyVGrid(columns: [ GridItem(.adaptive(minimum: 120)) ]) {
+                            VStack {
                                 
-                                ForEach(viewModel.list.indices, id: \.self) { index in
-                                    SocialMediaView(item: $viewModel.list[index], clickHandler: {
-                                        viewModel.selectMedia(id: index)
-                                    })
-                                }
+                                Text(NSLocalizedString("field_media_link", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                                
+                                TextInputView(text: $viewModel.link, icon: "link.circle.fill", hint: NSLocalizedString("field_media_link_hint", comment: ""), keyboardType: .URL).padding(.bottom)
+                                
+                                Text(NSLocalizedString("field_media_media", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                                
+                                SelectionInputView(text: $viewModel.mediaName, icon: "network", hint: NSLocalizedString("field_media_media_hint", comment: ""), options: viewModel.medias, selectionHandler: { item in
+                                    viewModel.selectMedia(item: item)
+                                }).padding(.bottom)
                                 
                             }.padding()
                         }
@@ -44,7 +48,7 @@ struct SocialAddingView: View, KeyboardReadable {
                         RoundedRectangle(cornerRadius: 20.0).fill(Color.background)
                     }.padding(.top, -24)
                     
-                    if keyboardVisible {
+                    if isCollapsed {
                         KeyboardActionsView(clearHanlder: {
                             self.endEditing()
                         }, doneHanlder: {
@@ -73,7 +77,7 @@ struct SocialAddingView: View, KeyboardReadable {
                 viewModel.updateData(profile: profile)
             }.onReceive(keyboardPublisher) { newIsKeyboardVisible in
                 withAnimation {
-                    keyboardVisible = newIsKeyboardVisible
+                    isCollapsed = newIsKeyboardVisible
                 }
             }.onChange(of: viewModel.dismissed) {
                 dismiss()

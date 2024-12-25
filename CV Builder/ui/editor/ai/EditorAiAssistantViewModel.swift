@@ -21,6 +21,7 @@ class EditorAiAssistantViewModel: ObservableObject {
     
     @Published var paywallSheetShown = false
     @Published var limitSheetShown = false
+    @Published var noConnectionSheetShown = false
     
     @Published var waitErrorShown = false
     
@@ -38,16 +39,16 @@ class EditorAiAssistantViewModel: ObservableObject {
         let isUserPremium = Defaults.KEY_ACCOUNT_TYPE != 0
         
         if isUserPremium {
-            attemptsText = NSLocalizedString("attempts_left_today", comment: "").replacingOccurrences(of: "3", with: String(attempsLeft))
+            attemptsText = NSLocalizedString("attempts_assistant_left_today", comment: "").replacingOccurrences(of: "3", with: String(attempsLeft))
         } else {
-            attemptsText = NSLocalizedString("free_attempts_left", comment: "").replacingOccurrences(of: "3", with: String(attempsLeft))
+            attemptsText = NSLocalizedString("free_attempts_assistant_left", comment: "").replacingOccurrences(of: "3", with: String(attempsLeft))
         }
     }
     
     private func updateList () {
         var list: [AiAssistantAction] = []
         
-        list.append(AiAssistantAction(id: 0, header: NSLocalizedString("ai_proofread_header", comment: ""), description: NSLocalizedString("ai_proofread_description", comment: ""), icon: "sparkle.magnifyingglass", clickHandler: proofreadText))
+        list.append(AiAssistantAction(id: 0, header: NSLocalizedString("ai_proofread_header", comment: ""), description: NSLocalizedString("ai_proofread_description", comment: ""), icon: "text.viewfinder", clickHandler: proofreadText))
         list.append(AiAssistantAction(id: 1, header: NSLocalizedString("ai_optimize_header", comment: ""), description: NSLocalizedString("ai_optimize_description", comment: ""), icon: "briefcase.fill", clickHandler: optimizeText))
         list.append(AiAssistantAction(id: 2, header: NSLocalizedString("ai_translate_header", comment: ""), description: NSLocalizedString("ai_translate_description", comment: ""), icon: "globe", clickHandler: translateText))
         
@@ -58,6 +59,8 @@ class EditorAiAssistantViewModel: ObservableObject {
         if checkIsAiActionsAvailable() {
             if Reachability.isConnectedToNetwork() {
                 screen = 1
+            } else {
+                showConnectionSheet()
             }
         }
     }
@@ -66,6 +69,8 @@ class EditorAiAssistantViewModel: ObservableObject {
         if checkIsAiActionsAvailable() {
             if Reachability.isConnectedToNetwork() {
                 screen = 2
+            } else {
+                showConnectionSheet()
             }
         }
     }
@@ -74,6 +79,8 @@ class EditorAiAssistantViewModel: ObservableObject {
         if checkIsAiActionsAvailable() {
             if Reachability.isConnectedToNetwork() {
                 screen = 3
+            } else {
+                showConnectionSheet()
             }
         }
     }
@@ -91,6 +98,10 @@ class EditorAiAssistantViewModel: ObservableObject {
             }
             return false
         }
+    }
+    
+    func showConnectionSheet () {
+        noConnectionSheetShown = true
     }
     
     func showPaywallSheet () {
@@ -119,7 +130,8 @@ class EditorAiAssistantViewModel: ObservableObject {
         }
     }
     
-    func back() {
+    func back () {
+        print("Back, screen: " + String(screen) + ", isloading: " + String(isLoading))
         if screen == 0 {
             if let parentViewModel {
                 parentViewModel.updateState(state: 0)

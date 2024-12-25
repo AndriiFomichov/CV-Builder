@@ -31,7 +31,7 @@ struct BackgroundRemoverView: View {
                 
                 VStack (spacing: 0) {
                     
-                    TopBarView(header: .constant(NSLocalizedString("ai_background_remover", comment: "")), description: .constant(""), progress: .constant(0.0), isLoading: .constant(false), isCollapsed: .constant(false), lineIllustration: "small_line_one_illustration", illustration: "back_remover_illustration", maxHeight: 200)
+                    TopBarView(header: .constant(NSLocalizedString("ai_background_remover", comment: "")), description: .constant(""), isCollapsed: .constant(false), icon: "sparkle_colored_icon", isIconSystem: false, maxHeight: 180)
                 
                     VStack {
                         
@@ -43,13 +43,13 @@ struct BackgroundRemoverView: View {
                                     
                                     VStack {
                                         
-                                        Text(NSLocalizedString("before_you_begin", comment: "")).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).padding(.bottom, 8)
+                                        Text(NSLocalizedString("before_you_begin", comment: "")).font(.title2).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading)
                                         
-                                        PhotoTipView(tip: PhotoTip(header: NSLocalizedString("ai_back_remover_tip_one_header", comment: ""), description: NSLocalizedString("ai_back_remover_tip_one_description", comment: ""), imageOne: "profile_photo_two_illustration", imageTwo: "", orientation: 0))
+                                        PhotoTipView(tip: PhotoTip(header: NSLocalizedString("ai_back_remover_tip_one_header", comment: ""), description: NSLocalizedString("ai_back_remover_tip_one_description", comment: ""), imageOne: "profile_photo_two_illustration", imageTwo: "", orientation: 0, backgroundAlignment: .topLeading))
                                         
-                                        PhotoTipView(tip: PhotoTip(header: NSLocalizedString("ai_back_remover_tip_two_header", comment: ""), description: NSLocalizedString("ai_back_remover_tip_two_description", comment: ""), imageOne: "profile_photo_five_illustration", imageTwo: "", orientation: 0))
+                                        PhotoTipView(tip: PhotoTip(header: NSLocalizedString("ai_back_remover_tip_two_header", comment: ""), description: NSLocalizedString("ai_back_remover_tip_two_description", comment: ""), imageOne: "profile_photo_five_illustration", imageTwo: "", orientation: 0, backgroundAlignment: .topTrailing))
                                         
-                                        PhotoTipView(tip: PhotoTip(header: NSLocalizedString("ai_back_remover_tip_three_header", comment: ""), description: NSLocalizedString("ai_back_remover_tip_three_description", comment: ""), imageOne: "profile_photo_nine_illustration", imageTwo: "", orientation: 0))
+                                        PhotoTipView(tip: PhotoTip(header: NSLocalizedString("ai_back_remover_tip_three_header", comment: ""), description: NSLocalizedString("ai_back_remover_tip_three_description", comment: ""), imageOne: "profile_photo_nine_illustration", imageTwo: "", orientation: 0, backgroundAlignment: .bottomLeading))
                                         
                                     }.frame(maxWidth: .infinity, maxHeight: .infinity).padding()
                                     
@@ -90,8 +90,8 @@ struct BackgroundRemoverView: View {
                                         ProgressView().tint(Color.accent)
                                     }
                                     
-                                }.clipShape(RoundedRectangle(cornerRadius: 12.0)).padding(8).background {
-                                    RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                                }.clipShape(RoundedRectangle(cornerRadius: 16.0)).padding(8).background {
+                                    RoundedRectangle(cornerRadius: 20.0).fill(Color.window)
                                 }
                                 
                             }.frame(maxWidth: .infinity, maxHeight: .infinity).padding()
@@ -107,15 +107,9 @@ struct BackgroundRemoverView: View {
                                 }
                                 
                                 if btnCancelVisible {
-                                    Button (action: {
+                                    AdditionalButtonView(text: NSLocalizedString("keep_previous_version", comment: ""), clickHandler: {
                                         viewModel.close()
-                                    }) {
-                                        HStack {
-                                            Text(NSLocalizedString("keep_previous_version", comment: "")).font(.headline).bold().foregroundStyle(Color.textAdditional)
-                                        }.frame(maxWidth: .infinity).padding().background() {
-                                            RoundedRectangle(cornerRadius: 50.0).fill(Color.window)
-                                        }.padding(.horizontal).padding(.top, 4)
-                                    }
+                                    }).padding(.top, 4)
                                 }
                                 
                             }.padding(.bottom)
@@ -128,7 +122,7 @@ struct BackgroundRemoverView: View {
                 
             }.navigationDestination(isPresented: $viewModel.paywallPresented) {
                 
-                PaywallView(benefitsId: 8, source: "Background remover")
+                PaywallView(benefitsId: 3, source: "Background remover")
                 
             }.navigationBarTitleDisplayMode(.inline).toolbar {
                 

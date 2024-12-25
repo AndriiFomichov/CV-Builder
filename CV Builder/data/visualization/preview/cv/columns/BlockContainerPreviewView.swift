@@ -13,7 +13,7 @@ struct BlockContainerPreviewView<Content: View>: View {
     var marginsSize: Int
     
     var text: String
-    var font: String
+    var font: Int
     var textColor: String
     var gravity: Alignment
     var size: Int
@@ -79,5 +79,5 @@ struct BlockContainerPreviewView<Content: View>: View {
     }
 }
 #Preview {
-    BlockContainerPreviewView (isMainBlock: true, marginsSize: 12, text: "My text own", font: "Roboto Mono", textColor: "#000CA0", gravity: .leading, size: 14, isBold: true, isItalic: false, isUnderline: true, isUppercased: true, headerPosition: 0, headerDotAdded: false, headerLineAdded: false, dotColor: "", dotSize: 10, dotBackAdded: true, dotStrokeAdded: true, strokeWidth: 1, strokeColor: "#000CA0", linePosition: 0, lineColor: "#000CA0", lineCirclesAdded: false, lineCirclesColor: "#CF45CA", lienWidth: 2, cornersRadius: 12.0, blockBackgroundColor: "", blockStrokeColor: "", addBlockPadding: true, content: {  HStack{} })
+    BlockContainerPreviewView (isMainBlock: true, marginsSize: 12, text: "My text own", font: 0, textColor: "#000CA0", gravity: .leading, size: 14, isBold: true, isItalic: false, isUnderline: true, isUppercased: true, headerPosition: 0, headerDotAdded: false, headerLineAdded: false, dotColor: "", dotSize: 10, dotBackAdded: true, dotStrokeAdded: true, strokeWidth: 1, strokeColor: "#000CA0", linePosition: 0, lineColor: "#000CA0", lineCirclesAdded: false, lineCirclesColor: "#CF45CA", lienWidth: 2, cornersRadius: 12.0, blockBackgroundColor: "", blockStrokeColor: "", addBlockPadding: true, content: {  HStack{} })
 }

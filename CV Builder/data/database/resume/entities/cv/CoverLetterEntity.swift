@@ -17,13 +17,17 @@ class CoverLetterEntity {
     
     var textCoverLetter: String
     
-    init(text: String, textCoverLetter: String) {
+    var textSize: Int
+    
+    init(text: String, textCoverLetter: String, textSize: Int) {
         self.text = text
         self.textCoverLetter = textCoverLetter
+        self.textSize = textSize
     }
     
     init(entity: CoverLetterEntity) {
         self.text = entity.text
         self.textCoverLetter = entity.textCoverLetter
+        self.textSize = entity.textSize
     }
 }

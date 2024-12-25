@@ -14,9 +14,9 @@ struct ArrowExpandView: View {
     var body: some View {
         ZStack {
             
-            Image(systemName: "chevron.down").font(.subheadline).foregroundStyle(.textAdditional).rotationEffect(optionsShown ? Angle(degrees: 180) : Angle(degrees: 0))
+            Image(systemName: "chevron.down").font(.subheadline).foregroundStyle(.text).rotationEffect(optionsShown ? Angle(degrees: 180) : Angle(degrees: 0))
             
-        }.frame(width: 32, height: 32).background() {
+        }.frame(width: 28, height: 28).background() {
             Circle().fill(.windowTwo)
         }
     }

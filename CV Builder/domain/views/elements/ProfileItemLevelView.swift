@@ -9,37 +9,58 @@ import SwiftUI
 
 struct ProfileItemLevelView: View {
     
-    @Binding var level: Int
+    let level: Int
+    let options: [MenuItem]
     let changeHandler: (_ level: Int) -> Void
     
     var levels = 5
     
-    @State var levelState = -1
+    @State var isSelected = false
+    @State var icon = ""
+    @State var name = ""
+    @State var optionsShown = false
     
     var body: some View {
-        HStack {
-            Text(NSLocalizedString("level", comment: "")).font(.subheadline).foregroundStyle(.textAdditional)
-            
-            ForEach(0..<levels, id:\.self) { level in
-                Button (action: {
-                    self.level = level
-                    changeHandler(level)
-                }) {
-                    Circle().fill(level <= levelState ? Color.accentLight : Color.windowTwo).frame(width: 18, height: 18)
-                }
-            }
-            
-            Spacer()
-        }.onAppear() {
-            levelState = level
-        }.onChange(of: level) {
+        SelectionMenuView(currentText: $name, options: options, selectionHandler: { item in
+            changeHandler(item.id)
             withAnimation {
-                levelState = level
+                updateCurrentIcon(level: item.id)
             }
+        }) {
+            HStack {
+                HStack {
+                    
+                    if !icon.isEmpty {
+                        Image(systemName: icon).font(.subheadline).foregroundStyle(isSelected ? .accent : .text).contentTransition(.symbolEffect(.replace))
+                    }
+                    
+                    Text(name).font(.subheadline).foregroundStyle(isSelected ? .accent : .text)
+                    
+                    Image(systemName: "chevron.down").font(.subheadline).foregroundStyle(isSelected ? .accent : .text).rotationEffect(optionsShown ? Angle(degrees: 180) : Angle(degrees: 0))
+                    
+                }.padding(8).padding(.horizontal, 4).background() {
+                    RoundedRectangle(cornerRadius: 32.0).fill(Color.windowTwo)
+                }
+                Spacer()
+            }
+        }.onAppear() {
+            updateCurrentIcon(level: level)
+        }
+    }
+    
+    private func updateCurrentIcon (level: Int) {
+        if level >= 0 && level < options.count {
+            isSelected = true
+            name = options[level].name
+            icon = options[level].icon
+        } else {
+            isSelected = false
+            name = NSLocalizedString("select_level", comment: "")
+            icon = ""
         }
     }
 }
 
 #Preview {
-    ProfileItemLevelView(level: .constant(-1), changeHandler: { l in })
+    ProfileItemLevelView(level: -1, options: [ MenuItem.getDefault(), MenuItem.getDefault() ], changeHandler: { l in })
 }

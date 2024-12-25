@@ -24,16 +24,12 @@ struct EditorContentSelectionView: View {
                 
                 VStack (spacing: 0) {
                     
-                    TopBarView(header: .constant(NSLocalizedString("content_header", comment: "")), description: .constant(NSLocalizedString("content_description", comment: "")), progress: .constant(0.0), isLoading: .constant(false), isCollapsed: .constant(false), lineIllustration: "small_line_two_illustration", maxHeight: 150)
+                    TopBarView(header: .constant(NSLocalizedString("content_header", comment: "")), description: .constant(NSLocalizedString("content_description", comment: "")), isCollapsed: .constant(false), maxHeight: 150)
 
                     VStack {
                         
                         ScrollView (showsIndicators: false) {
                             LazyVStack {
-                                
-                                if let general = viewModel.generalItem {
-                                    ContentSelectionItemView(item: .constant(general), clickHandler: {}).padding(.bottom)
-                                }
                                 
                                 if viewModel.hasAdditionalBlock {
                                     Text(NSLocalizedString("main_block", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
@@ -83,6 +79,12 @@ struct EditorContentSelectionView: View {
                                             }))
                                         }
                                     }.padding(.bottom)
+                                }
+                                
+                                if let general = viewModel.generalItem {
+                                    Text(NSLocalizedString("general_block_fixed_header", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                                    
+                                    ContentSelectionItemView(item: .constant(general), clickHandler: {}).padding(.bottom)
                                 }
                                 
                             }.padding()

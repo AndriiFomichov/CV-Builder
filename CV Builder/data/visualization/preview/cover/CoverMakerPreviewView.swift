@@ -35,7 +35,7 @@ struct CoverMakerPreviewView: View {
                     VStack {}
                 }
                 
-            }.scaleEffect(pageHeight / height).frame(width: pageWidth, height: pageHeight).clipShape(RoundedRectangle(cornerRadius: 8.0)).borderLoadingAnimation(isAnimating: $loading, cornersRadius: 8.0).opacity(isLoading ? 0.6 : 1.0).frame(maxWidth: .infinity, maxHeight: .infinity)
+            }.scaleEffect(pageHeight / height).frame(width: pageWidth, height: pageHeight).clipShape(RoundedRectangle(cornerRadius: 16.0)).opacity(isLoading ? 0.6 : 1.0).borderLoadingAnimation(isAnimating: $loading, cornersRadius: 16.0).frame(maxWidth: .infinity, maxHeight: .infinity)
             
         }.onChange(of: isLoading) {
             withAnimation {

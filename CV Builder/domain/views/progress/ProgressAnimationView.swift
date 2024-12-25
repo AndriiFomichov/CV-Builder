@@ -14,6 +14,7 @@ struct ProgressAnimationView: View {
     let initialIcon: String
     var successIcon = "checkmark.seal.fill"
     var lineWidth: CGFloat = 6
+    var font: SwiftUI.Font = .title
     
     @State var animate = false
     @State var icon = ""
@@ -24,14 +25,14 @@ struct ProgressAnimationView: View {
             Circle()
                 .stroke(
                     LinearGradient(
-                        gradient: Gradient(colors: [ .accentLight, .accent ]),
+                        gradient: Gradient(colors: [ .accentLightest, .accent ]),
                         startPoint: UnitPoint(x: animate ? 0.5 : -1, y: animate ? 0.5 : -0.5),
                         endPoint: UnitPoint(x: animate ? 2 : 0.5, y: animate ? 1.5 : 0.5)
                     ),
                     lineWidth: lineWidth
                 )
             
-            Image(systemName: icon).font(.title).foregroundStyle(LinearGradient(colors: [ .accent, .accentLight ], startPoint: .bottomTrailing, endPoint: .topLeading)).contentTransition(.symbolEffect(.replace))
+            Image(systemName: icon).font(font).foregroundStyle(LinearGradient(colors: [ .accent, .accentLight ], startPoint: .bottomTrailing, endPoint: .topLeading)).contentTransition(.symbolEffect(.replace))
             
         }.onAppear() {
             icon = initialIcon

@@ -20,7 +20,6 @@ class EditorContentViewModel: ObservableObject {
     
     @Published var attemptsText = ""
     
-    @Published var profileSheetShown = false
     @Published var contentSheetShown = false
     @Published var paywallSheetShown = false
     @Published var limitSheetShown = false
@@ -39,9 +38,9 @@ class EditorContentViewModel: ObservableObject {
         let isUserPremium = Defaults.KEY_ACCOUNT_TYPE != 0
         
         if isUserPremium {
-            attemptsText = NSLocalizedString("attempts_left_today", comment: "").replacingOccurrences(of: "3", with: String(attempsLeft))
+            attemptsText = NSLocalizedString("attempts_text_left_today", comment: "").replacingOccurrences(of: "3", with: String(attempsLeft))
         } else {
-            attemptsText = NSLocalizedString("free_attempts_left", comment: "").replacingOccurrences(of: "3", with: String(attempsLeft))
+            attemptsText = NSLocalizedString("free_attempts_text_left", comment: "").replacingOccurrences(of: "3", with: String(attempsLeft))
         }
     }
     
@@ -239,16 +238,6 @@ class EditorContentViewModel: ObservableObject {
         if isChanged {
             updateLists()
             updatePreview()
-        }
-    }
-    
-    func startProfileEditing () {
-        profileSheetShown = true
-    }
-    
-    func handleProfileUpdated () {
-        if let parentViewModel {
-            parentViewModel.handleProfileUpdated()
         }
     }
     

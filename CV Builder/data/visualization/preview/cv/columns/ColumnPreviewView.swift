@@ -39,45 +39,82 @@ struct ColumnPreviewView: View {
             
             VStack (spacing: 0) {
                 
-                BlockViewGetter.getBlockByPosition(cv: cv, position: 0, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[0], blockStrokeColor: blockStrokeColors[0], addBlockPadding: addBlockPadding).readSize(onChange: { size in
-                    blockOneHeight = size.height
-                })
-                BlockViewGetter.getBlockByPosition(cv: cv, position: 1, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[1], blockStrokeColor: blockStrokeColors[1], addBlockPadding: addBlockPadding).readSize(onChange: { size in
-                    blockTwoHeight = size.height
-                })
-                BlockViewGetter.getBlockByPosition(cv: cv, position: 2, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[2], blockStrokeColor: blockStrokeColors[2], addBlockPadding: addBlockPadding).readSize(onChange: { size in
-                    blockThreeHeight = size.height
-                })
-                BlockViewGetter.getBlockByPosition(cv: cv, position: 3, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[3], blockStrokeColor: blockStrokeColors[3], addBlockPadding: addBlockPadding).readSize(onChange: { size in
-                    blockFourHeight = size.height
-                })
-                BlockViewGetter.getBlockByPosition(cv: cv, position: 4, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[4], blockStrokeColor: blockStrokeColors[4], addBlockPadding: addBlockPadding).readSize(onChange: { size in
-                    blockFiveHeight = size.height
-                })
-                BlockViewGetter.getBlockByPosition(cv: cv, position: 5, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[5], blockStrokeColor: blockStrokeColors[5], addBlockPadding: addBlockPadding).readSize(onChange: { size in
-                    blockSixHeight = size.height
-                })
-                BlockViewGetter.getBlockByPosition(cv: cv, position: 6, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[6], blockStrokeColor: blockStrokeColors[6], addBlockPadding: addBlockPadding).readSize(onChange: { size in
-                    blockSevenHeight = size.height
-                })
-                BlockViewGetter.getBlockByPosition(cv: cv, position: 7, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[7], blockStrokeColor: blockStrokeColors[7], addBlockPadding: addBlockPadding).readSize(onChange: { size in
-                    blockEightHeight = size.height
-                })
-                BlockViewGetter.getBlockByPosition(cv: cv, position: 8, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[8], blockStrokeColor: blockStrokeColors[8], addBlockPadding: addBlockPadding).readSize(onChange: { size in
-                    blockNineHeight = size.height
-                })
-                BlockViewGetter.getBlockByPosition(cv: cv, position: 9, page: page, isMainBlock: true, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[9], blockStrokeColor: blockStrokeColors[9], addBlockPadding: addBlockPadding).readSize(onChange: { size in
-                    blockTenHeight = size.height
-                })
-                BlockViewGetter.getBlockByPosition(cv: cv, position: 10, page: page, isMainBlock: true, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[10], blockStrokeColor: blockStrokeColors[10], addBlockPadding: addBlockPadding).readSize(onChange: { size in
-                    blockElevenHeight = size.height
-                })
+                ForEach(0..<11, id: \.self) { index in
+                    BlockViewGetter.getBlockByPosition(cv: cv, position: index, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: index, page: page, isMainBlock: isMainBlock)], blockStrokeColor: blockStrokeColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: index, page: page, isMainBlock: isMainBlock)], addBlockPadding: addBlockPadding).readSize(onChange: { size in
+                        updateHeight(position: index, height: size.height)
+                    })
+                }
                 
-                Spacer()
+//                BlockViewGetter.getBlockByPosition(cv: cv, position: 0, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 0, page: page, isMainBlock: isMainBlock)], blockStrokeColor: blockStrokeColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 0, page: page, isMainBlock: isMainBlock)], addBlockPadding: addBlockPadding).readSize(onChange: { size in
+//                    blockOneHeight = size.height
+//                })
+//                BlockViewGetter.getBlockByPosition(cv: cv, position: 1, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 1, page: page, isMainBlock: isMainBlock)], blockStrokeColor: blockStrokeColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 1, page: page, isMainBlock: isMainBlock)], addBlockPadding: addBlockPadding).readSize(onChange: { size in
+//                    blockTwoHeight = size.height
+//                })
+//                BlockViewGetter.getBlockByPosition(cv: cv, position: 2, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 2, page: page, isMainBlock: isMainBlock)], blockStrokeColor: blockStrokeColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 2, page: page, isMainBlock: isMainBlock)], addBlockPadding: addBlockPadding).readSize(onChange: { size in
+//                    blockThreeHeight = size.height
+//                })
+//                BlockViewGetter.getBlockByPosition(cv: cv, position: 3, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 3, page: page, isMainBlock: isMainBlock)], blockStrokeColor: blockStrokeColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 3, page: page, isMainBlock: isMainBlock)], addBlockPadding: addBlockPadding).readSize(onChange: { size in
+//                    blockFourHeight = size.height
+//                })
+//                BlockViewGetter.getBlockByPosition(cv: cv, position: 4, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 4, page: page, isMainBlock: isMainBlock)], blockStrokeColor: blockStrokeColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 4, page: page, isMainBlock: isMainBlock)], addBlockPadding: addBlockPadding).readSize(onChange: { size in
+//                    blockFiveHeight = size.height
+//                })
+//                BlockViewGetter.getBlockByPosition(cv: cv, position: 5, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 5, page: page, isMainBlock: isMainBlock)], blockStrokeColor: blockStrokeColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 5, page: page, isMainBlock: isMainBlock)], addBlockPadding: addBlockPadding).readSize(onChange: { size in
+//                    blockSixHeight = size.height
+//                })
+//                BlockViewGetter.getBlockByPosition(cv: cv, position: 6, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 6, page: page, isMainBlock: isMainBlock)], blockStrokeColor: blockStrokeColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 6, page: page, isMainBlock: isMainBlock)], addBlockPadding: addBlockPadding).readSize(onChange: { size in
+//                    blockSevenHeight = size.height
+//                })
+//                BlockViewGetter.getBlockByPosition(cv: cv, position: 7, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 7, page: page, isMainBlock: isMainBlock)], blockStrokeColor: blockStrokeColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 7, page: page, isMainBlock: isMainBlock)], addBlockPadding: addBlockPadding).readSize(onChange: { size in
+//                    blockEightHeight = size.height
+//                })
+//                BlockViewGetter.getBlockByPosition(cv: cv, position: 8, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 8, page: page, isMainBlock: isMainBlock)], blockStrokeColor: blockStrokeColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 8, page: page, isMainBlock: isMainBlock)], addBlockPadding: addBlockPadding).readSize(onChange: { size in
+//                    blockNineHeight = size.height
+//                })
+//                BlockViewGetter.getBlockByPosition(cv: cv, position: 9, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 9, page: page, isMainBlock: isMainBlock)], blockStrokeColor: blockStrokeColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 9, page: page, isMainBlock: isMainBlock)], addBlockPadding: addBlockPadding).readSize(onChange: { size in
+//                    blockTenHeight = size.height
+//                })
+//                BlockViewGetter.getBlockByPosition(cv: cv, position: 10, page: page, isMainBlock: isMainBlock, headerTextColor: headerTextColor, mainTextColor: mainTextColor, blockBackgroundColor: blockBackgroundColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 10, page: page, isMainBlock: isMainBlock)], blockStrokeColor: blockStrokeColors[BlockViewGetter.getBackgroundIndexByPosition(cv: cv, position: 10, page: page, isMainBlock: isMainBlock)], addBlockPadding: addBlockPadding).readSize(onChange: { size in
+//                    blockElevenHeight = size.height
+//                })
                 
-            }.frame(maxHeight: .infinity).onAppear() {
-                columnHeight = geo.size.height
+//                Spacer()
+                
+            }.onAppear() {
+                if page == 0 || page == 1 {
+                    columnHeight = geo.size.height
+                }
             }
+        }
+    }
+    
+    private func updateHeight (position: Int, height: CGFloat) {
+        switch position {
+        case 0:
+            blockOneHeight = height
+        case 1:
+            blockTwoHeight = height
+        case 2:
+            blockThreeHeight = height
+        case 3:
+            blockFourHeight = height
+        case 4:
+            blockFiveHeight = height
+        case 5:
+            blockSixHeight = height
+        case 6:
+            blockSevenHeight = height
+        case 7:
+            blockEightHeight = height
+        case 8:
+            blockNineHeight = height
+        case 9:
+            blockTenHeight = height
+        case 10:
+            blockElevenHeight = height
+        default:
+            break
         }
     }
 }

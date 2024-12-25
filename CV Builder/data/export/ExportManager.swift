@@ -21,7 +21,7 @@ class ExportManager {
             renderer.content = CVMakerExportView(cv: CVEntityWrapper(), page: 0)
             return image
         }
-        if let image = image {
+        if let image {
             return await image.resizeAsync(height: getExportSizeParams(size: size).height)
         } else {
             return image
@@ -73,10 +73,12 @@ class ExportManager {
     
     func getExportSizeParams (size: Int) -> CGSize {
         switch size {
-//        case 0:
-//            return CGSize(width: 294.945, height: 417.13)
-//        case 1:
-//            return CGSize(width: 421.35, height: 595.90)
+        case -1:
+            return CGSize(width: 125.0, height: 143.03296)
+        case 0:
+            return CGSize(width: 294.945, height: 417.13)
+        case 1:
+            return CGSize(width: 421.35, height: 595.90)
         default:
             return CGSize(width: 421.35, height: 595.90)
         }

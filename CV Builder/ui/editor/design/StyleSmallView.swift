@@ -13,37 +13,27 @@ struct StyleSmallView: View {
     var clickHandler: () -> Void
     
     @State var isSelected = false
-    @State private var scale: CGFloat = 1.0
 
     var body: some View {
-        VStack (spacing: 0) {
+        Button (action: clickHandler) {
             
-            ZStack {
-                RoundedRectangle(cornerRadius: 12.0).foregroundStyle(Color.windowTwo.shadow(.inner(color: .text.opacity(0.08), radius: 16, x: 1, y: 1)))
+            VStack (spacing: 0) {
                 
-                Image("style_preview_" + String(style.id)).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 8.0)).scaleEffect(scale).aspectRatio(0.707070707, contentMode: .fit).padding()
+                Image("style_preview_" + String(style.id)).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 16.0)).aspectRatio(0.707070707, contentMode: .fit).padding(8)
                 
-            }.padding(8)
+            }.background() {
+                RoundedRectangle(cornerRadius: 20.0).fill(Color.window)
+            }.overlay {
+                RoundedRectangle(cornerRadius: 20.0).fill(.clear).stroke(isSelected ? Color.accent : Color.clear, style: StrokeStyle(lineWidth: 2))
+            }.scaleEffect(isSelected ? 1.02 : 1.0)
             
-        }.background() {
-            RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
-        }.overlay {
-            RoundedRectangle(cornerRadius: 16.0).fill(.clear).stroke(isSelected ? Color.accent : Color.clear, style: StrokeStyle(lineWidth: 3))
-        }.onTapGesture {
-            clickHandler()
         }.onAppear() {
             withAnimation {
-                self.isSelected = style.isSelected
-            }
-            withAnimation(.spring(response: 0.5, dampingFraction: 0.3, blendDuration: 0.5)) {
-                scale = style.isSelected ? 1.1 : 1.0
+                isSelected = style.isSelected
             }
         }.onChange(of: style.isSelected) {
             withAnimation {
-                self.isSelected = style.isSelected
-            }
-            withAnimation(.spring(response: 0.5, dampingFraction: 0.3, blendDuration: 0.5)) {
-                scale = style.isSelected ? 1.1 : 1.0
+                isSelected = style.isSelected
             }
         }.padding(2)
     }
@@ -51,5 +41,7 @@ struct StyleSmallView: View {
 
 #Preview {
     @Previewable @State var style = PreloadedDatabase.getStyleId(id: 1)
-    StyleSmallView(style: $style, clickHandler: {})
+    StyleSmallView(style: $style, clickHandler: {
+        style.isSelected.toggle()
+    })
 }

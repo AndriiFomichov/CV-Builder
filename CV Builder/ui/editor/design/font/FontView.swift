@@ -28,21 +28,21 @@ struct FontView: View {
                         
                         Text(String(NSLocalizedString(font.name, comment: "").first!)).font(SwiftUI.Font.custom(NSLocalizedString(font.name, comment: ""), size: 64)).foregroundStyle(Color.window).frame(alignment: .center).multilineTextAlignment(.center)
                         
-                        Text(NSLocalizedString(font.name, comment: "")).font(SwiftUI.Font.custom(NSLocalizedString(font.name, comment: ""), size: 20)).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center)
+                        Text(NSLocalizedString(font.name, comment: "")).font(SwiftUI.Font.custom(NSLocalizedString(font.name, comment: ""), size: 20)).foregroundStyle(isSelected ? Color.accent : Color.text).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center)
                         
-                    }.padding(8).opacity(isSelected ? 1.0 : 0.8)
+                    }.padding(8).opacity(isSelected ? 1.0 : 0.9).scaleEffect(isSelected ? 1.04 : 1.0)
                     
                 }
                 
-            }.clipShape(RoundedRectangle(cornerRadius: 12.0)).padding(8).background {
+            }.clipShape(RoundedRectangle(cornerRadius: 16.0)).padding(8).background {
                 
-                RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                RoundedRectangle(cornerRadius: 20.0).fill(Color.window)
                 
             }.overlay {
                 
-                RoundedRectangle(cornerRadius: 16.0).stroke(isSelected ? Color.accent : Color.clear, style: StrokeStyle(lineWidth: 2))
+                RoundedRectangle(cornerRadius: 20.0).stroke(isSelected ? Color.accent : Color.clear, style: StrokeStyle(lineWidth: 2))
                 
-            }.aspectRatio(1.0, contentMode: .fit).padding(2)
+            }.aspectRatio(1.0, contentMode: .fit).scaleEffect(isSelected ? 1.02 : 1.0).padding(2)
             
         }.onAppear() {
             withAnimation {

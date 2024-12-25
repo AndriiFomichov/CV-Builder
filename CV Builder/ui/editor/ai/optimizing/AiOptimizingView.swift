@@ -15,22 +15,21 @@ struct AiOptimizingView: View {
     @State var header = ""
     @State var showLoading = false
     
+    var namespaceAnimation: Namespace.ID
+    
     var body: some View {
-        ZStack (alignment: .bottom) {
-            Color.background.ignoresSafeArea()
+        VStack (spacing: 0) {
             
-            VStack (spacing: 0) {
-                
-                if showLoading {
-                    AiLoadingView(isLoading: $viewModel.isLoading, header: $header, description: .constant(NSLocalizedString("couple_minutes_save_hours", comment: "")), icon: $viewModel.icon)
-                } else {
-                    AiOptimizingTargetView(targetJob: $viewModel.targetJob, targetCompany: $viewModel.targetCompany, btnMainSelected: $viewModel.btnMainSelected, errorAlertShown: $viewModel.errorAlertShown, mainClickHandler: {
-                        viewModel.optimize()
-                    }, textChangeHandler: {
-                        viewModel.updateBtnMain()
-                    })
-                }
+            if showLoading {
+                AiLoadingView(isLoading: $viewModel.isLoading, header: $header, description: .constant(NSLocalizedString("couple_minutes_save_hours", comment: "")), icon: $viewModel.icon, namespaceAnimation: namespaceAnimation)
+            } else {
+                AiOptimizingTargetView(targetJob: $viewModel.targetJob, targetCompany: $viewModel.targetCompany, targetDescription: $viewModel.targetDescription, btnMainSelected: $viewModel.btnMainSelected, errorAlertShown: $viewModel.errorAlertShown, mainClickHandler: {
+                    viewModel.optimize()
+                }, textChangeHandler: {
+                    viewModel.updateBtnMain()
+                }, namespaceAnimation: namespaceAnimation)
             }
+            
         }.onAppear() {
             viewModel.updateData(parentViewModel: parentViewModel)
         }.onChange(of: viewModel.loadingShown) {
@@ -47,5 +46,6 @@ struct AiOptimizingView: View {
 }
 
 #Preview {
-    AiOptimizingView().environmentObject(EditorAiAssistantViewModel())
+    @Previewable @Namespace var namespace
+    AiOptimizingView(namespaceAnimation: namespace).environmentObject(EditorAiAssistantViewModel())
 }

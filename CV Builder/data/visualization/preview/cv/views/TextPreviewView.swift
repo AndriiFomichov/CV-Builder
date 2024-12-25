@@ -10,7 +10,7 @@ import SwiftUI
 struct TextPreviewView: View {
     
     var text: String
-    var font: String
+    var font: Int
     var color: String
     var gravity: Alignment
     var size: Int
@@ -22,9 +22,9 @@ struct TextPreviewView: View {
     
     var body: some View {
         if isInfinite {
-            Text(getTextUppercased(text: text)).font(SwiftUI.Font.custom(NSLocalizedString(font, comment: ""), size: CGFloat(size))).frame(maxWidth: .infinity, alignment: gravity).multilineTextAlignment(getTextAlignment(gravity: gravity)).foregroundStyle(Color(hex: color)).bold(isBold).italic(isItalic).underline(isUnderline).fixedSize(horizontal: false, vertical: true)
+            Text(getTextUppercased(text: text)).font(SwiftUI.Font.custom(NSLocalizedString(getFontByStyle(font), comment: ""), size: CGFloat(size))).frame(maxWidth: .infinity, alignment: gravity).multilineTextAlignment(getTextAlignment(gravity: gravity)).foregroundStyle(Color(hex: color)).bold(isBold).italic(isItalic).underline(isUnderline).fixedSize(horizontal: false, vertical: true)
         } else {
-            Text(getTextUppercased(text: text)).font(SwiftUI.Font.custom(NSLocalizedString(font, comment: ""), size: CGFloat(size))).frame(alignment: gravity).multilineTextAlignment(getTextAlignment(gravity: gravity)).foregroundStyle(Color(hex: color)).bold(isBold).italic(isItalic).underline(isUnderline).fixedSize(horizontal: false, vertical: true)
+            Text(getTextUppercased(text: text)).font(SwiftUI.Font.custom(NSLocalizedString(getFontByStyle(font), comment: ""), size: CGFloat(size))).frame(alignment: gravity).multilineTextAlignment(getTextAlignment(gravity: gravity)).foregroundStyle(Color(hex: color)).bold(isBold).italic(isItalic).underline(isUnderline).fixedSize(horizontal: false, vertical: true)
         }
     }
     
@@ -53,8 +53,12 @@ struct TextPreviewView: View {
         let font = UIFont.systemFont(ofSize: size)
         return font.capHeight
     }
+    
+    private func getFontByStyle (_ id: Int) -> String {
+        return PreloadedDatabase.getFontId(id: id).name
+    }
 }
 
 #Preview {
-    TextPreviewView(text: "My text own", font: "Roboto Mono", color: "#000CA0", gravity: .leading, size: 14, isBold: true, isItalic: false, isUnderline: true, isUppercased: true)
+    TextPreviewView(text: "My text own", font: 0, color: "#000CA0", gravity: .leading, size: 14, isBold: true, isItalic: false, isUnderline: true, isUppercased: true)
 }

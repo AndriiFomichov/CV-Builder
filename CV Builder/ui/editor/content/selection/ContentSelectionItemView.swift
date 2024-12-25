@@ -23,7 +23,7 @@ struct ContentSelectionItemView: View {
                     Image(systemName: item.icon).font(.headline).foregroundStyle(isSelected ? .accent : .textAdditional)
                     
                 }.frame(width: 42, height: 42).background() {
-                    RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo).stroke(isSelected ? .accent : .clear, style: StrokeStyle(lineWidth: 2))
+                    RoundedRectangle(cornerRadius: 24.0).fill(.windowTwo)
                 }.padding(8)
                 
                 VStack {
@@ -32,11 +32,11 @@ struct ContentSelectionItemView: View {
 
                 }.padding(.vertical, 8)
                 
-                SelectedIndicatorView(isSelected: $isSelected).padding(8)
+                Image(systemName: isSelected ? "checkmark.seal.fill" : "circle").font(.title2).foregroundStyle(LinearGradient(colors: isSelected ? [ .accentLight, .accent ] : [ .textAdditional ], startPoint: .topLeading, endPoint: .bottomTrailing)).contentTransition(.symbolEffect(.replace)).padding(8)
                 
             }.frame(maxWidth: .infinity).background() {
                 
-                RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                RoundedRectangle(cornerRadius: 32.0).fill(Color.window)
                 
             }
         }.onAppear() {
@@ -47,7 +47,7 @@ struct ContentSelectionItemView: View {
             withAnimation {
                 isSelected = item.isAdded
             }
-        }.contentShape(.dragPreview, RoundedRectangle(cornerRadius: 16.0, style: .continuous))
+        }.contentShape(.dragPreview, RoundedRectangle(cornerRadius: 32.0, style: .continuous))
     }
 }
 

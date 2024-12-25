@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import MonthYearWheelPicker
 
 struct MonthYearWheelRepresentable: View {
     
@@ -29,7 +28,10 @@ struct MonthYearWheelRepresentable: View {
         self.maximumDate = maximumDate
         self._selectedMonth = selectedMonth
         self._selectedYear = selectedYear
-        self.months = Calendar.current.monthSymbols.map { $0.capitalized }
+        self.months = []
+        for i in 0..<12 {
+            months.append(NSLocalizedString("month_f_" + String(i), comment: ""))
+        }
         self.years = availableYears
     }
     

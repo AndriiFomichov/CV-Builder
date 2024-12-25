@@ -13,7 +13,7 @@ class AiProofreadingViewModel: ObservableObject {
     
     var cv: CVEntity?
     
-    @Published var icon = "sparkle.magnifyingglass"
+    @Published var icon = "text.viewfinder"
     @Published var header = NSLocalizedString("ai_proofreading", comment: "")
     @Published var isLoading = true
     @Published var resultShown = false

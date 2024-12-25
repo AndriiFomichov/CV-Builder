@@ -25,7 +25,7 @@ struct ReferenceAddingView: View, KeyboardReadable {
                 
                 VStack (spacing: 0) {
                     
-                    TopBarView(header: .constant(NSLocalizedString("reference", comment: "")), description: .constant(""), progress: .constant(0.0), isLoading: .constant(false), isCollapsed: $isCollapsed, lineIllustration: "small_line_one_illustration", illustration: "work_illustration", maxHeight: 200)
+                    TopBarView(header: .constant(NSLocalizedString("reference", comment: "")), description: .constant(""), isCollapsed: $isCollapsed, icon: "star.bubble.fill", iconPlusAdded: true, maxHeight: 180)
 
                     VStack {
                         
@@ -35,7 +35,7 @@ struct ReferenceAddingView: View, KeyboardReadable {
                                 
                                 Text(NSLocalizedString("field_name", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                                 
-                                TextInputView(text: $viewModel.name, icon: "person.crop.circle", hint: NSLocalizedString("field_name_hint", comment: "")).padding(.bottom)
+                                TextInputView(text: $viewModel.name, icon: "person.crop.circle", hint: NSLocalizedString("field_name_hint", comment: ""), keyboardType: .namePhonePad).padding(.bottom)
                                 
                                 Text(NSLocalizedString("field_company_name", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                                 
@@ -43,11 +43,11 @@ struct ReferenceAddingView: View, KeyboardReadable {
                                 
                                 Text(NSLocalizedString("field_email", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                                 
-                                TextInputView(text: $viewModel.email, icon: "envelope.fill", hint: NSLocalizedString("field_email_hint", comment: "")).padding(.bottom)
+                                TextInputView(text: $viewModel.email, icon: "envelope.fill", hint: NSLocalizedString("field_email_hint", comment: ""), keyboardType: .emailAddress).padding(.bottom)
                                 
                                 Text(NSLocalizedString("field_phone_number", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                                 
-                                TextInputView(text: $viewModel.phone, icon: "phone.fill", hint: NSLocalizedString("field_phone_number_hint", comment: "")).padding(.bottom)
+                                TextInputView(text: $viewModel.phone, icon: "phone.fill", hint: NSLocalizedString("field_phone_number_hint", comment: ""), keyboardType: .phonePad).padding(.bottom)
                                 
                             }.padding()
                             

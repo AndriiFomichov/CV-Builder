@@ -15,10 +15,11 @@ class AiOptimizingViewModel: ObservableObject {
     
     @Published var targetJob = ""
     @Published var targetCompany = ""
+    @Published var targetDescription = ""
     @Published var btnMainSelected = false
     @Published var icon = "briefcase.fill"
     @Published var header = NSLocalizedString("ai_optimizing", comment: "")
-    @Published var isLoading = true
+    @Published var isLoading = false
     @Published var loadingShown = false
     
     @Published var errorAlertShown = false
@@ -32,7 +33,7 @@ class AiOptimizingViewModel: ObservableObject {
     }
     
     func updateBtnMain () {
-        btnMainSelected = !targetJob.isEmpty || !targetCompany.isEmpty
+        btnMainSelected = !targetJob.isEmpty || !targetCompany.isEmpty || !targetDescription.isEmpty
     }
     
     func optimize () {
@@ -53,6 +54,8 @@ class AiOptimizingViewModel: ObservableObject {
             isLoading = true
             updateParentIsLoading()
             
+            cv.tagretJob = targetJob
+            cv.tagretCompany = targetCompany
             await manager.optimizeCv(cv: cv, targetJob: targetJob, targetCompany: targetJob)
             
             header = NSLocalizedString("complete", comment: "")

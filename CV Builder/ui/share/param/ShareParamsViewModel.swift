@@ -13,6 +13,7 @@ class ShareParamsViewModel: ObservableObject {
     var quality = 0
     
     @Published var name = ""
+    @Published var format = Format.getDefault()
     @Published var qualityParams: [Quality] = []
     
     @Published var btnBadgeVisible = false
@@ -31,6 +32,7 @@ class ShareParamsViewModel: ObservableObject {
         self.parentViewModel = parentViewModel
         updateAccount()
         getData()
+        updateFormat()
         updateQuality()
         updateMainButton()
         AnalyticsManager.saveEvent(event: Events.SHARE_PARAMS_OPENED)
@@ -60,6 +62,15 @@ class ShareParamsViewModel: ObservableObject {
         if let parentViewModel {
             name = parentViewModel.name
             quality = parentViewModel.quality
+        }
+    }
+    
+    private func updateFormat () {
+        if let parentViewModel {
+            let list = PreloadedDatabase.getFormatsList()
+            if parentViewModel.format != -1 && parentViewModel.format < list.count {
+                format = list[parentViewModel.format]
+            }
         }
     }
     

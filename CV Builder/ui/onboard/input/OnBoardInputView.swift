@@ -29,7 +29,7 @@ struct OnBoardInputView: View, KeyboardReadable {
             
             VStack (spacing: 0) {
                 
-                TopBarView(header: $viewModel.header, description: $viewModel.description, progress: $viewModel.progress, isLoading: .constant(false), isCollapsed: $isCollapsed, lineIllustration: "small_line_four_illustration", progressShown: true)
+                TopBarView(header: $viewModel.header, description: $viewModel.description, isCollapsed: $isCollapsed)
 
                 VStack {
                     

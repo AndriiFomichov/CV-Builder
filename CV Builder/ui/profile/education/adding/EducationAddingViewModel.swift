@@ -7,6 +7,8 @@
 
 import Foundation
 import UIKit
+import PhotosUI
+import _PhotosUI_SwiftUI
 
 class EducationAddingViewModel: ObservableObject {
     
@@ -30,6 +32,7 @@ class EducationAddingViewModel: ObservableObject {
     @Published var deleteVisible = false
     @Published var btnMainText = ""
     
+    @Published var datePickerSheetShown = false
     @Published var deleteAlertShown = false
     
     @Published var dismissed = false
@@ -54,9 +57,9 @@ class EducationAddingViewModel: ObservableObject {
             isStillLearning = entity.isStillLearning
             
             if logoId != -1 {
-//                Task {
-//                    await loadLogo()
-//                }
+                Task {
+                    await loadLogo()
+                }
             }
             
             deleteVisible = true
@@ -67,10 +70,34 @@ class EducationAddingViewModel: ObservableObject {
         }
     }
     
-//    @MainActor
-//    private func loadLogo () async {
-//        
-//    }
+    @MainActor
+    private func loadLogo () async {
+        if logoId != -1, let image = DatabaseBox.getImage(id: logoId), let data = image.image, let uiImage = UIImage(data: data) {
+            logo = await uiImage.resizeAsync(height: 150)
+        }
+    }
+    
+    func handleImageSelection (selectedPhotos: [PhotosPickerItem]) {
+        Task {
+            await performImageSaving(selectedPhotos: selectedPhotos)
+        }
+    }
+    
+    @MainActor
+    private func performImageSaving (selectedPhotos: [PhotosPickerItem]) async {
+        if !selectedPhotos.isEmpty && selectedPhotos.count >= 1 {
+            let photo = selectedPhotos[0]
+
+            if let imageData = try? await photo.loadTransferable(type: Data.self) {
+                
+                profileManager.deleteImage(id: logoId)
+                
+                logoId = await profileManager.savePhoto(image: imageData)
+                
+                await loadLogo()
+            }
+        }
+    }
     
     func saveDate (dateType: Int, date: Date?) {
         if dateType == 0 {
@@ -89,6 +116,10 @@ class EducationAddingViewModel: ObservableObject {
             }
         }
         dismissed = true
+    }
+    
+    func showDatePicker () {
+        datePickerSheetShown = true
     }
     
     func delete () {

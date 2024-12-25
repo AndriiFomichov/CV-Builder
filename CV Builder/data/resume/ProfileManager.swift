@@ -465,6 +465,26 @@ class ProfileManager {
         return DatabaseBox.getProfile()
     }
     
+    func getIfProfileMainFilled (profile: ProfileEntity) -> Bool {
+        var generalFilled = !profile.name.isEmpty && !profile.jobTitle.isEmpty
+        
+        var educationFilled = true
+        if let educationsList = profile.educationsList {
+            educationFilled = educationsList.count > 0
+        } else {
+            educationFilled = false
+        }
+        
+        var workFilled = true
+        if let worksList = profile.worksList {
+            workFilled = worksList.count > 0
+        } else {
+            workFilled = false
+        }
+        
+        return generalFilled && educationFilled && workFilled
+    }
+    
     func getProfileFillPercent (profile: ProfileEntity) -> CGFloat {
         let generalStatus = getGeneralInfoCategoryStatus(profile: profile)
         let contactStatus = getContactCategoryStatus(profile: profile)

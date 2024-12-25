@@ -13,40 +13,53 @@ class LanguageAddingViewModel: ObservableObject {
     
     var profile: ProfileEntity?
     
+    var selectedLangLevel = -1
+    
     @Published var text = ""
-    @Published var list: [Language] = []
+    @Published var levelName = ""
+    
+    @Published var languageOptions: [MenuItem] = []
+    @Published var levelOptions: [MenuItem] = []
     
     @Published var dismissed = false
     
     func updateData (profile: ProfileEntity?) {
         self.profile = profile
         updateLanguagesList()
+        updateLevelsList()
     }
     
     private func updateLanguagesList () {
-        list = PreloadedDatabase.getLanguages()
+        var list: [MenuItem] = []
+        let langs = PreloadedDatabase.getLanguages()
+        for lang in langs {
+            list.append(MenuItem(id: lang.langId, name: lang.name))
+        }
+        languageOptions = list
     }
     
-    func selectLanguage (index: Int) {
-        let lang = list[index]
-        lang.isSelected.toggle()
-        list[index] = lang
+    private func updateLevelsList () {
+        levelOptions = PreloadedDatabase.getLanguageLevelsOptions()
+    }
+    
+    func selectLevel (item: MenuItem) {
+        selectedLangLevel = item.id
+        levelName = item.name
     }
     
     func save () {
         if let profile {
             if !text.isEmpty {
-                let langs = text.components(separatedBy: ", ")
-                if langs.count > 0 {
-                    for lang in langs {
-                        profileManager.saveLanguage(profile: profile, langId: -1, name: lang, level: -1)
+                var langId = -1
+                
+                for lang in languageOptions {
+                    if lang.name == text {
+                        langId = lang.id
                     }
+                    
                 }
-            }
-            for lang in list {
-                if lang.isSelected {
-                    profileManager.saveLanguage(profile: profile, langId: lang.langId, name: lang.name, level: -1)
-                }
+                
+                profileManager.saveLanguage(profile: profile, langId: langId, name: text, level: selectedLangLevel)
             }
         }
         dismissed = true

@@ -14,7 +14,7 @@ struct InterestsAddingView: View, KeyboardReadable {
     @Environment(\.dismiss) var dismiss
     @StateObject var viewModel = InterestsAddingViewModel()
     
-    @State var keyboardVisible = false
+    @State var isCollapsed = false
     
     var body: some View {
         NavigationStack {
@@ -23,7 +23,7 @@ struct InterestsAddingView: View, KeyboardReadable {
                 
                 VStack (spacing: 0) {
                     
-                    EditableTopBarView(header: .constant(NSLocalizedString("interests_adding_header", comment: "")), description: .constant(NSLocalizedString("interests_adding_description", comment: "")), text: $viewModel.text, icon: "heart.circle", hint: NSLocalizedString("interests_adding_hint", comment: ""), lineIllustration: "small_line_one_illustration", maxHeight: 200)
+                    TopBarView(header: .constant(NSLocalizedString("interests_adding_header", comment: "")), description: .constant(""), isCollapsed: $isCollapsed, icon: "gamecontroller.fill", iconPlusAdded: true, maxHeight: 180)
 
                     VStack {
                         
@@ -103,6 +103,10 @@ struct InterestsAddingView: View, KeyboardReadable {
                                     }.padding(.horizontal)
                                 }.padding(.bottom)
                                 
+                                Text(NSLocalizedString("field_interest_name", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.horizontal)
+                                
+                                TextInputView(text: $viewModel.text, icon: "gamecontroller.fill", hint: NSLocalizedString("field_interest_name_hint", comment: "")).padding(.horizontal).padding(.bottom)
+                                
                             }.padding(.vertical)
                         }
                         
@@ -110,7 +114,7 @@ struct InterestsAddingView: View, KeyboardReadable {
                         RoundedRectangle(cornerRadius: 20.0).fill(Color.background)
                     }.padding(.top, -24)
                     
-                    if keyboardVisible {
+                    if isCollapsed {
                         KeyboardActionsView(clearHanlder: {
                             self.endEditing()
                         }, doneHanlder: {
@@ -139,7 +143,7 @@ struct InterestsAddingView: View, KeyboardReadable {
                 viewModel.updateData(profile: profile)
             }.onReceive(keyboardPublisher) { newIsKeyboardVisible in
                 withAnimation {
-                    keyboardVisible = newIsKeyboardVisible
+                    isCollapsed = newIsKeyboardVisible
                 }
             }.onChange(of: viewModel.dismissed) {
                 dismiss()

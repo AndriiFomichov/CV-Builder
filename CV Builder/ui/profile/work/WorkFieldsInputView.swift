@@ -22,13 +22,13 @@ struct WorkFieldsInputView: View {
     var body: some View {
         VStack {
             
-            ActionButtonView(icon: "plus", text: NSLocalizedString("add_work_experience", comment: ""), clickHandler: {
-                
-                addingClickHandler(nil)
-                
-            }, addArrow: true).padding(.bottom, 8)
-            
             if list.count > 0 {
+                
+                ActionButtonView(icon: "plus", text: NSLocalizedString("add_work_experience", comment: ""), clickHandler: {
+                    
+                    addingClickHandler(nil)
+                    
+                }, addArrow: true).padding(.bottom, 8)
                 
                 ScrollView (showsIndicators: false) {
                     VStack {
@@ -58,7 +58,9 @@ struct WorkFieldsInputView: View {
                 }
                 
             } else {
-                EmptyInputListView(header: NSLocalizedString("empty_work_header", comment: ""), description: NSLocalizedString("empty_work_description", comment: ""))
+                EmptyInputListView(icon: "briefcase.fill", header: NSLocalizedString("empty_work_header", comment: ""), description: NSLocalizedString("empty_work_description", comment: ""), buttonOneName: NSLocalizedString("add_work_experience", comment: ""), buttonOneIcon: "plus", buttonOneHandler: {
+                    addingClickHandler(nil)
+                })
             }
             
         }.padding()

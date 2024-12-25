@@ -23,9 +23,9 @@ struct QRCodesBlockPreviewView: View {
         if let block = cv.qrCodesBlock, block.qrCodes.count > 0 {
             VStack (spacing: 0) {
                 
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))], spacing: CGFloat(cv.marginsSize / 3)) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 60))], spacing: CGFloat(cv.marginsSize / 3)) {
                     ForEach(0..<block.qrCodes.count, id:\.self) { item in
-                        QRCodePreviewView(qrCodeId: block.qrCodes[item], foregroundColor: qrForegroundColor, backgroundColor: qrBackgroundColor, isBackgroundAdded: block.styleBackAdded, width: 120.0, height: 120.0, cornersRadius: CGFloat(cv.cornersRadius))
+                        QRCodePreviewView(qrCodeId: block.qrCodes[item], foregroundColor: qrForegroundColor, backgroundColor: qrBackgroundColor, isBackgroundAdded: block.styleBackAdded, width: 60.0, height: 60.0, cornersRadius: CGFloat(cv.cornersRadius))
                     }
                 }
                 

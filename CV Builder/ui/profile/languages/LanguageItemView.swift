@@ -12,8 +12,6 @@ struct LanguageItemView: View {
     @Binding var item: LanguageItem
     var actionsHandler: () -> Void
     
-    @State var level = -1
-    
     var body: some View {
         HStack (spacing: 0) {
             
@@ -26,14 +24,14 @@ struct LanguageItemView: View {
                 }
                 
             }.frame(width: 42, height: 42).background() {
-                RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo).stroke(.accent, style: StrokeStyle(lineWidth: 2))
+                RoundedRectangle(cornerRadius: 32.0).fill(.windowTwo)
             }.padding(8)
             
-            VStack {
+            VStack (spacing: 4) {
                 
-                Text(item.name).font(.title2).bold().foregroundStyle(.accent).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                Text(item.name).font(.title2).bold().foregroundStyle(.accent).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(1)
                 
-                ProfileItemLevelView(level: $level, changeHandler: { level in
+                ProfileItemLevelView(level: item.level, options: PreloadedDatabase.getLanguageLevelsOptions(), changeHandler: { level in
                     item.level = level
                 }, levels: 6)
                 
@@ -49,13 +47,9 @@ struct LanguageItemView: View {
             
         }.frame(maxWidth: .infinity).background() {
             
-            RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+            RoundedRectangle(cornerRadius: 20.0).fill(Color.window)
             
-        }.onAppear() {
-            level = item.level
-        }.onChange(of: item.level) {
-            level = item.level
-        }.contentShape(.dragPreview, RoundedRectangle(cornerRadius: 16.0, style: .continuous))
+        }.contentShape(.dragPreview, RoundedRectangle(cornerRadius: 20.0, style: .continuous))
     }
 }
 

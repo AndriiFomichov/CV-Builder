@@ -21,7 +21,7 @@ struct WorkCategoryView: View {
             
             VStack (spacing: 0) {
                 
-                TopBarView(header: .constant(NSLocalizedString("work_input_header", comment: "")), description: .constant(NSLocalizedString("work_input_description", comment: "")), progress: .constant(0.0), isLoading: .constant(false), isCollapsed: .constant(false), lineIllustration: "small_line_four_illustration")
+                TopBarView(header: .constant(NSLocalizedString("work_input_header", comment: "")), description: .constant(NSLocalizedString("work_input_description", comment: "")), isCollapsed: .constant(false))
 
                 VStack {
                     

@@ -19,13 +19,13 @@ class OnBoardVisualizationViewModel: ObservableObject {
     var company = ""
     var visualization = 0
     
+    @Published var wrapper: CVEntityWrapper?
+    
     @Published var visualizationList: [VisualizationItem] = []
-    @Published var currentPage = 0
+    @Published var visualizationShown = false
     @Published var isGenerating = false
     @Published var isLoading = false
     @Published var btnMainSelected = false
-    
-    @Published var isConnectionAvailable = true
     
     @Published var header = ""
     @Published var description = ""
@@ -35,6 +35,9 @@ class OnBoardVisualizationViewModel: ObservableObject {
     @Published var errorDialogShown = false
     @Published var goBackDialogShown = false
     @Published var tipDialogShown = false
+    
+    var previewPage = 0
+    @Published var previewSheetShown = false
     
     var parentViewModel: OnBoardViewModel?
     
@@ -62,18 +65,12 @@ class OnBoardVisualizationViewModel: ObservableObject {
     private func startGeneration () async {
         isGenerating = true
         isLoading = true
-        checkConnection()
         btnMainText = NSLocalizedString("continue", comment: "")
         header = NSLocalizedString("generating_your_cv", comment: "")
         description = NSLocalizedString("couple_minutes_save_hours", comment: "")
         
         await deleteOldCv()
         await createCv()
-    }
-    
-    @MainActor
-    private func checkConnection () {
-        isConnectionAvailable = Reachability.isConnectedToNetwork()
     }
     
     @MainActor
@@ -89,9 +86,7 @@ class OnBoardVisualizationViewModel: ObservableObject {
             cv = await cvBuilder.buildCv(profile: profile, styleId: style, targetJob: jobTitle, targetInstitution: company, isFirst: true)
             saveNewCv()
             
-            if isConnectionAvailable {
 //                AiManager.useAttempt()
-            }
             
             await createVisualization()
             
@@ -112,36 +107,49 @@ class OnBoardVisualizationViewModel: ObservableObject {
             let wrappers = cvVisualizationBuilder.createVisualizationsList(style: PreloadedDatabase.getStyleId(id: style), cv: cv)
             
             var list: [VisualizationItem] = []
-            for wrapper in wrappers {
-                list.append(VisualizationItem(wrapper: wrapper))
+            if wrappers.count > 0 {
+                list.append(VisualizationItem(id: 0, wrapper: wrappers[0], name: wrappers[0].wrapperName, icon: "checkmark.seal.fill", isSelected: true))
+            }
+            if wrappers.count > 1 {
+                list.append(VisualizationItem(id: 1, wrapper: wrappers[1], name: wrappers[1].wrapperName, icon: "checkmark.shield.fill", isSelected: false))
+            }
+            if wrappers.count > 2 {
+                list.append(VisualizationItem(id: 2, wrapper: wrappers[2], name: wrappers[2].wrapperName, icon: "briefcase.fill", isSelected: false))
+            }
+            if wrappers.count > 3 {
+                list.append(VisualizationItem(id: 3, wrapper: wrappers[3], name: wrappers[3].wrapperName, icon: "graduationcap.fill", isSelected: false))
+            }
+            if wrappers.count > 4 {
+                list.append(VisualizationItem(id: 4, wrapper: wrappers[4], name: wrappers[4].wrapperName, icon: "lightbulb.max.fill", isSelected: false))
             }
             
             let position = getWrapperPosition(id: visualization, list: list)
             if position != -1 {
                 list[position].isSelected = true
-                currentPage = visualization
+                wrapper = list[position].wrapper
             }
             
             visualizationList = list
+            visualizationShown = true
             
             isGenerating = false
             isLoading = false
             btnMainSelected = true
-            btnMainText = NSLocalizedString("select", comment: "")
-            header = NSLocalizedString("select_visualization_header", comment: "")
-            description = NSLocalizedString("select_visualization_description", comment: "")
+            btnMainText = NSLocalizedString("save_and_edit", comment: "")
+            description = NSLocalizedString("explore_visualization", comment: "")
             
         } else {
             errorDialogShown = true
         }
     }
     
-    func selectStyle (id: Int) {
+    func selectVisualization (id: Int) {
         if id != visualization {
             for i in 0...visualizationList.count-1 {
                 let wrapper = visualizationList[i]
                 if i == id {
                     wrapper.isSelected = true
+                    self.wrapper = wrapper.wrapper
                 } else {
                     wrapper.isSelected = false
                 }
@@ -149,6 +157,11 @@ class OnBoardVisualizationViewModel: ObservableObject {
             }
             visualization = id
         }
+    }
+    
+    func showPreview (page: Int) {
+        previewPage = page
+        previewSheetShown = true
     }
     
     func backStep () {

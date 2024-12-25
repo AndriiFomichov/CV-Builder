@@ -26,25 +26,29 @@ struct InterestsCategoryView: View {
             
             VStack (spacing: 0) {
                 
-                TopBarView(header: .constant(NSLocalizedString("interests_input_header", comment: "")), description: .constant(NSLocalizedString("interests_input_description", comment: "")), progress: .constant(0.0), isLoading: .constant(false), isCollapsed: .constant(false), lineIllustration: "small_line_four_illustration")
+                TopBarView(header: .constant(NSLocalizedString("interests_input_header", comment: "")), description: .constant(NSLocalizedString("interests_input_description", comment: "")), isCollapsed: .constant(false))
 
                 VStack {
                     
-                    HStack {
+                    if viewModel.interestsList.count == 0 {
                         
-                        ActionButtonView(icon: "plus", text: NSLocalizedString("add_interest", comment: ""), clickHandler: {
+                        EmptyInputListView(icon: "gamecontroller.fill", header: NSLocalizedString("empty_interests_header", comment: ""), description: NSLocalizedString("empty_interests_description", comment: ""), buttonOneName: NSLocalizedString("add_interest", comment: ""), buttonOneIcon: "plus", buttonOneHandler: {
                             withAnimation {
                                 viewModel.showInterestAdding()
                             }
-                        }, addArrow: true)
-                        
-                    }.padding([.leading, .top, .trailing])
-                    
-                    if viewModel.interestsList.count == 0 {
-                        
-                        EmptyInputListView(header: NSLocalizedString("empty_interests_header", comment: ""), description: NSLocalizedString("empty_interests_description", comment: "")).padding()
+                        }).padding()
                         
                     } else {
+                        
+                        HStack {
+                            
+                            ActionButtonView(icon: "plus", text: NSLocalizedString("add_interest", comment: ""), clickHandler: {
+                                withAnimation {
+                                    viewModel.showInterestAdding()
+                                }
+                            }, addArrow: true)
+                            
+                        }.padding([.leading, .top, .trailing])
                         
                         ScrollView (showsIndicators: false) {
                             

@@ -10,7 +10,7 @@ import SwiftUI
 struct HeaderPreviewView: View {
     
     var text: String
-    var font: String
+    var font: Int
     var textColor: String
     var gravity: Alignment
     var size: Int
@@ -54,7 +54,7 @@ struct HeaderPreviewView: View {
 struct HeaderVerticalPreviewView: View {
     
     var text: String
-    var font: String
+    var font: Int
     var textColor: String
     var gravity: Alignment
     var size: Int
@@ -100,7 +100,7 @@ struct HeaderVerticalPreviewView: View {
     }
 }
 
-private struct VerticalLayout: Layout {
+struct VerticalLayout: Layout {
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         let size = subviews.first!.sizeThatFits(.unspecified)
         return .init(width: size.height, height: size.width)
@@ -114,7 +114,7 @@ private struct VerticalLayout: Layout {
 struct HeaderHorizontalPreviewView: View {
     
     var text: String
-    var font: String
+    var font: Int
     var textColor: String
     var gravity: Alignment
     var size: Int
@@ -170,5 +170,5 @@ struct HeaderHorizontalPreviewView: View {
 }
 
 #Preview {
-    HeaderPreviewView(text: "My text own ewdewf efwfewfewefewffwe wef34535 3454534 345455334", font: "Roboto Mono", textColor: "#000CA0", gravity: .leading, size: 14, isBold: true, isItalic: false, isUnderline: true, isUppercased: true, headerPosition: 1, headerDotAdded: true, headerLineAdded: true, dotColor: "#CF45CA", dotSize: 10, dotBackAdded: true, dotStrokeAdded: true, strokeWidth: 1, strokeColor: "#000CA0", linePosition: 0, lineColor: "#000CA0", lineCirclesAdded: false, lineCirclesColor: "#CF45CA", lienWidth: 2, cornersRadius: 12.0, marginsSize: 8)
+    HeaderPreviewView(text: "My text own ewdewf efwfewfewefewffwe wef34535 3454534 345455334", font: 0, textColor: "#000CA0", gravity: .leading, size: 14, isBold: true, isItalic: false, isUnderline: true, isUppercased: true, headerPosition: 1, headerDotAdded: true, headerLineAdded: true, dotColor: "#CF45CA", dotSize: 10, dotBackAdded: true, dotStrokeAdded: true, strokeWidth: 1, strokeColor: "#000CA0", linePosition: 0, lineColor: "#000CA0", lineCirclesAdded: false, lineCirclesColor: "#CF45CA", lienWidth: 2, cornersRadius: 12.0, marginsSize: 8)
 }

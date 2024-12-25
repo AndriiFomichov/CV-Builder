@@ -13,6 +13,11 @@ struct CVItemView: View {
     let clickHandler: () -> Void
     let additionalClickHandler: () -> Void
     
+    @State var previewOne: UIImage?
+    @State var previewTwo: UIImage?
+    @State var header = ""
+    @State var description = ""
+    
     var body: some View {
         Button (action: clickHandler) {
             
@@ -20,30 +25,30 @@ struct CVItemView: View {
                 
                 if let cv {
                     ZStack {
-                        RoundedRectangle(cornerRadius: 12.0).foregroundStyle(Color.windowTwo.shadow(.inner(color: .text.opacity(0.08), radius: 16, x: 1, y: 1)))
+                        RoundedRectangle(cornerRadius: 16.0).foregroundStyle(Color.windowTwo.shadow(.inner(color: .text.opacity(0.08), radius: 16, x: 1, y: 1)))
                         
                         ZStack {
-                            if let previewTwo = cv.previewTwo {
-                                Image(uiImage: previewTwo).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 8.0)).scaleEffect(1.02).rotationEffect(Angle(degrees: 3))
+                            if let previewTwo {
+                                Image(uiImage: previewTwo).centerCropped().scaleEffect(1.01).clipShape(RoundedRectangle(cornerRadius: 8.0)).scaleEffect(1.02).rotationEffect(Angle(degrees: 3))
                             }
                             
-                            if let previewOne = cv.previewOne {
-                                Image(uiImage: previewOne).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 8.0))
+                            if let previewOne {
+                                Image(uiImage: previewOne).centerCropped().scaleEffect(1.01).clipShape(RoundedRectangle(cornerRadius: 8.0)).shadow(color: .black.opacity(0.2), radius: 30)
                             } else {
                                 RoundedRectangle(cornerRadius: 8.0).fill(Color.window)
                             }
                             
                         }.aspectRatio(0.707070707, contentMode: .fit).padding().padding(4)
                         
-                    }.padding(8)
+                    }.clipShape(RoundedRectangle(cornerRadius: 16.0)).padding(8)
                     
                     HStack {
                         
                         VStack {
-                            Text(cv.targetJob.isEmpty ? NSLocalizedString("universal", comment: "") : cv.targetJob).font(.headline).bold().foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(1)
+                            Text(header).font(.headline).bold().foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(1)
                             
-                            if !cv.targetCompany.isEmpty {
-                                Text(cv.targetCompany).font(.subheadline).foregroundStyle(.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(1)
+                            if !description.isEmpty {
+                                Text(description).font(.subheadline).foregroundStyle(.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).lineLimit(1)
                             }
                         }
                         
@@ -55,10 +60,34 @@ struct CVItemView: View {
                             }.frame(width: 36, height: 36)
                         }
                         
-                    }.padding([.leading, .bottom], 8)
+                    }.padding([.leading, .bottom], 8).onAppear() {
+                        withAnimation {
+                            previewOne = cv.previewOne
+                            previewTwo = cv.previewTwo
+                            header = cv.targetJob.isEmpty ? NSLocalizedString("universal", comment: "") : cv.targetJob
+                            description = cv.targetCompany
+                        }
+                    }.onChange(of: cv.previewOne) {
+                        withAnimation {
+                            previewOne = cv.previewOne
+                        }
+                    }.onChange(of: cv.previewTwo) {
+                        withAnimation {
+                            previewTwo = cv.previewTwo
+                        }
+                    }.onChange(of: cv.targetJob) {
+                        withAnimation {
+                            header = cv.targetJob.isEmpty ? NSLocalizedString("universal", comment: "") : cv.targetJob
+                        }
+                    }.onChange(of: cv.targetCompany) {
+                        withAnimation {
+                            description = cv.targetCompany
+                        }
+                    }
+                    
                 } else {
                     ZStack {
-                        RoundedRectangle(cornerRadius: 12.0).foregroundStyle(Color.windowTwo.shadow(.inner(color: .text.opacity(0.08), radius: 16, x: 1, y: 1)))
+                        RoundedRectangle(cornerRadius: 16.0).foregroundStyle(Color.windowTwo.shadow(.inner(color: .text.opacity(0.08), radius: 16, x: 1, y: 1)))
 
                         RoundedRectangle(cornerRadius: 8.0).skeleton(with: true, appearance: .solid(color: Color.window, background: Color.windowTwo), shape: .rounded(.radius(8.0, style: .circular))).padding().padding(4)
                         
@@ -68,9 +97,9 @@ struct CVItemView: View {
                         
                         VStack {
                             
-                            Text("").frame(maxWidth: .infinity, alignment: .leading).padding(.bottom, 2).skeleton(with: true, appearance: .solid(color: Color.window, background: Color.windowTwo), shape: .rounded(.radius(12.0, style: .circular)))
+                            Text("").frame(maxWidth: .infinity, alignment: .leading).padding(.bottom, 2).skeleton(with: true, appearance: .solid(color: Color.window, background: Color.windowTwo), shape: .rounded(.radius(12.0, style: .circular))).frame(height: 20)
                             
-                            Text("").frame(maxWidth: .infinity, alignment: .leading).skeleton(with: true, appearance: .solid(color: Color.window, background: Color.windowTwo), shape: .rounded(.radius(12.0, style: .circular)))
+                            Text("").frame(maxWidth: .infinity, alignment: .leading).skeleton(with: true, appearance: .solid(color: Color.window, background: Color.windowTwo), shape: .rounded(.radius(12.0, style: .circular))).frame(height: 16)
                             
                         }.padding(.trailing).padding(.trailing)
                         
@@ -78,8 +107,9 @@ struct CVItemView: View {
                 }
                 
             }.background() {
-                RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                RoundedRectangle(cornerRadius: 20.0).fill(Color.window)
             }
+            
         }
     }
 }

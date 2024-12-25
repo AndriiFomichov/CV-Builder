@@ -74,7 +74,7 @@ class SideMenuViewModel: ObservableObject {
     }
     
     private func updateAccount () {
-        isPremiumSide = Defaults.KEY_ACCOUNT_TYPE != 0
+        updatePlan()
         
         if let profile = profileManager.getProfile() {
             

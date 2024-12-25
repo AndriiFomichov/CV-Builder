@@ -26,25 +26,29 @@ struct ReferencesCategoryView: View {
             
             VStack (spacing: 0) {
                 
-                TopBarView(header: .constant(NSLocalizedString("reference_input_header", comment: "")), description: .constant(NSLocalizedString("reference_input_description", comment: "")), progress: .constant(0.0), isLoading: .constant(false), isCollapsed: .constant(false), lineIllustration: "small_line_four_illustration")
+                TopBarView(header: .constant(NSLocalizedString("reference_input_header", comment: "")), description: .constant(NSLocalizedString("reference_input_description", comment: "")), isCollapsed: .constant(false))
 
                 VStack {
                     
-                    HStack {
+                    if viewModel.referencesList.count == 0 {
                         
-                        ActionButtonView(icon: "plus", text: NSLocalizedString("add_reference", comment: ""), clickHandler: {
+                        EmptyInputListView(icon: "star.bubble.fill", header: NSLocalizedString("empty_reference_header", comment: ""), description: NSLocalizedString("empty_reference_description", comment: ""), buttonOneName: NSLocalizedString("add_reference", comment: ""), buttonOneIcon: "plus", buttonOneHandler: {
                             withAnimation {
                                 viewModel.showReferenceAdding(reference: nil)
                             }
-                        }, addArrow: true)
-                        
-                    }.padding([.leading, .top, .trailing])
-                    
-                    if viewModel.referencesList.count == 0 {
-                        
-                        EmptyInputListView(header: NSLocalizedString("empty_reference_header", comment: ""), description: NSLocalizedString("empty_reference_description", comment: "")).padding()
+                        }).padding()
                         
                     } else {
+                        
+                        HStack {
+                            
+                            ActionButtonView(icon: "plus", text: NSLocalizedString("add_reference", comment: ""), clickHandler: {
+                                withAnimation {
+                                    viewModel.showReferenceAdding(reference: nil)
+                                }
+                            }, addArrow: true)
+                            
+                        }.padding([.leading, .top, .trailing])
                         
                         ScrollView (showsIndicators: false) {
                             

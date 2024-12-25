@@ -15,7 +15,7 @@ struct AttemptsLabel: View {
     
     var body: some View {
         Text(currentText).font(.subheadline).foregroundStyle(.textAdditional).multilineTextAlignment(.center).padding(6).padding(.horizontal, 8).fixedSize().background() {
-            RoundedRectangle(cornerRadius: 8.0).fill(Color.window)
+            RoundedRectangle(cornerRadius: 24.0).fill(Color.window)
         }.onAppear() {
             self.currentText = text
         }.onChange(of: text) {

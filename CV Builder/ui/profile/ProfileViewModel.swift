@@ -83,9 +83,10 @@ class ProfileViewModel: ObservableObject {
         var list: [ProfileItem] = []
         
         if let profile {
-            list.append(ProfileItem(header: NSLocalizedString("general_category_header", comment: ""), description: NSLocalizedString("general_category_description", comment: ""), icon: "person.fill", progress: profileManager.getGeneralInfoCategoryStatus(profile: profile).progress))
+            list.append(ProfileItem(header: NSLocalizedString("general_category_header", comment: ""), description: NSLocalizedString("general_category_description", comment: ""), icon: "person.crop.circle", progress: profileManager.getGeneralInfoCategoryStatus(profile: profile).progress))
             list.append(ProfileItem(header: NSLocalizedString("education_category_header", comment: ""), description: NSLocalizedString("education_category_description", comment: ""), icon: "graduationcap.fill", progress: profileManager.getEducationCategoryStatus(profile: profile).progress))
             list.append(ProfileItem(header: NSLocalizedString("work_category_header", comment: ""), description: NSLocalizedString("work_category_description", comment: ""), icon: "briefcase.fill", progress: profileManager.getWorkCategoryStatus(profile: profile).progress))
+            list.append(ProfileItem(header: NSLocalizedString("skills_category_header", comment: ""), description: NSLocalizedString("skills_category_description", comment: ""), icon: "lightbulb.max.fill", progress: profileManager.getSkillsCategoryStatus(profile: profile).progress))
         }
         
         essentialList = list
@@ -97,7 +98,6 @@ class ProfileViewModel: ObservableObject {
         
         if let profile {
             list.append(ProfileItem(header: NSLocalizedString("languages_category_header", comment: ""), description: NSLocalizedString("languages_category_description", comment: ""), icon: "globe", progress: profileManager.getLanguagesCategoryStatus(profile: profile).progress))
-            list.append(ProfileItem(header: NSLocalizedString("skills_category_header", comment: ""), description: NSLocalizedString("skills_category_description", comment: ""), icon: "lightbulb.max.fill", progress: profileManager.getSkillsCategoryStatus(profile: profile).progress))
             list.append(ProfileItem(header: NSLocalizedString("interests_category_header", comment: ""), description: NSLocalizedString("interests_category_description", comment: ""), icon: "heart.circle", progress: profileManager.getInterestsCategoryStatus(profile: profile).progress))
             list.append(ProfileItem(header: NSLocalizedString("contact_category_header", comment: ""), description: NSLocalizedString("contact_category_description", comment: ""), icon: "paperplane.fill", progress: profileManager.getContactCategoryStatus(profile: profile).progress))
             list.append(ProfileItem(header: NSLocalizedString("social_category_header", comment: ""), description: NSLocalizedString("social_category_description", comment: ""), icon: "link.circle.fill", progress: profileManager.getSocialCategoryStatus(profile: profile).progress))
@@ -116,7 +116,7 @@ class ProfileViewModel: ObservableObject {
     func handleCategoryFinished () {
         Task {
             await updateProgress()
-            if nextStepView < 3 {
+            if nextStepView < 4 {
                 await updateEssentialList()
             } else {
                 await updateAdditionalList()

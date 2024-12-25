@@ -24,15 +24,15 @@ struct StyleOneGeneralBlockPreviewView: View {
                 VStack (spacing: CGFloat(cv.marginsSize / 4)) {
                     
                     if !generalBlock.name.isEmpty {
-                        TextPreviewView(text: generalBlock.name, font: getFontByStyle(cv.headersFont), color: "#FFFFFF", gravity: .leading, size: cv.nameSize, isBold: cv.isHeadersBold, isItalic: cv.isHeadersItalic, isUnderline: false, isUppercased: cv.isHeadersUppercased)
+                        TextPreviewView(text: generalBlock.name, font: cv.nameFont, color: "#FFFFFF", gravity: .leading, size: cv.nameSize, isBold: cv.isHeadersBold, isItalic: cv.isHeadersItalic, isUnderline: false, isUppercased: cv.isHeadersUppercased)
                     }
                     
                     if !generalBlock.jobTitle.isEmpty {
-                        TextPreviewView(text: generalBlock.jobTitle, font: getFontByStyle(cv.textFont), color: "#FFFFFF", gravity: .leading, size: cv.headersSize, isBold: cv.isHeadersBold, isItalic: cv.isHeadersItalic, isUnderline: false, isUppercased: cv.isHeadersUppercased).opacity(0.8)
+                        TextPreviewView(text: generalBlock.jobTitle, font: cv.textFont, color: "#FFFFFF", gravity: .leading, size: cv.headersSize, isBold: cv.isHeadersBold, isItalic: cv.isHeadersItalic, isUnderline: false, isUppercased: cv.isHeadersUppercased).opacity(0.8)
                     }
                     
                     if !generalBlock.location.isEmpty {
-                        TextPreviewView(text: generalBlock.location, font: getFontByStyle(cv.textFont), color: "#FFFFFF", gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false).opacity(0.5)
+                        TextPreviewView(text: generalBlock.location, font: cv.textFont, color: "#FFFFFF", gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false).opacity(0.5)
                     }
                     
                 }.padding(CGFloat(cv.marginsSize)).background() {
@@ -40,10 +40,6 @@ struct StyleOneGeneralBlockPreviewView: View {
                 }
             }
         }
-    }
-    
-    private func getFontByStyle (_ id: Int) -> String {
-        return PreloadedDatabase.getFontId(id: id).name
     }
 }
 

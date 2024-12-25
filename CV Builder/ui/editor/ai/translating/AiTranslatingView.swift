@@ -15,22 +15,21 @@ struct AiTranslatingView: View {
     @State var header = ""
     @State var showLoading = false
     
+    var namespaceAnimation: Namespace.ID
+    
     var body: some View {
-        ZStack (alignment: .bottom) {
-            Color.background.ignoresSafeArea()
+        VStack (spacing: 0) {
             
-            VStack (spacing: 0) {
-                
-                if showLoading {
-                    AiLoadingView(isLoading: $viewModel.isLoading, header: $header, description: .constant(NSLocalizedString("couple_minutes_save_hours", comment: "")), icon: $viewModel.icon)
-                } else {
-                    AiTranslatingLanguagesView(languages: $viewModel.languages, btnMainSelected: $viewModel.btnMainSelected, errorAlertShown: $viewModel.errorAlertShown, mainClickHandler: {
-                        viewModel.translate()
-                    }, selectHandler: { index in
-                        viewModel.selectLanguage(index: index)
-                    })
-                }
+            if showLoading {
+                AiLoadingView(isLoading: $viewModel.isLoading, header: $header, description: .constant(NSLocalizedString("couple_minutes_save_hours", comment: "")), icon: $viewModel.icon, namespaceAnimation: namespaceAnimation)
+            } else {
+                AiTranslatingLanguagesView(languages: $viewModel.languages, btnMainSelected: $viewModel.btnMainSelected, errorAlertShown: $viewModel.errorAlertShown, mainClickHandler: {
+                    viewModel.translate()
+                }, selectHandler: { index in
+                    viewModel.selectLanguage(index: index)
+                }, namespaceAnimation: namespaceAnimation)
             }
+            
         }.onAppear() {
             viewModel.updateData(parentViewModel: parentViewModel)
         }.onChange(of: viewModel.loadingShown) {
@@ -47,5 +46,6 @@ struct AiTranslatingView: View {
 }
 
 #Preview {
-    AiTranslatingView().environmentObject(EditorAiAssistantViewModel())
+    @Previewable @Namespace var namespace
+    AiTranslatingView(namespaceAnimation: namespace).environmentObject(EditorAiAssistantViewModel())
 }

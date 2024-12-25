@@ -18,6 +18,7 @@ class OnBoardViewModel: ObservableObject {
     var cv: CVEntity?
     var jobTitle = ""
     var company = ""
+    var description = ""
     
     func createProfile () {
         if profile == nil {
@@ -29,9 +30,10 @@ class OnBoardViewModel: ObservableObject {
         style = id
     }
     
-    func saveTargetJob (jobTitle: String, company: String) {
+    func saveTargetJob (jobTitle: String, company: String, description: String) {
         self.jobTitle = jobTitle
         self.company = company
+        self.description = description
     }
     
     func saveCv (entity: CVEntity) {

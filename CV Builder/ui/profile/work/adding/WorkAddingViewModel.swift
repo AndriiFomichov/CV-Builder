@@ -32,6 +32,7 @@ class WorkAddingViewModel: ObservableObject {
     @Published var deleteVisible = false
     @Published var btnMainText = ""
     
+    @Published var datePickerSheetShown = false
     @Published var deleteAlertShown = false
     
     @Published var dismissed = false
@@ -115,6 +116,10 @@ class WorkAddingViewModel: ObservableObject {
             }
         }
         dismissed = true
+    }
+    
+    func showDatePicker () {
+        datePickerSheetShown = true
     }
     
     func delete () {

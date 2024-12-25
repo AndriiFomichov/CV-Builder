@@ -14,7 +14,6 @@ struct WorkAddingView: View, KeyboardReadable {
     var allFields = false
     
     @Environment(\.dismiss) var dismiss
-//    @ObservedObject var keyboard = KeyboardResponder()
     
     @StateObject var viewModel = WorkAddingViewModel()
     
@@ -24,8 +23,6 @@ struct WorkAddingView: View, KeyboardReadable {
     @State private var selectedMonth: Int = Calendar.current.component(.month, from: Date())
     @State private var selectedYear: Int = Calendar.current.component(.year, from: Date())
     
-    @State private var datePickerVisible = false
-    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -33,7 +30,7 @@ struct WorkAddingView: View, KeyboardReadable {
                 
                 VStack (spacing: 0) {
                     
-                    TopBarView(header: .constant(NSLocalizedString("work_experience", comment: "")), description: .constant(""), progress: .constant(0.0), isLoading: .constant(false), isCollapsed: $isCollapsed, lineIllustration: "small_line_one_illustration", illustration: "work_illustration", maxHeight: 200)
+                    TopBarView(header: .constant(NSLocalizedString("work_experience", comment: "")), description: .constant(""), isCollapsed: $isCollapsed, icon: "briefcase.fill", iconPlusAdded: true, maxHeight: 180)
 
                     VStack {
                         
@@ -56,33 +53,36 @@ struct WorkAddingView: View, KeyboardReadable {
                                     
                                 }.padding(.bottom)
                                 
-                                Text(NSLocalizedString("field_dates", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
-                                
                                 HStack {
                                     
-                                    Button (action: {
-                                        updateSelectedDates(type: 0, date: viewModel.startDate)
-                                        self.endEditing()
-                                        withAnimation {
-                                            datePickerVisible = true
+                                    VStack {
+                                        Text(NSLocalizedString("field_start_date", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                                        
+                                        Button (action: {
+                                            updateSelectedDates(type: 0, date: viewModel.startDate)
+                                            self.endEditing()
+                                            viewModel.showDatePicker()
+                                        }) {
+                                            DateInputView(date: $viewModel.startDate, isNow: .constant(false), hint: NSLocalizedString("field_select_start_hint", comment: ""))
                                         }
-                                    }) {
-                                        DateInputView(date: $viewModel.startDate, isNow: .constant(false), hint: NSLocalizedString("field_select_start_hint", comment: ""))
                                     }
                                     
-                                    if viewModel.isStillWorking {
-                                        DateInputView(date: $viewModel.endDate, isNow: $viewModel.isStillWorking, hint: NSLocalizedString("field_select_end_hint", comment: ""))
-                                    } else {
-                                        Button (action: {
-                                            updateSelectedDates(type: 1, date: viewModel.endDate)
-                                            self.endEditing()
-                                            withAnimation {
-                                                datePickerVisible = true
-                                            }
-                                        }) {
+                                    VStack {
+                                        Text(NSLocalizedString("field_end_date", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                                        
+                                        if viewModel.isStillWorking {
                                             DateInputView(date: $viewModel.endDate, isNow: $viewModel.isStillWorking, hint: NSLocalizedString("field_select_end_hint", comment: ""))
+                                        } else {
+                                            Button (action: {
+                                                updateSelectedDates(type: 1, date: viewModel.endDate)
+                                                self.endEditing()
+                                                viewModel.showDatePicker()
+                                            }) {
+                                                DateInputView(date: $viewModel.endDate, isNow: $viewModel.isStillWorking, hint: NSLocalizedString("field_select_end_hint", comment: ""))
+                                            }
                                         }
                                     }
+                                    
                                 }
                                 
                                 ToggleInputView(isSelected: $viewModel.isStillWorking, icon: "briefcase.fill", text: NSLocalizedString("field_still_working_hint", comment: "")).padding(.bottom)
@@ -126,23 +126,15 @@ struct WorkAddingView: View, KeyboardReadable {
                             self.endEditing()
                         })
                     } else {
-                        VStack {
-                            
-                            if datePickerVisible {
-                                DatePickerView(selectedMonth: $selectedMonth, selectedYear: $selectedYear, applyHandler: {
-                                    viewModel.saveDate(dateType: selectingDate, date: convertSelectedMonthYearToDate())
-                                    withAnimation {
-                                        datePickerVisible = false
-                                    }
-                                }).transition(.move(edge: .bottom))
-                            } else {
-                                MainButtonView(isSelected: .constant(true), text: viewModel.btnMainText, clickHandler: {
-                                    viewModel.save()
-                                }).padding(.vertical)
-                            }
-                            
-                        }
+                        MainButtonView(isSelected: .constant(true), text: viewModel.btnMainText, clickHandler: {
+                            viewModel.save()
+                        }).padding(.vertical)
                     }
+                    
+                }.sheet(isPresented: $viewModel.datePickerSheetShown) {
+                    DatePickerView(selectedMonth: $selectedMonth, selectedYear: $selectedYear, applyHandler: {
+                        viewModel.saveDate(dateType: selectingDate, date: convertSelectedMonthYearToDate())
+                    }).presentationDetents([.medium])
                 }
                 
             }.navigationTitle(isCollapsed ? NSLocalizedString("work_experience", comment: "") : "").navigationBarTitleDisplayMode(.inline).toolbar {
@@ -169,7 +161,6 @@ struct WorkAddingView: View, KeyboardReadable {
                 viewModel.updateData(profile: profile, entity: entity)
             }.onReceive(keyboardPublisher) { newIsKeyboardVisible in
                 withAnimation {
-                    datePickerVisible = false
                     isCollapsed = newIsKeyboardVisible
                 }
             }.onChange(of: viewModel.dismissed) {

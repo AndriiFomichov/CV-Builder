@@ -23,7 +23,7 @@ struct GeneralCategoryView: View, KeyboardReadable {
             
             VStack (spacing: 0) {
                 
-                TopBarView(header: .constant(NSLocalizedString("general_input_header", comment: "")), description: .constant(NSLocalizedString("general_input_description", comment: "")), progress: .constant(0.0), isLoading: .constant(false), isCollapsed: $isCollapsed, lineIllustration: "small_line_four_illustration")
+                TopBarView(header: .constant(NSLocalizedString("general_input_header", comment: "")), description: .constant(NSLocalizedString("general_input_description", comment: "")), isCollapsed: $isCollapsed)
 
                 VStack {
                     

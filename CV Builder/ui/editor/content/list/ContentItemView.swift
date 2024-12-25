@@ -54,9 +54,9 @@ struct ContentItemView: View {
                 }
             }.opacity(isLoading ? 0.5 : 1.0).padding(.bottom, 8)
             
-        }.clipShape(RoundedRectangle(cornerRadius: 10.0)).borderLoadingAnimation(isAnimating: $isLoading, cornersRadius: 10.0).background() {
+        }.clipShape(RoundedRectangle(cornerRadius: 12.0)).borderLoadingAnimation(isAnimating: $isLoading, cornersRadius: 10.0).background() {
             
-            RoundedRectangle(cornerRadius: 10.0).fill(Color.window)
+            RoundedRectangle(cornerRadius: 12.0).fill(Color.window)
             
         }.onAppear() {
             text = item.text
@@ -76,7 +76,7 @@ struct ContentItemView: View {
             withAnimation {
                 aiAvailable = networkStatus == .connected
             }
-        }.contentShape(.dragPreview, RoundedRectangle(cornerRadius: 10.0, style: .continuous))
+        }.contentShape(.dragPreview, RoundedRectangle(cornerRadius: 12.0, style: .continuous))
     }
 }
 

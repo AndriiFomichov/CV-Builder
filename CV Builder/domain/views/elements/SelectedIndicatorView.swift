@@ -17,7 +17,7 @@ struct SelectedIndicatorView: View {
     var body: some View {
         ZStack {
             
-            RoundedRectangle(cornerRadius: 12.0).stroke(selectedState ? .accent : .windowTwo, style: StrokeStyle(lineWidth: 2))
+            RoundedRectangle(cornerRadius: 32.0).stroke(selectedState ? .accent : .windowTwo, style: StrokeStyle(lineWidth: 1))
             
             if type == 0 {
                 Circle().fill(selectedState ? .accent : .windowTwo).frame(width: 24, height: 24)
@@ -26,7 +26,7 @@ struct SelectedIndicatorView: View {
                     Image(systemName: "checkmark").font(.subheadline).bold().foregroundStyle(.white)
                 }
             } else {
-                Circle().fill(selectedState ? .accent : .windowTwo).frame(width: 18, height: 18)
+                Circle().fill(selectedState ? .accent : .windowTwo).frame(width: 16, height: 16)
             }
             
         }.frame(width: 36, height: 36).onAppear() {

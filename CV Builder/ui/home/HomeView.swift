@@ -16,9 +16,14 @@ struct HomeView: View {
     
     private let formViewControllerRepresentable = CV_BuilderApp.FormViewControllerRepresentable()
     
+    @State var isLoading = true
+    @State var listVisible = false
+    
     var body: some View {
         SideBarStack(sidebarWidth: UIScreen.main.bounds.size.width * 0.85, show: $viewModel.sideMenuShown, sidebar: {
+            
             SideMenuView(userName: $viewModel.userName, userPhoto: $viewModel.userPhoto, userProfileFill: $viewModel.userFill, isPremium: $viewModel.isPremium)
+            
         }, content: {
             NavigationStack {
                 
@@ -29,11 +34,11 @@ struct HomeView: View {
                     ZStack (alignment: .bottom) {
                         
                         VStack {
-                            if viewModel.isLoading && viewModel.cvList.count == 0 {
+                            if isLoading && !listVisible {
                                 
                                 ScrollView (showsIndicators: false) {
                                     
-                                    LazyVGrid(columns: [ GridItem(.adaptive(minimum: 420)) ]) {
+                                    LazyVGrid(columns: [ GridItem(.adaptive(minimum: 160)) ]) {
                                         ForEach(viewModel.defaultCvList.indices, id: \.self) { index in
                                             CVItemView(cv: $viewModel.defaultCvList[index], clickHandler: {}, additionalClickHandler: {}).padding(.bottom, 4)
                                         }
@@ -43,7 +48,7 @@ struct HomeView: View {
                                 
                             } else {
                                 
-                                if viewModel.cvList.count > 0 {
+                                if listVisible {
                                     
                                     ScrollView (showsIndicators: false) {
                                         
@@ -52,7 +57,7 @@ struct HomeView: View {
                                             if !viewModel.isPremium {
                                                 LabelProView(clickHandler: {
                                                     viewModel.showPaywallSheet()
-                                                }).padding(.bottom)
+                                                }).padding(.bottom).transition(.move(edge: .top))
                                             }
                                             
                                             LazyVGrid(columns: [ GridItem(.adaptive(minimum: 160)) ]) {
@@ -66,24 +71,28 @@ struct HomeView: View {
                                                             viewModel.selectedCV = cv.entity
                                                             viewModel.showActionsSheet()
                                                         }
-                                                    }).padding(.bottom, 4).confirmationDialog(NSLocalizedString("delete", comment: ""), isPresented: $viewModel.actionsSheetShown) {
-                                                        Button(NSLocalizedString("edit", comment: "")) {
-                                                            viewModel.openCv()
-                                                        }
-                                                        Button(NSLocalizedString("duplicate", comment: "")) {
-                                                            viewModel.duplicateCv()
-                                                        }
-                                                        Button(NSLocalizedString("share", comment: "")) {
-                                                            viewModel.showShareSheet()
-                                                        }
-                                                        Button(NSLocalizedString("delete", comment: ""), role: .destructive) {
-                                                            viewModel.deleteCv()
-                                                        }
-                                                    }
+                                                    }).padding(.bottom, 4)
                                                 }
                                             }
                                             
-                                        }.frame(maxHeight: .infinity).padding(.bottom, 36)
+                                        }.frame(maxHeight: .infinity).padding(.bottom, 36).confirmationDialog(NSLocalizedString("delete", comment: ""), isPresented: $viewModel.actionsSheetShown) {
+                                            Button(NSLocalizedString("edit", comment: "")) {
+                                                viewModel.openCv()
+                                            }
+                                            Button(NSLocalizedString("duplicate", comment: "")) {
+                                                withAnimation {
+                                                    viewModel.duplicateCv()
+                                                }
+                                            }
+                                            Button(NSLocalizedString("share", comment: "")) {
+                                                viewModel.showShareSheet()
+                                            }
+                                            Button(NSLocalizedString("delete", comment: ""), role: .destructive) {
+                                                withAnimation {
+                                                    viewModel.deleteCv()
+                                                }
+                                            }
+                                        }
                                         
                                     }.alert(NSLocalizedString("went_wrong", comment: ""), isPresented: $viewModel.defaultErrorDialogShown) {
                                         Button(NSLocalizedString("c_continue", comment: "")) {}
@@ -93,16 +102,23 @@ struct HomeView: View {
                                     
                                     VStack {
                                         
-                                        Text(NSLocalizedString("create_cv_header", comment: "")).font(.largeTitle).bold().foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).padding(.bottom, 8)
-                                        
-                                        Text(NSLocalizedString("create_cv_description", comment: "")).font(.subheadline).foregroundStyle(Color.textAdditional).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).padding(.bottom)
-                                        
-                                        HStack (alignment: .center) {
-                                            SmallButtonView(isSelected: .constant(true), text: NSLocalizedString("create", comment: ""), clickHandler: {
-                                                viewModel.showConstructorSheet()
-                                            })
+                                        ZStack {
+                                            Image("sparkle_colored_icon").resizable().scaledToFit().frame(width: 28, height: 28)
+                                        }.frame(width: 54, height: 54).background() {
+                                            RoundedRectangle(cornerRadius: 32.0).fill(.window)
                                         }
-                                    }.frame(maxWidth: 380)
+                                        
+                                        Text(NSLocalizedString("create_cv_header", comment: "")).font(.largeTitle).bold().foregroundStyle(Color.accent).foregroundLinearGradient(colors: [ .accentLight, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).padding(.bottom, 8)
+                                        
+                                        Text(NSLocalizedString("create_cv_description", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).padding(.bottom)
+                                        
+                                        SmallButtonView(isSelected: .constant(true), text: NSLocalizedString("create", comment: ""), clickHandler: {
+                                            viewModel.showConstructorSheet()
+                                        })
+                                        
+                                    }.frame(maxHeight: .infinity).background {
+                                        ColoredBackgroundLargeView()
+                                    }.clipShape(RoundedRectangle(cornerRadius: 20.0))
                                 }
                             }
                             
@@ -117,7 +133,9 @@ struct HomeView: View {
                                 viewModel.showInitialPaywallIfAvailable()
                             }
                         }.sheet(isPresented: $viewModel.paywallSheetShown, onDismiss: {
-                            viewModel.checkPaywallFinish()
+                            withAnimation {
+                                viewModel.checkPaywallFinish()
+                            }
                         }) {
                             PaywallView(benefitsId: 0, source: "Home view").presentationDetents([.large])
                         }.sheet(isPresented: $viewModel.constructorSheetShown) {
@@ -150,6 +168,14 @@ struct HomeView: View {
                     
                 }.onDisappear() {
                     viewModel.isVisible = false
+                }.onChange(of: viewModel.isLoading) {
+                    withAnimation {
+                        isLoading = viewModel.isLoading
+                    }
+                }.onChange(of: viewModel.listVisible) {
+                    withAnimation {
+                        listVisible = viewModel.listVisible
+                    }
                 }.navigationDestination(isPresented: $viewModel.editorPresented) {
                     EditorView(cv: viewModel.selectedCV)
                 }.navigationBarTitleDisplayMode(.inline).navigationTitle(NSLocalizedString("welcome", comment: "")).toolbar {

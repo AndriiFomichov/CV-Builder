@@ -25,7 +25,7 @@ struct ContactCategoryView: View, KeyboardReadable {
             
             VStack (spacing: 0) {
                 
-                TopBarView(header: .constant(NSLocalizedString("contact_input_header", comment: "")), description: .constant(NSLocalizedString("contact_input_description", comment: "")), progress: .constant(0.0), isLoading: .constant(false), isCollapsed: $isCollapsed, lineIllustration: "small_line_four_illustration")
+                TopBarView(header: .constant(NSLocalizedString("contact_input_header", comment: "")), description: .constant(NSLocalizedString("contact_input_description", comment: "")), isCollapsed: $isCollapsed)
 
                 VStack {
                     
@@ -34,17 +34,17 @@ struct ContactCategoryView: View, KeyboardReadable {
                             
                             Text(NSLocalizedString("field_phone_number", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                             
-                            TextInputView(text: $viewModel.phone, icon: "phone.fill", hint: NSLocalizedString("field_phone_number_hint", comment: "")).padding(.bottom)
+                            TextInputView(text: $viewModel.phone, icon: "phone.fill", hint: NSLocalizedString("field_phone_number_hint", comment: ""), keyboardType: .phonePad).padding(.bottom)
                             
                             Text(NSLocalizedString("field_email", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                             
-                            TextInputView(text: $viewModel.email, icon: "envelope.fill", hint: NSLocalizedString("field_email_hint", comment: "")).padding(.bottom)
+                            TextInputView(text: $viewModel.email, icon: "envelope.fill", hint: NSLocalizedString("field_email_hint", comment: ""), keyboardType: .emailAddress).padding(.bottom)
                             
                             Text(NSLocalizedString("field_website", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                             
                             VStack {
                                 HStack {
-                                    TextInputView(text: $viewModel.website, icon: "globe", hint: NSLocalizedString("field_website_hint", comment: "")).onChange(of: viewModel.website) {
+                                    TextInputView(text: $viewModel.website, icon: "globe", hint: NSLocalizedString("field_website_hint", comment: ""), keyboardType: .URL).onChange(of: viewModel.website) {
                                         viewModel.handleLinkChange()
                                         
                                         withAnimation {
@@ -63,11 +63,11 @@ struct ContactCategoryView: View, KeyboardReadable {
                                                     Image(uiImage: qrPreview).resizable().scaledToFit().frame(width: 24, height: 24)
                                                     
                                                 }.frame(width: 42, height: 42).background() {
-                                                    RoundedRectangle(cornerRadius: 12.0).fill(.windowTwo)
+                                                    RoundedRectangle(cornerRadius: 32.0).fill(.windowTwo)
                                                 }.padding(8)
                                                 
                                             }.background() {
-                                                RoundedRectangle(cornerRadius: 16.0).fill(Color.window)
+                                                RoundedRectangle(cornerRadius: 32.0).fill(Color.window)
                                             }
                                         }
                                     }
@@ -86,7 +86,6 @@ struct ContactCategoryView: View, KeyboardReadable {
                                 }
                                 
                             }.padding(.bottom)
-                            
                             
                         }.padding()
                     }

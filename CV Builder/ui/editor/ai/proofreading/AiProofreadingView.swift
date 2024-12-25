@@ -15,6 +15,8 @@ struct AiProofreadingView: View {
     @State var header = ""
     @State var showResults = false
     
+    var namespaceAnimation: Namespace.ID
+    
     var body: some View {
         ZStack (alignment: .bottom) {
             Color.background.ignoresSafeArea()
@@ -23,14 +25,15 @@ struct AiProofreadingView: View {
                 
                 if showResults {
                     if viewModel.completeTypos > 0 {
-                        AIProofreadingMistakesView(percent: viewModel.completePercent, texts: viewModel.completeTexts, typos: viewModel.completeTypos, mistakes: viewModel.completeMistakes)
+                        AIProofreadingMistakesView(percent: viewModel.completePercent, texts: viewModel.completeTexts, typos: viewModel.completeTypos, mistakes: viewModel.completeMistakes, namespaceAnimation: namespaceAnimation)
                     } else {
-                        AiProofreadingSuccessView(percent: viewModel.completePercent, texts: viewModel.completeTexts, typos: viewModel.completeTypos)
+                        AiProofreadingSuccessView(percent: viewModel.completePercent, texts: viewModel.completeTexts, typos: viewModel.completeTypos, namespaceAnimation: namespaceAnimation)
                     }
                 } else {
-                    AiLoadingView(isLoading: $viewModel.isLoading, header: $header, description: .constant(NSLocalizedString("couple_minutes_save_hours", comment: "")), icon: $viewModel.icon)
+                    AiLoadingView(isLoading: $viewModel.isLoading, header: $header, description: .constant(NSLocalizedString("couple_minutes_save_hours", comment: "")), icon: $viewModel.icon, namespaceAnimation: namespaceAnimation)
                 }
             }
+            
         }.onAppear() {
             viewModel.updateData(parentViewModel: parentViewModel)
             header = viewModel.header
@@ -47,5 +50,6 @@ struct AiProofreadingView: View {
 }
 
 #Preview {
-    AiProofreadingView().environmentObject(EditorAiAssistantViewModel())
+    @Previewable @Namespace var namespace
+    AiProofreadingView(namespaceAnimation: namespace).environmentObject(EditorAiAssistantViewModel())
 }

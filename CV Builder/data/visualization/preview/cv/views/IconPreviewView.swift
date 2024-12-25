@@ -11,7 +11,7 @@ struct IconPreviewView: View {
     
     var iconName: String
     var size: Int
-    var font: String
+    var font: Int
     var isBold: Bool
     var foregroundColor: String
     var backgroundColor: String
@@ -28,12 +28,16 @@ struct IconPreviewView: View {
                 RoundedRectangle(cornerRadius: cornersRadius).fill(Color(hex: backgroundColor)).stroke(strokeAdded ? Color(hex: strokeColor) : .clear, style: StrokeStyle(lineWidth: CGFloat(strokeWidth)))
             }
             
-            Image(systemName: iconName).font(SwiftUI.Font.custom(NSLocalizedString(font, comment: ""), size: backAdded ? CGFloat(size) * 0.7 : CGFloat(size))).foregroundStyle(Color(hex: foregroundColor)).bold(isBold)
+            Image(systemName: iconName).font(SwiftUI.Font.custom(NSLocalizedString(getFontByStyle(font), comment: ""), size: backAdded ? CGFloat(size) * 0.7 : CGFloat(size))).foregroundStyle(Color(hex: foregroundColor)).bold(isBold)
             
         }.frame(width: CGFloat(size) * 1.5, height: CGFloat(size) * 1.5)
+    }
+    
+    private func getFontByStyle (_ id: Int) -> String {
+        return PreloadedDatabase.getFontId(id: id).name
     }
 }
 
 #Preview {
-    IconPreviewView(iconName: "gear", size: 24, font: "Roboto", isBold: true, foregroundColor: "#CA4545", backgroundColor: "#ACFFFF", cornersRadius: 12, strokeWidth: 1, strokeColor: "#CA1212", backAdded: true, strokeAdded: true)
+    IconPreviewView(iconName: "gear", size: 24, font: 0, isBold: true, foregroundColor: "#CA4545", backgroundColor: "#ACFFFF", cornersRadius: 12, strokeWidth: 1, strokeColor: "#CA1212", backAdded: true, strokeAdded: true)
 }

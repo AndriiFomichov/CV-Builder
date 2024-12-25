@@ -9,10 +9,8 @@ import Foundation
 
 class OnBoardStyleViewModel: ObservableObject {
     
-    var selectedStyle = 0
-    
     @Published var list: [Style] = []
-    @Published var currentPage = 0
+    @Published var currentPage = -1
     @Published var btnMainSelected = false
     @Published var nextStepPresented = false
     
@@ -31,7 +29,7 @@ class OnBoardStyleViewModel: ObservableObject {
     
     private func getData () {
         if let parentViewModel {
-            selectedStyle = parentViewModel.style
+            currentPage = parentViewModel.style
         }
     }
     
@@ -39,31 +37,17 @@ class OnBoardStyleViewModel: ObservableObject {
     private func updateList () async {
         let styles: [Style] = PreloadedDatabase.getStyles()
         
-        let position = getStylePosition(id: selectedStyle, list: styles)
+        let position = getStylePosition(id: currentPage, list: styles)
         if position != -1 {
             styles[position].isSelected = true
             btnMainSelected = true
-            currentPage = selectedStyle
         }
         
         self.list = styles
     }
     
     func selectStyle (id: Int) {
-        if id != selectedStyle {
-            for i in 0...list.count-1 {
-                let style = list[i]
-                if i == id {
-                    style.isSelected = true
-                } else {
-                    style.isSelected = false
-                }
-                list[i] = style
-            }
-            selectedStyle = id
-        }
-        saveStyle()
-        btnMainSelected = true
+        currentPage = id
     }
     
     func nextStep () {
@@ -72,11 +56,11 @@ class OnBoardStyleViewModel: ObservableObject {
     }
     
     private func saveStyle () {
-        if selectedStyle == -1 {
-            selectedStyle = 0
+        if currentPage == -1 {
+            currentPage = 0
         }
         if let parentViewModel {
-            parentViewModel.saveStyle(id: selectedStyle)
+            parentViewModel.saveStyle(id: currentPage)
         }
     }
     

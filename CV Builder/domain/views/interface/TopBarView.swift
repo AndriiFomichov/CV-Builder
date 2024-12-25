@@ -11,112 +11,83 @@ struct TopBarView: View {
     
     @Binding var header: String
     @Binding var description: String
-    @Binding var progress: CGFloat
-    @Binding var isLoading: Bool
     @Binding var isCollapsed: Bool
     
-    var lineIllustration: String
-    var illustration: String? = nil
+    var icon: String = ""
+    var isIconSystem: Bool = true
+    var iconPlusAdded: Bool = false
     
-    var progressShown: Bool = false
     var maxHeight: CGFloat = 200.0
     
     @State var collapsed = false
-    @State var loadingShown = false
-    @State var progressValue: CGFloat = 0.0
     @State var headerValue = ""
     @State var descriptionValue = ""
+    @State var iconAnimating = false
     
     var body: some View {
         ZStack {
             
             HStack {
                 
-                VStack (alignment: .leading) {
+                VStack (alignment: .center) {
+                    
+                    if !icon.isEmpty && !collapsed {
+                        ZStack {
+                            
+                            if isIconSystem {
+                                Image(systemName: icon).font(.title2).foregroundStyle(.accent).symbolEffect(.bounce, value: iconAnimating)
+                            } else {
+                                Image(icon).resizable().scaledToFit().frame(width: 28, height: 28)
+                            }
+                            
+                            if iconPlusAdded {
+                                Image(systemName: "plus.circle.fill").font(.headline).foregroundStyle(.accent).offset(x: 18, y: 18)
+                            }
+                            
+                        }.frame(width: 54, height: 54).background() {
+                            RoundedRectangle(cornerRadius: 32.0).fill(.window)
+                        }
+                    }
                     
                     if !collapsed {
-                        Text(headerValue).font(collapsed ? .headline : .title).bold().foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
+                        Text(headerValue).font(collapsed ? .headline : .title).bold().foregroundStyle(.accent).foregroundLinearGradient(colors: [ .accentLight, .accent ], startPoint: .topLeading, endPoint: .bottomTrailing).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true).contentTransition(.identity)
                     }
                     
                     if !descriptionValue.isEmpty && !collapsed {
-                        Text(descriptionValue).font(.subheadline).foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).offset(y: 8)
-                    }
-                    
-                    if loadingShown && !collapsed {
-                        ProgressView().foregroundStyle(Color.white).transition(.opacity).padding(.top, 4)
+                        Text(descriptionValue).font(.subheadline).foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .center).multilineTextAlignment(.center).offset(y: 8).contentTransition(.identity)
                     }
                     
                 }.padding([.leading, .trailing, .bottom])
-                
-                if progressShown && !collapsed {
-                    CircleProgressView(progress: progressValue).frame(maxHeight: 90).padding(.trailing)
-                }
-                
-                if let illustration, !illustration.isEmpty, !collapsed {
-                    if illustration == "back_remover_illustration" {
-                        BackRemoverIllustrationView().frame(width: 126, height: 126).padding(.trailing )
-                    } else {
-                        Image(illustration).resizable().scaledToFit()
-                    }
-                }
-                
+
             }.frame(maxHeight: .infinity).padding(.bottom, 36)
             
         }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).background() {
-            ZStack (alignment: getGravityForLine() == 1 ? .bottomTrailing : .bottomLeading) {
-                LinearGradient(gradient: Gradient(colors: [.backgroundDark, .backgroundDark]), startPoint: .topLeading, endPoint: .bottomTrailing).ignoresSafeArea()
-                
-                if !collapsed {
-                    Image(lineIllustration).renderingMode(.template).resizable().scaledToFit().foregroundStyle(.backgroundDarker)
-                }
-            }
-        }.frame(height: isCollapsed ? 40.0 : maxHeight).onChange(of: isLoading) {
+            
+            ColorBackgroundView(size: 160).ignoresSafeArea()
+            
+        }.frame(height: isCollapsed ? 40.0 : maxHeight).onChange(of: header) {
             withAnimation {
-                self.loadingShown = isLoading
-            }
-        }.onChange(of: header) {
-            withAnimation {
-                self.headerValue = header
+                headerValue = header
             }
         }.onChange(of: description) {
             withAnimation {
-                self.descriptionValue = description
-            }
-        }.onChange(of: progress) {
-            withAnimation {
-                self.progressValue = progress
+                descriptionValue = description
             }
         }.onChange(of: isCollapsed) {
             withAnimation {
-                self.collapsed = isCollapsed
+                collapsed = isCollapsed
             }
         }.onAppear() {
-            self.loadingShown = isLoading
-            self.headerValue = header
-            self.descriptionValue = description
-            self.progressValue = progress
-            self.collapsed = isCollapsed
-        }
-    }
-    
-    private func getGravityForLine () -> Int {
-        switch lineIllustration {
-        case "small_line_one_illustration":
-            return 0
-        case "small_line_two_illustration":
-            return 0
-        case "small_line_three_illustration":
-            return 1
-        case "small_line_four_illustration":
-            return 1
-        case "small_line_five_illustration":
-            return 0
-        default:
-            return 0
+            headerValue = header
+            descriptionValue = description
+            collapsed = isCollapsed
+            withAnimation {
+                iconAnimating = true
+            }
         }
     }
 }
 
 #Preview {
-    TopBarView(header: .constant("Header"), description: .constant("Description"), progress: .constant(0.4), isLoading: .constant(false), isCollapsed: .constant(false), lineIllustration: "small_line_four_illustration", illustration: nil, progressShown: true)
+    TopBarView(header: .constant("Header"), description: .constant("Description"), isCollapsed: .constant(false), icon: "gear", isIconSystem: true, iconPlusAdded: true)
 }
