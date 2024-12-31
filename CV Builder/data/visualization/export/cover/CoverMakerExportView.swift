@@ -10,17 +10,22 @@ import SwiftUI
 struct CoverMakerExportView: View {
     
     let cv: CVEntityWrapper
+    let addWatermark: Bool
     
     var width: CGFloat = 595.11
     var height: CGFloat = 841.66
     
     var body: some View {
-        if let coverLetter = cv.coverLetter {
+        if cv.coverLetter != nil {
             switch cv.style {
             case 0:
-                StyleOneCoverExportView(cv: cv, width: width, height: height)
+                StyleOneCoverExportView(cv: cv, addWatermark: addWatermark, width: width, height: height)
             case 1:
-                StyleTwoCoverExportView(cv: cv, width: width, height: height)
+                StyleTwoCoverExportView(cv: cv, addWatermark: addWatermark, width: width, height: height)
+            case 2:
+                StyleThreeCoverExportView(cv: cv, addWatermark: addWatermark, width: width, height: height)
+            case 3:
+                StyleFourCoverExportView(cv: cv, addWatermark: addWatermark, width: width, height: height)
             default:
                 VStack {}
             }
@@ -29,5 +34,5 @@ struct CoverMakerExportView: View {
 }
 
 #Preview {
-    CoverMakerExportView(cv: CVEntityWrapper.getDefault())
+    CoverMakerExportView(cv: CVEntityWrapper.getDefault(), addWatermark: true)
 }

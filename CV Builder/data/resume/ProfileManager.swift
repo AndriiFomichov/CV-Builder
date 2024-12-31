@@ -17,7 +17,7 @@ class ProfileManager {
 //    }
     
     func createProfile () -> ProfileEntity {
-        let profile = ProfileEntity(name: "", location: "", jobTitle: "", photoId: -1, profileDescription: "", email: "", phone: "", websiteLink: "", websiteQrCodeId: -1, socialMediasList: [], skillsList: [], interestsList: [], educationsList: [], worksList: [], certificatesList: [], languagesList: [], referencesList: [])
+        let profile = ProfileEntity(name: "", location: "", jobTitle: "", photoId: -1, email: "", phone: "", websiteLink: "", websiteQrCodeId: -1, socialMediasList: [], skillsList: [], interestsList: [], educationsList: [], worksList: [], certificatesList: [], languagesList: [], referencesList: [])
         
         DatabaseBox.saveEntity(item: profile)
         
@@ -205,11 +205,10 @@ class ProfileManager {
     
     // update
     
-    func updateGeneralDate (profile: ProfileEntity, name: String = "", location: String = "", jobTitle: String = "", profileDescription: String = "") {
+    func updateGeneralDate (profile: ProfileEntity, name: String = "", location: String = "", jobTitle: String = "") {
         profile.name = name
         profile.location = location
         profile.jobTitle = jobTitle
-        profile.profileDescription = profileDescription
         DatabaseBox.saveContext()
     }
     
@@ -466,7 +465,7 @@ class ProfileManager {
     }
     
     func getIfProfileMainFilled (profile: ProfileEntity) -> Bool {
-        var generalFilled = !profile.name.isEmpty && !profile.jobTitle.isEmpty
+        let generalFilled = !profile.name.isEmpty && !profile.jobTitle.isEmpty
         
         var educationFilled = true
         if let educationsList = profile.educationsList {
@@ -513,7 +512,7 @@ class ProfileManager {
     }
     
     func getGeneralInfoCategoryStatus (profile: ProfileEntity) -> (steps: Int, finished: Int, progress: CGFloat) {
-        var steps = 4
+        let steps = 3
         var finished = 0
         
         if !profile.name.isEmpty {
@@ -528,15 +527,11 @@ class ProfileManager {
             finished += 1
         }
         
-        if !profile.profileDescription.isEmpty {
-            finished += 1
-        }
-        
         return (steps: steps, finished: finished, progress: CGFloat(finished) / CGFloat(steps))
     }
     
     func getContactCategoryStatus (profile: ProfileEntity) -> (steps: Int, finished: Int, progress: CGFloat) {
-        var steps = 4
+        let steps = 4
         var finished = 0
         
         if !profile.email.isEmpty {
@@ -559,7 +554,7 @@ class ProfileManager {
     }
     
     func getSocialCategoryStatus (profile: ProfileEntity) -> (steps: Int, finished: Int, progress: CGFloat) {
-        var steps = 1
+        let steps = 1
         var finished = 0
         
         if let list = profile.socialMediasList, list.count > 0 {
@@ -570,7 +565,7 @@ class ProfileManager {
     }
     
     func getSkillsCategoryStatus (profile: ProfileEntity) -> (steps: Int, finished: Int, progress: CGFloat) {
-        var steps = 1
+        let steps = 1
         var finished = 0
         
         if let list = profile.skillsList, list.count > 0 {
@@ -581,7 +576,7 @@ class ProfileManager {
     }
     
     func getInterestsCategoryStatus (profile: ProfileEntity) -> (steps: Int, finished: Int, progress: CGFloat) {
-        var steps = 1
+        let steps = 1
         var finished = 0
         
         if let list = profile.interestsList, list.count > 0 {
@@ -592,7 +587,7 @@ class ProfileManager {
     }
     
     func getEducationCategoryStatus (profile: ProfileEntity) -> (steps: Int, finished: Int, progress: CGFloat) {
-        var steps = 1
+        let steps = 1
         var finished = 0
         
         if let list = profile.educationsList, list.count > 0 {
@@ -603,7 +598,7 @@ class ProfileManager {
     }
     
     func getWorkCategoryStatus (profile: ProfileEntity) -> (steps: Int, finished: Int, progress: CGFloat) {
-        var steps = 1
+        let steps = 1
         var finished = 0
         
         if let list = profile.worksList, list.count > 0 {
@@ -614,7 +609,7 @@ class ProfileManager {
     }
     
     func getCertificatesCategoryStatus (profile: ProfileEntity) -> (steps: Int, finished: Int, progress: CGFloat) {
-        var steps = 1
+        let steps = 1
         var finished = 0
         
         if let list = profile.certificatesList, list.count > 0 {
@@ -625,7 +620,7 @@ class ProfileManager {
     }
     
     func getLanguagesCategoryStatus (profile: ProfileEntity) -> (steps: Int, finished: Int, progress: CGFloat) {
-        var steps = 1
+        let steps = 1
         var finished = 0
         
         if let list = profile.languagesList, list.count > 0 {
@@ -636,7 +631,7 @@ class ProfileManager {
     }
     
     func getReferencesCategoryStatus (profile: ProfileEntity) -> (steps: Int, finished: Int, progress: CGFloat) {
-        var steps = 1
+        let steps = 1
         var finished = 0
         
         if let list = profile.referencesList, list.count > 0 {

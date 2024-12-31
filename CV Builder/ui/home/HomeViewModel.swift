@@ -105,7 +105,7 @@ class HomeViewModel: ObservableObject {
             if let data = entity.previewTwo, let uiImage = UIImage(data: data) {
                 previewTwo = await uiImage.resizeAsync(height: 300)
             }
-            return CVItem(entity: entity, previewOne: previewOne, previewTwo: previewTwo, targetJob: entity.tagretJob, targetCompany: entity.tagretCompany)
+            return CVItem(entity: entity, previewOne: previewOne, previewTwo: previewTwo, targetJob: entity.targetJob, targetCompany: entity.targetCompany)
         }
         return nil
     }

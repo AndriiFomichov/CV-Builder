@@ -10,6 +10,7 @@ import SwiftUI
 struct StyleTwoCoverExportView: View {
     
     var cv: CVEntityWrapper
+    var addWatermark: Bool
     
     var width: CGFloat = 595.11
     var height: CGFloat = 841.66
@@ -30,10 +31,12 @@ struct StyleTwoCoverExportView: View {
             
         }.padding(CGFloat(cv.marginsSize * 2)).contentShape(Rectangle()).frame(width: width, height: height).background() {
             Color(hex: cv.mainColor)
+        }.overlay {
+            WatermarkView(added: addWatermark)
         }
     }
 }
 
 #Preview {
-    StyleTwoCoverExportView(cv: CVEntityWrapper.getDefault())
+    StyleTwoCoverExportView(cv: CVEntityWrapper.getDefault(), addWatermark: true)
 }

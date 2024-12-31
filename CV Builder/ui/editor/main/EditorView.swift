@@ -45,9 +45,11 @@ struct EditorView: View, KeyboardReadable {
                                 }, pagesSelectHandler: { page in
                                     viewModel.showPage(page: page)
                                 }, generateClickHandler: {
-                                    viewModel.generateCoverLetter()
+                                    viewModel.applyCoverLetterAiAction(action: 0)
                                 }, textChangeHandler: { text in
                                     viewModel.handleCoverLetterTextChanged(text: text)
+                                }, tapHandler: { page, isCv in
+                                    viewModel.updateState(state: 2)
                                 }, doubleTapHandler: { page, isCv in
                                     viewModel.showZoomablePreview(page: page, isCv: isCv)
                                 })
@@ -65,8 +67,9 @@ struct EditorView: View, KeyboardReadable {
                             switch currentState {
                             case 0:
                                 if keyboardVisible {
-                                    KeyboardActionsView(clearHanlder: {
+                                    KeyboardActionsAiView(actionAvailable: $viewModel.isCoverLetterAiActionAvailable, aiHanlder: { action in
                                         self.endEditing()
+                                        viewModel.applyCoverLetterAiAction(action: action)
                                     }, doneHanlder: {
                                         self.endEditing()
                                     })
@@ -104,6 +107,10 @@ struct EditorView: View, KeyboardReadable {
                 CVChangeView(changes: viewModel.changesList, appliedHandler: { applied in
                     viewModel.handleProfileChangesSheet(apply: applied)
                 }).presentationDetents([.large])
+            }.sheet(isPresented: $viewModel.aiCommandSheetShown) {
+                CustomAIActionView(initialText: viewModel.customAction.text, actionHandler: { command in
+                    viewModel.handleAiCommandApplied(command: command)
+                }).presentationDetents([.medium])
             }.sheet(isPresented: $viewModel.limitSheetShown) {
                 AiLimitView(type: 2).presentationDetents([.large])
             }.sheet(isPresented: $viewModel.connectionSheetShown) {

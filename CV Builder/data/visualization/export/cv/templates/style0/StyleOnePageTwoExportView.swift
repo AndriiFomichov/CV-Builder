@@ -18,11 +18,11 @@ struct StyleOnePageTwoExportView: View {
     var body: some View {
         HStack (spacing: 0) {
             
-            ColumnExportView(page: page, isMainBlock: false, cv: cv, addBlockPadding: true, headerTextColor: "#FFFFFF", mainTextColor: "#FFFFFF", blockBackgroundColors: ["","","","","","","","","","",""], blockStrokeColors: ["","","","","","","","","","",""]).frame(width: width * 0.38).background() {
+            ColumnExportView(page: page, isMainBlock: false, cv: cv, addDivider: false, addBlockPadding: true, addBottomPadding: false, headerTextColor: "#FFFFFF", mainTextColor: "#FFFFFF", blockBackgroundColors: ["","","","","","","","","","",""], blockStrokeColors: ["","","","","","","","","","",""]).frame(width: width * 0.38).background() {
                 Color(hex: "#262626")
             }
             
-            ColumnExportView(page: page, isMainBlock: true, cv: cv, addBlockPadding: true, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","#EBEBEB","","#EBEBEB","","#EBEBEB","","#EBEBEB","","#EBEBEB",""], blockStrokeColors: ["","","","","","","","","","",""]).frame(width: width * 0.62)
+            ColumnExportView(page: page, isMainBlock: true, cv: cv, addDivider: false, addBlockPadding: true, addBottomPadding: false, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","#EBEBEB","","#EBEBEB","","#EBEBEB","","#EBEBEB","","#EBEBEB",""], blockStrokeColors: ["","","","","","","","","","",""]).frame(width: width * 0.62)
             
         }.contentShape(Rectangle()).frame(width: width, height: height).background() {
             Color(hex: "#F5F5F5")

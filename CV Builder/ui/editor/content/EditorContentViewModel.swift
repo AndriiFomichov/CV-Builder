@@ -12,6 +12,8 @@ class EditorContentViewModel: ObservableObject {
     
     let contentManager = CVContentManager()
     
+    var customAction = CustomActionInfo()
+    
     var cv: CVEntity?
     
     @Published var mainList: [ContentBlock] = []
@@ -20,6 +22,8 @@ class EditorContentViewModel: ObservableObject {
     
     @Published var attemptsText = ""
     
+    @Published var additionalTextsSheetShown = false
+    @Published var aiCommandSheetShown = false
     @Published var contentSheetShown = false
     @Published var paywallSheetShown = false
     @Published var limitSheetShown = false
@@ -70,138 +74,144 @@ class EditorContentViewModel: ObservableObject {
     }
     
     @MainActor
-    func handleMainItemAiActionClick (index: Int, action: Int) {
-        if checkIsAiActionsAvailable() && index >= 0 && index < mainList.count {
-            let content = mainList[index]
+    func handleBlockItemAiActionClick (index: Int, action: Int, isMain: Bool) {
+        if checkIsAiActionsAvailable() {
             
-            if let cv, let profileDescBlock = cv.profileDescBlock, let generalBlock = cv.generalBlock, content.blockId == 1, !content.isLoading {
-                content.isLoading = true
-                mainList[index] = content
+            var list: [ContentBlock]
+            if isMain {
+                list = mainList
+            } else {
+                list = additionalList
+            }
+            
+            if index >= 0 && index < list.count {
+                let block = list[index]
                 
-                generateTextForItem(cv: cv, content: content, blockGeneral: generalBlock, block: profileDescBlock, action: action)
+                if action == 4 {
+                    customAction = CustomActionInfo(text: block.text, block: block, action: action, index: index, isMain: isMain)
+                    openAiActionSheet()
+                } else {
+                    applyBlockAiActionClick(block: block, index: index, action: action, customAction: nil, isMain: isMain)
+                }
             }
         }
     }
     
     @MainActor
-    func handleAdditionalItemAiActionClick (index: Int, action: Int) {
-        if checkIsAiActionsAvailable() && index >= 0 && index < additionalList.count {
-            let content = additionalList[index]
-            
-            if let cv, let profileDescBlock = cv.profileDescBlock, let generalBlock = cv.generalBlock, content.blockId == 1, !content.isLoading {
-                content.isLoading = true
-                additionalList[index] = content
-                
-                generateTextForItem(cv: cv, content: content, blockGeneral: generalBlock, block: profileDescBlock, action: action)
+    private func applyBlockAiActionClick (block: ContentBlock, index: Int, action: Int, customAction: String?, isMain: Bool) {
+        if let cv, let profileDescBlock = cv.profileDescBlock, let generalBlock = cv.generalBlock, block.blockId == 1, !block.isLoading {
+            block.isLoading = true
+            if isMain {
+                mainList[index] = block
+            } else {
+                additionalList[index] = block
             }
+            generateTextForItem(cv: cv, contentBlock: block, blockGeneral: generalBlock, block: profileDescBlock, action: action, customAction: customAction)
         }
     }
     
     @MainActor
-    private func generateTextForItem (cv: CVEntity, content: ContentBlock, blockGeneral: GeneralInfoBlockEntity, block: ProfileDescriptionBlockEntity, action: Int) {
+    private func generateTextForItem (cv: CVEntity, contentBlock: ContentBlock, blockGeneral: GeneralInfoBlockEntity, block: ProfileDescriptionBlockEntity, action: Int, customAction: String?) {
         Task {
-            if let newText = await contentManager.updateTextWithAi(currentJob: blockGeneral.jobTitle, workItem: nil, educationItem: nil, targetJob: cv.tagretJob, targetCompany: cv.tagretCompany, action: action, text: content.text, isBulletedList: false) {
-                content.text = newText
-                block.profileDescription = content.text
-                
-//                        AiManager.useAiTextAttempt()
+            if let newText = await AIAssistant.applyTextAiAction(currentJob: blockGeneral.jobTitle, workItem: nil, educationItem: nil, targetJob: cv.targetJob, targetCompany: cv.targetCompany, targetJobDescription: cv.targetJobDescription, action: action, customAction: customAction, text: contentBlock.text, isBulletedList: false, langId: cv.language) {
+                contentBlock.text = newText
+                block.profileDescription = contentBlock.text
                 updateAttempts()
-                
                 updatePreview()
             }
             
-            content.isLoading = false
+            contentBlock.isLoading = false
         }
     }
     
     @MainActor
-    func handleMainItemItemAiActionClick (itemIndex: Int, index: Int, action: Int) {
-        if checkIsAiActionsAvailable() && itemIndex >= 0 && itemIndex < mainList.count {
-            if let cv {
-                let item = mainList[itemIndex]
+    func handleBlockInnerItemAiActionClick (itemIndex: Int, index: Int, action: Int, isMain: Bool) {
+        if checkIsAiActionsAvailable() {
+            
+            var list: [ContentBlock]
+            if isMain {
+                list = mainList
+            } else {
+                list = additionalList
+            }
+            
+            if itemIndex >= 0 && itemIndex < list.count {
+                let block = list[itemIndex]
+                let item = block.items[index]
                 
-                let content = item.items[index]
-                
-                if !content.isLoading {
-                    content.isLoading = true
-                    item.items[index] = content
-                    mainList[itemIndex] = item
-                    
-                    updateAdditionalItem(index: index, item: item, content: content, contentIndex: index, targetJob: cv.tagretJob, targetCompany: cv.tagretCompany, action: action, text: content.text)
+                if action == 4 {
+                    customAction = CustomActionInfo(text: item.text, block: block, item: item, action: action, index: index, itemIndex: itemIndex, isMain: isMain)
+                    openAiActionSheet()
+                } else {
+                    applyInnerItemAiActionClick(block: block, item: item, itemIndex: itemIndex, index: index, action: action, customAction: nil, isMain: isMain)
                 }
             }
         }
     }
     
     @MainActor
-    func handleAdditionalItemItemAiActionClick (itemIndex: Int, index: Int, action: Int) {
-        if checkIsAiActionsAvailable() && itemIndex >= 0 && itemIndex < additionalList.count {
-            if let cv {
-                let item = additionalList[itemIndex]
-                
-                let content = item.items[index]
-                
-                if !content.isLoading {
-                    content.isLoading = true
-                    item.items[index] = content
-                    additionalList[itemIndex] = item
-                    
-                    updateAdditionalItem(index: index, item: item, content: content, contentIndex: index, targetJob: cv.tagretJob, targetCompany: cv.tagretCompany, action: action, text: content.text)
-                }
+    private func applyInnerItemAiActionClick (block: ContentBlock, item: ContentItem, itemIndex: Int, index: Int, action: Int, customAction: String?, isMain: Bool) {
+        if !item.isLoading {
+            item.isLoading = true
+            block.items[index] = item
+            
+            if isMain {
+                mainList[itemIndex] = block
+            } else {
+                additionalList[itemIndex] = block
             }
+            
+            updateAdditionalItem(index: index, block: block, item: item, contentIndex: index, action: action, customAction: customAction)
         }
     }
     
     @MainActor
-    private func updateAdditionalItem (index: Int, item: ContentBlock, content: ContentItem, contentIndex: Int, targetJob: String, targetCompany: String, action: Int, text: String) {
+    private func updateAdditionalItem (index: Int, block: ContentBlock, item: ContentItem, contentIndex: Int, action: Int, customAction: String?) {
         if let cv {
-            if item.blockId == 2 {
+            if block.blockId == 2 {
                 
                 var entity: EducationBlockItemEntity?
                 var bulleted = false
                 if let block = cv.educationBlock, let list = block.list {
                     for i in list {
-                        if content.enitityId == i.id {
+                        if item.enitityId == i.id {
                             entity = i
                         }
                     }
                     bulleted = block.styleDescritpionAsBulleted
                 }
                 
-                generateTextForItemItem(item: item, content: content, contentIndex: index, workItem: nil, educationItem: entity, targetJob: cv.tagretJob, targetCompany: cv.tagretCompany, action: action, text: content.text, isBulletedList: bulleted)
+                generateTextForItemItem(block: block, item: item, contentIndex: index, workItem: nil, educationItem: entity, targetJob: cv.targetJob, targetCompany: cv.targetCompany, targetJobDescription: cv.targetJobDescription, action: action, customAction: customAction, text: item.text, isBulletedList: bulleted, langId: cv.language)
                 
-            } else if item.blockId == 3 {
+            } else if block.blockId == 3 {
                 
                 var entity: WorkBlockItemEntity?
                 var bulleted = false
                 if let block = cv.workBlock, let list = block.list {
                     for i in list {
-                        if content.enitityId == i.id {
+                        if item.enitityId == i.id {
                             entity = i
                         }
                     }
                     bulleted = block.styleDescritpionAsBulleted
                 }
                 
-                generateTextForItemItem(item: item, content: content, contentIndex: index, workItem: entity, educationItem: nil, targetJob: cv.tagretJob, targetCompany: cv.tagretCompany, action: action, text: content.text, isBulletedList: bulleted)
+                generateTextForItemItem(block: block, item: item, contentIndex: index, workItem: entity, educationItem: nil, targetJob: cv.targetJob, targetCompany: cv.targetCompany, targetJobDescription: cv.targetJobDescription, action: action, customAction: customAction, text: item.text, isBulletedList: bulleted, langId: cv.language)
             }
         }
     }
     
     @MainActor
-    private func generateTextForItemItem (item: ContentBlock, content: ContentItem, contentIndex: Int, workItem: WorkBlockItemEntity?, educationItem: EducationBlockItemEntity?, targetJob: String, targetCompany: String, action: Int, text: String, isBulletedList: Bool) {
+    private func generateTextForItemItem (block: ContentBlock, item: ContentItem, contentIndex: Int, workItem: WorkBlockItemEntity?, educationItem: EducationBlockItemEntity?, targetJob: String, targetCompany: String, targetJobDescription: String, action: Int, customAction: String?, text: String, isBulletedList: Bool, langId: Int) {
         Task {
-            if let newText = await contentManager.updateTextWithAi(currentJob: nil, workItem: workItem, educationItem: educationItem, targetJob: targetJob, targetCompany: targetCompany, action: action, text: text, isBulletedList: isBulletedList) {
-                content.text = newText
-                
-//                        AiManager.useAiTextAttempt()
+            if let newText = await AIAssistant.applyTextAiAction(currentJob: nil, workItem: workItem, educationItem: educationItem, targetJob: targetJob, targetCompany: targetCompany, targetJobDescription: targetJobDescription, action: action, customAction: customAction, text: text, isBulletedList: isBulletedList, langId: langId) {
+                item.text = newText
                 updateAttempts()
-                                           
                 updatePreview()
             }
             
-            content.isLoading = false
-            item.items[contentIndex] = content
+            item.isLoading = false
+            block.items[contentIndex] = item
         }
     }
     
@@ -217,6 +227,21 @@ class EditorContentViewModel: ObservableObject {
                 showPaywallSheet()
             }
             return false
+        }
+    }
+    
+    func openAiActionSheet () {
+        aiCommandSheetShown = true
+    }
+    
+    @MainActor
+    func handleAiCommandApplied (command: String) {
+        if !command.isEmpty, let block = customAction.block {
+            if let item = customAction.item {
+                applyInnerItemAiActionClick(block: block, item: item, itemIndex: customAction.itemIndex, index: customAction.index, action: customAction.action, customAction: command, isMain: customAction.isMain)
+            } else {
+                applyBlockAiActionClick(block: block, index: customAction.index, action: customAction.action, customAction: command, isMain: customAction.isMain)
+            }
         }
     }
     
@@ -237,6 +262,16 @@ class EditorContentViewModel: ObservableObject {
     func handleContentSelection (isChanged: Bool) {
         if isChanged {
             updateLists()
+            updatePreview()
+        }
+    }
+    
+    func openAdditionalTextsSelection () {
+        additionalTextsSheetShown = true
+    }
+    
+    func handleAdditionalTexts (isChanged: Bool) {
+        if isChanged {
             updatePreview()
         }
     }

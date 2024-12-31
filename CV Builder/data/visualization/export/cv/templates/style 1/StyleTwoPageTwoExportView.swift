@@ -18,9 +18,9 @@ struct StyleTwoPageTwoExportView: View {
     var body: some View {
         HStack (spacing: CGFloat(cv.marginsSize * 2)) {
             
-            ColumnExportView(page: page, isMainBlock: true, cv: cv, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","","","","","","","","","",""], blockStrokeColors: ["","","","","","","","","","",""]).frame(width: (width - CGFloat(cv.marginsSize * 6)) * 0.6).padding(.vertical, CGFloat(cv.marginsSize * 2))
+            ColumnExportView(page: page, isMainBlock: true, cv: cv, addDivider: false, addBlockPadding: false, addBottomPadding: true, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","","","","","","","","","",""], blockStrokeColors: ["","","","","","","","","","",""]).frame(width: (width - CGFloat(cv.marginsSize * 6)) * 0.6).padding(.vertical, CGFloat(cv.marginsSize * 2))
             
-            ColumnExportView(page: page, isMainBlock: false, cv: cv, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","","","","","","","","","",""], blockStrokeColors: ["","","","","","","","","","",""]).frame(width: (width - CGFloat(cv.marginsSize * 6)) * 0.4).padding(.vertical, CGFloat(cv.marginsSize * 2))
+            ColumnExportView(page: page, isMainBlock: false, cv: cv, addDivider: false, addBlockPadding: false, addBottomPadding: true, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","","","","","","","","","",""], blockStrokeColors: ["","","","","","","","","","",""]).frame(width: (width - CGFloat(cv.marginsSize * 6)) * 0.4).padding(.vertical, CGFloat(cv.marginsSize * 2))
             
         }.contentShape(Rectangle()).frame(width: width, height: height).background() {
             Color(hex: cv.mainColor)

@@ -35,7 +35,7 @@ struct OnBoardInputView: View, KeyboardReadable {
                     
                     if step == 0 {
                         
-                        GeneralFieldsInputView(name: $viewModel.name, location: .constant(""), job: $viewModel.job, description: .constant(""), allFields: false)
+                        GeneralFieldsInputView(name: $viewModel.name, location: .constant(""), job: $viewModel.job, allFields: false)
                         
                     } else if step == 1 {
                         

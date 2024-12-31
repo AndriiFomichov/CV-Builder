@@ -13,6 +13,7 @@ struct TextInputView: View {
     let icon: String
     let hint: String
     
+    var limit: Int = -1
     var keyboardType: UIKeyboardType = .default
     var options: [MenuItem]? = nil
     
@@ -49,6 +50,9 @@ struct TextInputView: View {
                 isFilled = !text.isEmpty
             }
         }.onChange(of: text) {
+            if limit != -1 {
+                text = String(text.prefix(limit))
+            }
             withAnimation {
                 isFilled = !text.isEmpty
             }

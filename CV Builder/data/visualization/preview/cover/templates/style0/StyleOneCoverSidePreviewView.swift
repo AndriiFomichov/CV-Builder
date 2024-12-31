@@ -39,10 +39,30 @@ struct StyleOneCoverSidePreviewView: View {
                 }.padding(CGFloat(cv.marginsSize))
             }
             
-            ZStack (alignment: .bottom) {
-                Color.clear
-                ContactInfoBlockPreviewView(cv: cv, headerTextColor: "#FFFFFF", mainTextColor: "#FFFFFF", blockBackgroundColor: "", blockStrokeColor: "", lineColor: cv.lineColor, lineCirclesColor: cv.lineCirclesColor, dotColor: cv.dotColor, dotStrokeColor: cv.dotStrokeColor, iconColor: cv.iconColor, iconBackgroundColor: cv.iconBackgroundColor, iconStrokeColor: cv.iconStrokeColor, addBlockPadding: true)
+            if let contactBlock = cv.contactBlock {
+                ZStack (alignment: .bottom) {
+                    Color.clear
+                    
+                    VStack (spacing: CGFloat(cv.marginsSize / 3)) {
+                        
+                        if !contactBlock.email.isEmpty {
+                            ContactInfoItemPreviewView(cv: cv, block: contactBlock, text: contactBlock.email, icon: "envelope.fill", mainTextColor: "#FFFFFF", iconColor: cv.iconColor, iconBackgroundColor: cv.iconBackgroundColor, iconStrokeColor: cv.iconStrokeColor)
+                        }
+                        
+                        if !contactBlock.phone.isEmpty {
+                            ContactInfoItemPreviewView(cv: cv, block: contactBlock, text: contactBlock.phone, icon: "phone.fill", mainTextColor: "#FFFFFF", iconColor: cv.iconColor, iconBackgroundColor: cv.iconBackgroundColor, iconStrokeColor: cv.iconStrokeColor)
+                        }
+                        
+                        if !contactBlock.websiteLink.isEmpty {
+                            ContactInfoItemPreviewView(cv: cv, block: contactBlock, text: contactBlock.websiteLink, icon: "globe", mainTextColor: "#FFFFFF", iconColor: cv.iconColor, iconBackgroundColor: cv.iconBackgroundColor, iconStrokeColor: cv.iconStrokeColor)
+                        }
+                        
+                    }.padding(CGFloat(cv.marginsSize))
+                    
+//                    ContactInfoBlockPreviewView(cv: cv, headerTextColor: "#FFFFFF", mainTextColor: "#FFFFFF", blockBackgroundColor: "", blockStrokeColor: "", lineColor: cv.lineColor, lineCirclesColor: cv.lineCirclesColor, dotColor: cv.dotColor, dotStrokeColor: cv.dotStrokeColor, iconColor: cv.iconColor, iconBackgroundColor: cv.iconBackgroundColor, iconStrokeColor: cv.iconStrokeColor, addBlockPadding: true)
+                }
             }
+            
             
         }.background() {
             Color(hex: "#1D1D1D")

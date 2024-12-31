@@ -17,19 +17,19 @@ class CertificatesBlockEntityWrapper {
     var isMainBlock: Bool
     var page: Int
     
-    var textLanguages: String
+    var textCertificates: String
     
     var styleIsBulletedList: Bool
     var styleHeaderPosition: Int
 
-    init(entity: CertificatesBlockEntity?, list: [CertificateBlockItemEntityWrapper], isAdded: Bool, position: Int, isMainBlock: Bool, page: Int, textLanguages: String, styleIsBulletedList: Bool, styleHeaderPosition: Int) {
+    init(entity: CertificatesBlockEntity?, list: [CertificateBlockItemEntityWrapper], isAdded: Bool, position: Int, isMainBlock: Bool, page: Int, textCertificates: String, styleIsBulletedList: Bool, styleHeaderPosition: Int) {
         self.entity = entity
         self.list = list
         self.isAdded = isAdded
         self.position = position
         self.isMainBlock = isMainBlock
         self.page = page
-        self.textLanguages = textLanguages
+        self.textCertificates = textCertificates
         self.styleIsBulletedList = styleIsBulletedList
         self.styleHeaderPosition = styleHeaderPosition
     }
@@ -49,12 +49,12 @@ class CertificatesBlockEntityWrapper {
         self.position = entity.position
         self.isMainBlock = entity.isMainBlock
         self.page = entity.page
-        self.textLanguages = entity.textLanguages
+        self.textCertificates = entity.textCertificates
         self.styleIsBulletedList = entity.styleIsBulletedList
         self.styleHeaderPosition = entity.styleHeaderPosition
     }
     
     static func getDefault (position: Int, isMainBlock: Bool) -> CertificatesBlockEntityWrapper {
-        return CertificatesBlockEntityWrapper(entity: nil, list: [ CertificateBlockItemEntityWrapper.getDefault(position: 0) ], isAdded: true, position: position, isMainBlock: isMainBlock, page: 0, textLanguages: NSLocalizedString("languages", comment: ""), styleIsBulletedList: true, styleHeaderPosition: 0)
+        return CertificatesBlockEntityWrapper(entity: nil, list: [ CertificateBlockItemEntityWrapper.getDefault(position: 0) ], isAdded: true, position: position, isMainBlock: isMainBlock, page: 0, textCertificates: NSLocalizedString("languages", comment: ""), styleIsBulletedList: true, styleHeaderPosition: 0)
     }
 }

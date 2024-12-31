@@ -17,8 +17,8 @@ struct LanguageItemView: View {
             
             ZStack {
                 
-                if let lang = PreloadedDatabase.getLanguageById(id: item.langId) {
-                    Image(lang.icon).resizable().scaledToFit().frame(width: 24, height: 24)
+                if item.langId >= 0 {
+                    Image(PreloadedDatabase.getLanguageById(id: item.langId).icon).resizable().scaledToFit().frame(width: 24, height: 24)
                 } else {
                     Image(systemName: "globe").font(.headline).foregroundStyle(.accent)
                 }

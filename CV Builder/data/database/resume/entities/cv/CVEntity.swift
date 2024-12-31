@@ -32,8 +32,11 @@ class CVEntity {
     var lastModified: Date
     var bookmarked: Bool
     
-    var tagretJob: String
-    var tagretCompany: String
+    var language: Int
+    
+    var targetJob: String
+    var targetCompany: String
+    var targetJobDescription: String
     
     @Attribute(.externalStorage) var previewOne: Data?
     @Attribute(.externalStorage) var previewTwo: Data?
@@ -72,6 +75,7 @@ class CVEntity {
     
     var progressBarStyle: Int
     var progressBarPercentAdded: Bool
+    var progressHeight: Int
     
     var iconSize: Int
     var iconBackAdded: Bool
@@ -108,8 +112,10 @@ class CVEntity {
         self.name = entity.name
         self.lastModified = entity.lastModified
         self.bookmarked = entity.bookmarked
-        self.tagretJob = entity.tagretJob
-        self.tagretCompany = entity.tagretCompany
+        self.language = entity.language
+        self.targetJob = entity.targetJob
+        self.targetCompany = entity.targetCompany
+        self.targetJobDescription = entity.targetJobDescription
         self.previewOne = entity.previewOne
         self.previewTwo = entity.previewTwo
         self.style = entity.style
@@ -136,6 +142,7 @@ class CVEntity {
         self.dotStrokeAdded = entity.dotStrokeAdded
         self.progressBarStyle = entity.progressBarStyle
         self.progressBarPercentAdded = entity.progressBarPercentAdded
+        self.progressHeight = entity.progressHeight
         self.iconSize = entity.iconSize
         self.iconBackAdded = entity.iconBackAdded
         self.iconStrokeAdded = entity.iconStrokeAdded
@@ -165,7 +172,7 @@ class CVEntity {
         self.chipStrokeColor = entity.chipStrokeColor
     }
     
-    init(generalBlock: GeneralInfoBlockEntity?, profileDescBlock: ProfileDescriptionBlockEntity?, contactBlock: ContactInfoBlockEntity?, socialBlock: SocialMediaBlockEntity?, qrCodesBlock: QRCodesBlockEntity?, educationBlock: EducationBlockEntity?, workBlock: WorkBlockEntity?, languagesBlock: LanguagesBlockEntity?, skillsBlock: SkillsBlockEntity?, interestsBlock: InterestsBlockEntity?, certificatesBlock: CertificatesBlockEntity?, referencesBlock: ReferencesBlockEntity?, coverLetter: CoverLetterEntity?, name: String, lastModified: Date, bookmarked: Bool, tagretJob: String, tagretCompany: String, previewOne: Data?, previewTwo: Data?, style: Int, hasAdditionalBlock: Bool, nameFont: Int, headersFont: Int, textFont: Int, nameSize: Int, headersSize: Int, textSize: Int, marginsSize: Int, isHeadersBold: Bool, isHeadersUppercased: Bool, isHeadersItalic: Bool, headerDotAdded: Bool, headerLineAdded: Bool, headerLinePosition: Int, lineCirclesAdded: Bool, cornersRadius: Int, strokeWidth: Int, lineWidth: Int, dotSize: Int, dotBackAdded: Bool, dotStrokeAdded: Bool, progressBarStyle: Int, progressBarPercentAdded: Bool, iconSize: Int, iconBackAdded: Bool, iconStrokeAdded: Bool, iconIsBold: Bool, chipBackAdded: Bool, chipStrokeAdded: Bool, textResume: String, textCV: String, textProfile: String, textThankYou: String, mainColor: String, headerTextColor: String, mainTextColor: String, lineColor: String, lineCirclesColor: String, dotColor: String, dotStrokeColor: String, iconColor: String, iconBackgroundColor: String, iconStrokeColor: String, qrForegroundColor: String, qrBackgroundColor: String, progressForegroundColor: String, progressBackgroundColor: String, chipTextColor: String, chipBackgroundColor: String, chipStrokeColor: String) {
+    init(generalBlock: GeneralInfoBlockEntity?, profileDescBlock: ProfileDescriptionBlockEntity?, contactBlock: ContactInfoBlockEntity?, socialBlock: SocialMediaBlockEntity?, qrCodesBlock: QRCodesBlockEntity?, educationBlock: EducationBlockEntity?, workBlock: WorkBlockEntity?, languagesBlock: LanguagesBlockEntity?, skillsBlock: SkillsBlockEntity?, interestsBlock: InterestsBlockEntity?, certificatesBlock: CertificatesBlockEntity?, referencesBlock: ReferencesBlockEntity?, coverLetter: CoverLetterEntity?, name: String, lastModified: Date, bookmarked: Bool, language: Int, targetJob: String, targetCompany: String, targetJobDescription: String, previewOne: Data?, previewTwo: Data?, style: Int, hasAdditionalBlock: Bool, nameFont: Int, headersFont: Int, textFont: Int, nameSize: Int, headersSize: Int, textSize: Int, marginsSize: Int, isHeadersBold: Bool, isHeadersUppercased: Bool, isHeadersItalic: Bool, headerDotAdded: Bool, headerLineAdded: Bool, headerLinePosition: Int, lineCirclesAdded: Bool, cornersRadius: Int, strokeWidth: Int, lineWidth: Int, dotSize: Int, dotBackAdded: Bool, dotStrokeAdded: Bool, progressBarStyle: Int, progressBarPercentAdded: Bool, progressHeight: Int, iconSize: Int, iconBackAdded: Bool, iconStrokeAdded: Bool, iconIsBold: Bool, chipBackAdded: Bool, chipStrokeAdded: Bool, textResume: String, textCV: String, textProfile: String, textThankYou: String, mainColor: String, headerTextColor: String, mainTextColor: String, lineColor: String, lineCirclesColor: String, dotColor: String, dotStrokeColor: String, iconColor: String, iconBackgroundColor: String, iconStrokeColor: String, qrForegroundColor: String, qrBackgroundColor: String, progressForegroundColor: String, progressBackgroundColor: String, chipTextColor: String, chipBackgroundColor: String, chipStrokeColor: String) {
         self.generalBlock = generalBlock
         self.profileDescBlock = profileDescBlock
         self.contactBlock = contactBlock
@@ -182,8 +189,10 @@ class CVEntity {
         self.name = name
         self.lastModified = lastModified
         self.bookmarked = bookmarked
-        self.tagretJob = tagretJob
-        self.tagretCompany = tagretCompany
+        self.language = language
+        self.targetJob = targetJob
+        self.targetCompany = targetCompany
+        self.targetJobDescription = targetJobDescription
         self.previewOne = previewOne
         self.previewTwo = previewTwo
         self.style = style
@@ -210,6 +219,7 @@ class CVEntity {
         self.dotStrokeAdded = dotStrokeAdded
         self.progressBarStyle = progressBarStyle
         self.progressBarPercentAdded = progressBarPercentAdded
+        self.progressHeight = progressHeight
         self.iconSize = iconSize
         self.iconBackAdded = iconBackAdded
         self.iconStrokeAdded = iconStrokeAdded
@@ -240,6 +250,6 @@ class CVEntity {
     }
     
     static func getDefault () -> CVEntity {
-        return CVEntity(generalBlock: nil, profileDescBlock: nil, contactBlock: nil, socialBlock: nil, qrCodesBlock: nil, educationBlock: nil, workBlock: nil, languagesBlock: nil, skillsBlock: nil, interestsBlock: nil, certificatesBlock: nil, referencesBlock: nil, coverLetter: nil, name: "", lastModified: Date(), bookmarked: false, tagretJob: "", tagretCompany: "", previewOne: nil, previewTwo: nil, style: 0, hasAdditionalBlock: false, nameFont: 0, headersFont: 0, textFont: 0, nameSize: 14, headersSize: 14, textSize: 14, marginsSize: 12, isHeadersBold: true, isHeadersUppercased: true, isHeadersItalic: true, headerDotAdded: true, headerLineAdded: true, headerLinePosition: 0, lineCirclesAdded: true, cornersRadius: 12, strokeWidth: 2, lineWidth: 3, dotSize: 5, dotBackAdded: true, dotStrokeAdded: false, progressBarStyle: 0, progressBarPercentAdded: true, iconSize: 24, iconBackAdded: true, iconStrokeAdded: true, iconIsBold: true, chipBackAdded: true, chipStrokeAdded: false, textResume: "", textCV: "", textProfile: "", textThankYou: "", mainColor: "#FF23CA", headerTextColor: "", mainTextColor: "", lineColor: "", lineCirclesColor: "", dotColor: "", dotStrokeColor: "", iconColor: "", iconBackgroundColor: "", iconStrokeColor: "", qrForegroundColor: "", qrBackgroundColor: "", progressForegroundColor: "", progressBackgroundColor: "", chipTextColor: "", chipBackgroundColor: "", chipStrokeColor: "")
+        return CVEntity(generalBlock: nil, profileDescBlock: nil, contactBlock: nil, socialBlock: nil, qrCodesBlock: nil, educationBlock: nil, workBlock: nil, languagesBlock: nil, skillsBlock: nil, interestsBlock: nil, certificatesBlock: nil, referencesBlock: nil, coverLetter: nil, name: "", lastModified: Date(), bookmarked: false, language: 4, targetJob: "", targetCompany: "", targetJobDescription: "", previewOne: nil, previewTwo: nil, style: 0, hasAdditionalBlock: false, nameFont: 0, headersFont: 0, textFont: 0, nameSize: 14, headersSize: 14, textSize: 14, marginsSize: 12, isHeadersBold: true, isHeadersUppercased: true, isHeadersItalic: true, headerDotAdded: true, headerLineAdded: true, headerLinePosition: 0, lineCirclesAdded: true, cornersRadius: 12, strokeWidth: 2, lineWidth: 3, dotSize: 5, dotBackAdded: true, dotStrokeAdded: false, progressBarStyle: 0, progressBarPercentAdded: true, progressHeight: 14, iconSize: 24, iconBackAdded: true, iconStrokeAdded: true, iconIsBold: true, chipBackAdded: true, chipStrokeAdded: false, textResume: "", textCV: "", textProfile: "", textThankYou: "", mainColor: "#FF23CA", headerTextColor: "", mainTextColor: "", lineColor: "", lineCirclesColor: "", dotColor: "", dotStrokeColor: "", iconColor: "", iconBackgroundColor: "", iconStrokeColor: "", qrForegroundColor: "", qrBackgroundColor: "", progressForegroundColor: "", progressBackgroundColor: "", chipTextColor: "", chipBackgroundColor: "", chipStrokeColor: "")
     }
 }

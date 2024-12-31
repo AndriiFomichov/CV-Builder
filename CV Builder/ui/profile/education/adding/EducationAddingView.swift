@@ -41,13 +41,13 @@ struct EducationAddingView: View, KeyboardReadable {
                                 
                                 Text(NSLocalizedString("field_education_level", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                                 
-                                TextInputView(text: $viewModel.level, icon: "checkmark.seal.fill", hint: NSLocalizedString("field_education_level_hint", comment: ""), options: getLevelOptions()).padding(.bottom)
+                                TextInputView(text: $viewModel.level, icon: "checkmark.seal.fill", hint: NSLocalizedString("field_education_level_hint", comment: ""), limit: 200, options: getLevelOptions()).padding(.bottom)
                                 
                                 Text(NSLocalizedString("field_education_institution", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                                 
                                 HStack {
                                     
-                                    TextInputView(text: $viewModel.institution, icon: "building.columns.fill", hint: NSLocalizedString("field_education_institution_hint", comment: ""))
+                                    TextInputView(text: $viewModel.institution, icon: "building.columns.fill", hint: NSLocalizedString("field_education_institution_hint", comment: ""), limit: 200)
                                     
                                     IconInputView(preview: $viewModel.logo, icon: "photo", selectionHandler: { photos in
                                         viewModel.handleImageSelection(selectedPhotos: photos)
@@ -57,7 +57,7 @@ struct EducationAddingView: View, KeyboardReadable {
                                 
                                 Text(NSLocalizedString("field_field_of_study", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                                 
-                                TextInputView(text: $viewModel.field, icon: "lightbulb.max.fill", hint: NSLocalizedString("field_field_of_study_hint", comment: ""), options: getFieldOptions()).padding(.bottom)
+                                TextInputView(text: $viewModel.field, icon: "lightbulb.max.fill", hint: NSLocalizedString("field_field_of_study_hint", comment: ""), limit: 200, options: getFieldOptions()).padding(.bottom)
                                 
                                 HStack {
                                     
@@ -97,7 +97,7 @@ struct EducationAddingView: View, KeyboardReadable {
                                 if allFields {
                                     Text(NSLocalizedString("field_degree_earned", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                                     
-                                    TextInputView(text: $viewModel.degree, icon: "graduationcap.fill", hint: NSLocalizedString("field_degree_earned_hint", comment: ""), options: getDegreeOptions()).padding(.bottom)
+                                    TextInputView(text: $viewModel.degree, icon: "graduationcap.fill", hint: NSLocalizedString("field_degree_earned_hint", comment: ""), limit: 200, options: getDegreeOptions()).padding(.bottom)
                                     
                                     Text(NSLocalizedString("field_gpa", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                                     

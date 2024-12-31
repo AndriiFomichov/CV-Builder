@@ -45,6 +45,7 @@ class Style: Hashable {
     
     var progressBarStyle: Int
     var progressBarPercentAdded: Bool
+    var progressHeight: Int
     
     var iconSize: Int
     var iconBackAdded: Bool
@@ -91,6 +92,7 @@ class Style: Hashable {
     
     var languagesIsBulletedList: Bool
     var languagesIsProgressAdded: Bool
+    var languagesIsLevelAdded: Bool
     var languagesIconAdded: Bool
     var languagesHeaderPosition: Int
     
@@ -113,7 +115,7 @@ class Style: Hashable {
     
     var isSelected = false
     
-    init(id: Int, name: String, description: String, hasAdditionalBlock: Bool, margins: Int, fontName: Int, fontHeader: Int, fontText: Int, sizeName: Int, sizeHeader: Int, sizeText: Int, sizeCover: Int, isHeaderBold: Bool, isHeaderUppercased: Bool, isHeaderItalic: Bool, isHeaderDotAdded: Bool, isHeaderLineAdded: Bool, headerLinePosition: Int, lineCirclesAdded: Bool, cornersRadius: Int, strokeWidth: Int, lineWidth: Int, dotSize: Int, dotBackAdded: Bool, dotStrokeAdded: Bool, progressBarStyle: Int, progressBarPercentAdded: Bool, iconSize: Int, iconBackAdded: Bool, iconStrokeAdded: Bool, iconIsBold: Bool, chipBackAdded: Bool, chipStrokeAdded: Bool, photoZoom: Float, photoFilterEnabled: Bool, photoStrokeAdded: Bool, profileDescHeaderAdded: Bool, profileDescHeaderPosition: Int, profileDescQuotesAdded: Bool, contactIconAdded: Bool, contactHeaderAdded: Bool, contactHeaderPosition: Int, socialIconAdded: Bool, socialHeaderPosition: Int, qrBackAdded: Bool, educationDateWithHeader: Bool, educationDateAfterHeader: Bool, educationDateSeparated: Bool, educationDateInBrackets: Bool, educationMonthDisplayed: Bool, educationDotsAdded: Bool, educationDescritpionAsBulleted: Bool, educationHeaderPosition: Int, workDateWithHeader: Bool, workDateAfterHeader: Bool, workDateSeparated: Bool, workDateInBrackets: Bool, workMonthDisplayed: Bool, workDotsAdded: Bool, workDescritpionAsBulleted: Bool, workHeaderPosition: Int, languagesIsBulletedList: Bool, languagesIsProgressAdded: Bool, languagesIconAdded: Bool, languagesHeaderPosition: Int, skillsIsBulletedList: Bool, skillsIsChips: Bool, skillsIsProgressAdded: Bool, skillsHeaderPosition: Int, interestsIsBulletedList: Bool, interestsIsChips: Bool, interestsHeaderPosition: Int, certificatesIsBulletedList: Bool, certificatesHeaderPosition: Int, referencesIsBulletedList: Bool, referencesHeaderPosition: Int, palettes: [Palette], isSelected: Bool = false) {
+    init(id: Int, name: String, description: String, hasAdditionalBlock: Bool, margins: Int, fontName: Int, fontHeader: Int, fontText: Int, sizeName: Int, sizeHeader: Int, sizeText: Int, sizeCover: Int, isHeaderBold: Bool, isHeaderUppercased: Bool, isHeaderItalic: Bool, isHeaderDotAdded: Bool, isHeaderLineAdded: Bool, headerLinePosition: Int, lineCirclesAdded: Bool, cornersRadius: Int, strokeWidth: Int, lineWidth: Int, dotSize: Int, dotBackAdded: Bool, dotStrokeAdded: Bool, progressBarStyle: Int, progressBarPercentAdded: Bool, progressHeight: Int, iconSize: Int, iconBackAdded: Bool, iconStrokeAdded: Bool, iconIsBold: Bool, chipBackAdded: Bool, chipStrokeAdded: Bool, photoZoom: Float, photoFilterEnabled: Bool, photoStrokeAdded: Bool, profileDescHeaderAdded: Bool, profileDescHeaderPosition: Int, profileDescQuotesAdded: Bool, contactIconAdded: Bool, contactHeaderAdded: Bool, contactHeaderPosition: Int, socialIconAdded: Bool, socialHeaderPosition: Int, qrBackAdded: Bool, educationDateWithHeader: Bool, educationDateAfterHeader: Bool, educationDateSeparated: Bool, educationDateInBrackets: Bool, educationMonthDisplayed: Bool, educationDotsAdded: Bool, educationDescritpionAsBulleted: Bool, educationHeaderPosition: Int, workDateWithHeader: Bool, workDateAfterHeader: Bool, workDateSeparated: Bool, workDateInBrackets: Bool, workMonthDisplayed: Bool, workDotsAdded: Bool, workDescritpionAsBulleted: Bool, workHeaderPosition: Int, languagesIsBulletedList: Bool, languagesIsProgressAdded: Bool, languagesIsLevelAdded: Bool, languagesIconAdded: Bool, languagesHeaderPosition: Int, skillsIsBulletedList: Bool, skillsIsChips: Bool, skillsIsProgressAdded: Bool, skillsHeaderPosition: Int, interestsIsBulletedList: Bool, interestsIsChips: Bool, interestsHeaderPosition: Int, certificatesIsBulletedList: Bool, certificatesHeaderPosition: Int, referencesIsBulletedList: Bool, referencesHeaderPosition: Int, palettes: [Palette], isSelected: Bool = false) {
         self.id = id
         self.name = name
         self.description = description
@@ -141,6 +143,7 @@ class Style: Hashable {
         self.dotStrokeAdded = dotStrokeAdded
         self.progressBarStyle = progressBarStyle
         self.progressBarPercentAdded = progressBarPercentAdded
+        self.progressHeight = progressHeight
         self.iconSize = iconSize
         self.iconBackAdded = iconBackAdded
         self.iconStrokeAdded = iconStrokeAdded
@@ -178,6 +181,7 @@ class Style: Hashable {
         self.languagesIsBulletedList = languagesIsBulletedList
         self.languagesIconAdded = languagesIconAdded
         self.languagesIsProgressAdded = languagesIsProgressAdded
+        self.languagesIsLevelAdded = languagesIsLevelAdded
         self.languagesHeaderPosition = languagesHeaderPosition
         self.skillsIsBulletedList = skillsIsBulletedList
         self.skillsIsChips = skillsIsChips

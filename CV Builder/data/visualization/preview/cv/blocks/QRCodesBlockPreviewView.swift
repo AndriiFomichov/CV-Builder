@@ -17,7 +17,9 @@ struct QRCodesBlockPreviewView: View {
     var blockBackgroundColor: String
     var blockStrokeColor: String
     
+    var addDivider: Bool = false
     var addBlockPadding: Bool = false
+    var addBottomPadding: Bool = false
     
     var body: some View {
         if let block = cv.qrCodesBlock, block.qrCodes.count > 0 {
@@ -29,7 +31,11 @@ struct QRCodesBlockPreviewView: View {
                     }
                 }
                 
-            }.padding(CGFloat(addBlockPadding ? cv.marginsSize : 0)).padding(.bottom, CGFloat(addBlockPadding ? 0 : cv.marginsSize)).background() {
+                if addDivider {
+                    RoundedRectangle(cornerRadius: CGFloat(cv.cornersRadius)).fill(Color(hex: cv.lineColor)).frame(height: CGFloat(cv.lineWidth)).padding(.top, CGFloat(cv.marginsSize))
+                }
+                
+            }.padding(CGFloat(addBlockPadding ? cv.marginsSize : 0)).background() {
                 if !blockBackgroundColor.isEmpty {
                     RoundedRectangle(cornerRadius: CGFloat(0)).fill(Color(hex: blockBackgroundColor))
                 }
@@ -37,7 +43,7 @@ struct QRCodesBlockPreviewView: View {
                 if !blockStrokeColor.isEmpty {
                     RoundedRectangle(cornerRadius: CGFloat(0)).fill(.clear).stroke(Color(hex: blockStrokeColor), style: StrokeStyle(lineWidth: CGFloat(cv.strokeWidth)))
                 }
-            }
+            }.padding(.bottom, CGFloat(addBottomPadding ? cv.marginsSize : 0))
         }
     }
     

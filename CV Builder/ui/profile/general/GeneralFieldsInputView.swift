@@ -12,7 +12,7 @@ struct GeneralFieldsInputView: View {
     @Binding var name: String
     @Binding var location: String
     @Binding var job: String
-    @Binding var description: String
+//    @Binding var description: String
     
     var allFields = true
     
@@ -32,15 +32,15 @@ struct GeneralFieldsInputView: View {
                 
                 Text(NSLocalizedString("field_job_title", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                 
-                TextInputView(text: $job, icon: "briefcase.fill", hint: NSLocalizedString("field_job_title_hint", comment: "")).padding(.bottom)
+                TextInputView(text: $job, icon: "briefcase.fill", hint: NSLocalizedString("field_job_title_hint", comment: ""), limit: 200).padding(.bottom)
                 
-                if allFields {
-                    Text(NSLocalizedString("field_profile_description", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
-                    
-                    TextInputView(text: $description, icon: "text.bubble.fill", hint: NSLocalizedString("field_profile_description_hint", comment: ""))
-                    
-                    Text(NSLocalizedString("field_profile_description_tip", comment: "")).font(.subheadline).foregroundStyle(Color.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.bottom)
-                }
+//                if allFields {
+//                    Text(NSLocalizedString("field_profile_description", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+//                    
+//                    TextInputView(text: $description, icon: "text.bubble.fill", hint: NSLocalizedString("field_profile_description_hint", comment: ""))
+//                    
+//                    Text(NSLocalizedString("field_profile_description_tip", comment: "")).font(.subheadline).foregroundStyle(Color.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.bottom)
+//                }
                 
             }.padding()
         }
@@ -48,5 +48,5 @@ struct GeneralFieldsInputView: View {
 }
 
 #Preview {
-    GeneralFieldsInputView(name: .constant(""), location: .constant(""), job: .constant(""), description: .constant(""))
+    GeneralFieldsInputView(name: .constant(""), location: .constant(""), job: .constant(""))
 }

@@ -17,8 +17,7 @@ class WorkBlockEntityWrapper {
     var isMainBlock: Bool
     var page: Int
     
-    var experience: String
-    var workExperience: String
+    var textWorkExperience: String
     
     var styleDateWithHeader: Bool
     var styleDateAfterHeader: Bool
@@ -29,15 +28,14 @@ class WorkBlockEntityWrapper {
     var styleDescritpionAsBulleted: Bool
     var styleHeaderPosition: Int
 
-    init(entity: WorkBlockEntity?, list: [WorkBlockItemEntityWrapper], isAdded: Bool, position: Int, isMainBlock: Bool, page: Int, experience: String, workExperience: String, styleDateWithHeader: Bool, styleDateAfterHeader: Bool, styleDateSeparated: Bool, styleDateInBrackets: Bool, styleMonthDisplayed: Bool, styleDotsAdded: Bool, styleDescritpionAsBulleted: Bool, styleHeaderPosition: Int) {
+    init(entity: WorkBlockEntity?, list: [WorkBlockItemEntityWrapper], isAdded: Bool, position: Int, isMainBlock: Bool, page: Int, textWorkExperience: String, styleDateWithHeader: Bool, styleDateAfterHeader: Bool, styleDateSeparated: Bool, styleDateInBrackets: Bool, styleMonthDisplayed: Bool, styleDotsAdded: Bool, styleDescritpionAsBulleted: Bool, styleHeaderPosition: Int) {
         self.entity = entity
         self.list = list
         self.isAdded = isAdded
         self.position = position
         self.isMainBlock = isMainBlock
         self.page = page
-        self.experience = experience
-        self.workExperience = workExperience
+        self.textWorkExperience = textWorkExperience
         self.styleDateWithHeader = styleDateWithHeader
         self.styleDateAfterHeader = styleDateAfterHeader
         self.styleDateSeparated = styleDateSeparated
@@ -63,8 +61,7 @@ class WorkBlockEntityWrapper {
         self.position = entity.position
         self.isMainBlock = entity.isMainBlock
         self.page = entity.page
-        self.experience = entity.experience
-        self.workExperience = entity.workExperience
+        self.textWorkExperience = entity.textWorkExperience
         self.styleDateWithHeader = entity.styleDateWithHeader
         self.styleDateAfterHeader = entity.styleDateAfterHeader
         self.styleDateSeparated = entity.styleDateSeparated
@@ -76,6 +73,6 @@ class WorkBlockEntityWrapper {
     }
     
     static func getDefault (position: Int, isMainBlock: Bool) -> WorkBlockEntityWrapper {
-        return WorkBlockEntityWrapper(entity: nil, list: [ WorkBlockItemEntityWrapper.getDefault(position: 0), WorkBlockItemEntityWrapper.getDefault(position: 1), WorkBlockItemEntityWrapper.getDefault(position: 2), WorkBlockItemEntityWrapper.getDefault(position: 3) ], isAdded: true, position: position, isMainBlock: isMainBlock, page: 0, experience: NSLocalizedString("experience", comment: ""), workExperience: NSLocalizedString("work_experience", comment: ""), styleDateWithHeader: true, styleDateAfterHeader: true, styleDateSeparated: false, styleDateInBrackets: false, styleMonthDisplayed: true, styleDotsAdded: true, styleDescritpionAsBulleted: true, styleHeaderPosition: 0)
+        return WorkBlockEntityWrapper(entity: nil, list: [ WorkBlockItemEntityWrapper.getDefault(position: 0), WorkBlockItemEntityWrapper.getDefault(position: 1), WorkBlockItemEntityWrapper.getDefault(position: 2), WorkBlockItemEntityWrapper.getDefault(position: 3) ], isAdded: true, position: position, isMainBlock: isMainBlock, page: 0, textWorkExperience: NSLocalizedString("work_experience", comment: ""), styleDateWithHeader: true, styleDateAfterHeader: true, styleDateSeparated: false, styleDateInBrackets: false, styleMonthDisplayed: true, styleDotsAdded: true, styleDescritpionAsBulleted: true, styleHeaderPosition: 0)
     }
 }

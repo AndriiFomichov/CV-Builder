@@ -10,6 +10,7 @@ import SwiftyUserDefaults
 
 class EditorAiAssistantViewModel: ObservableObject {
     
+    var profile: ProfileEntity?
     var cv: CVEntity?
     
     @Published var isLoading = false
@@ -29,7 +30,8 @@ class EditorAiAssistantViewModel: ObservableObject {
     
     func updateData (parentViewModel: EditorViewModel) {
         self.parentViewModel = parentViewModel
-        self.cv = parentViewModel.cv
+        cv = parentViewModel.cv
+        profile = parentViewModel.profile
         updateAttempts()
         updateList()
     }

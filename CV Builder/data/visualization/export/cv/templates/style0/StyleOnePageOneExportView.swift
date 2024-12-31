@@ -10,6 +10,7 @@ import SwiftUI
 struct StyleOnePageOneExportView: View {
     
     var cv: CVEntityWrapper
+    var addWatermark: Bool
     
     var width: CGFloat = 595.11
     var height: CGFloat = 841.66
@@ -21,13 +22,15 @@ struct StyleOnePageOneExportView: View {
                 
                 StyleOneGeneralBlockPreviewView(cv: cv, width: width, height: height)
                 
-                ColumnExportView(page: 0, isMainBlock: false, cv: cv, addBlockPadding: true, headerTextColor: "#FFFFFF", mainTextColor: "#FFFFFF", blockBackgroundColors: ["","","","","","","","","","",""], blockStrokeColors: ["","","","","","","","","","",""]).background() {
+                ColumnExportView(page: 0, isMainBlock: false, cv: cv, addDivider: false, addBlockPadding: true, addBottomPadding: false, headerTextColor: "#FFFFFF", mainTextColor: "#FFFFFF", blockBackgroundColors: ["","","","","","","","","","",""], blockStrokeColors: ["","","","","","","","","","",""]).background() {
                     Color(hex: "#262626")
                 }
                 
             }.frame(width: width * 0.38)
             
-            ColumnExportView(page: 0, isMainBlock: true, cv: cv, addBlockPadding: true, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","#EBEBEB","","#EBEBEB","","#EBEBEB","","#EBEBEB","","#EBEBEB",""], blockStrokeColors: ["","","","","","","","","","",""]).frame(width: width * 0.62)
+            ColumnExportView(page: 0, isMainBlock: true, cv: cv, addDivider: false, addBlockPadding: true, addBottomPadding: false, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","#EBEBEB","","#EBEBEB","","#EBEBEB","","#EBEBEB","","#EBEBEB",""], blockStrokeColors: ["","","","","","","","","","",""]).frame(width: width * 0.62).overlay {
+                WatermarkView(added: addWatermark)
+            }
             
         }.contentShape(Rectangle()).frame(width: width, height: height).background() {
             Color(hex: "#F5F5F5")
@@ -40,5 +43,5 @@ struct StyleOnePageOneExportView: View {
     let defaultWrapper = CVEntityWrapper.getDefault()
     let wrapper = visualization.updatePositionsWrapperOne(style: Style.getDefault(), wrapper: defaultWrapper)
     
-    StyleOnePageOneExportView(cv: wrapper)
+    StyleOnePageOneExportView(cv: wrapper, addWatermark: true)
 }

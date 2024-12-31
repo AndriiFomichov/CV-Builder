@@ -11,6 +11,7 @@ class AiOptimizingViewModel: ObservableObject {
     
     let manager = AiOptimizer()
     
+    var profile: ProfileEntity?
     var cv: CVEntity?
     
     @Published var targetJob = ""
@@ -28,7 +29,8 @@ class AiOptimizingViewModel: ObservableObject {
     
     func updateData (parentViewModel: EditorAiAssistantViewModel) {
         self.parentViewModel = parentViewModel
-        self.cv = parentViewModel.cv
+        cv = parentViewModel.cv
+        profile = parentViewModel.profile
         updateBtnMain()
     }
     
@@ -48,15 +50,13 @@ class AiOptimizingViewModel: ObservableObject {
     
     @MainActor
     private func performOptimizing () async {
-        if let cv {
+        if let cv, let profile {
             loadingShown = true
             
             isLoading = true
             updateParentIsLoading()
             
-            cv.tagretJob = targetJob
-            cv.tagretCompany = targetCompany
-            await manager.optimizeCv(cv: cv, targetJob: targetJob, targetCompany: targetJob)
+            await manager.optimizeCv(cv: cv, profile: profile, targetJob: targetJob, targetCompany: targetJob, targetJobDescription: targetDescription)
             
             header = NSLocalizedString("complete", comment: "")
             

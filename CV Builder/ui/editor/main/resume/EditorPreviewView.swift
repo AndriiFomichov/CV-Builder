@@ -19,6 +19,7 @@ struct EditorPreviewView: View {
     let pagesSelectHandler: (_ page: Int) -> Void
     let generateClickHandler: () -> Void
     let textChangeHandler: (_ text: String) -> Void
+    let tapHandler: (_ page: Int, _ isCv: Bool) -> Void
     let doubleTapHandler: (_ page: Int, _ isCv: Bool) -> Void
     
     @State var selectedPage = 0
@@ -31,7 +32,7 @@ struct EditorPreviewView: View {
                 
                 Pager(page: page, data: Array(0..<2), id: \.self, content: { index in
                     if index == 0 {
-                        EditorResumeView(wrapper: $wrapper, isLoading: $isLoading, pagesUpdateHandler: pagesUpdateHandler, doubleTapHandler: doubleTapHandler).shadow(color: .black.opacity(0.12), radius: selectedPage == 0 ? 20 : 5).scaleEffect(selectedPage == 0 ? 1.0 : 0.98)
+                        EditorResumeView(wrapper: $wrapper, isLoading: $isLoading, pagesUpdateHandler: pagesUpdateHandler, tapHandler: tapHandler, doubleTapHandler: doubleTapHandler).shadow(color: .black.opacity(0.12), radius: selectedPage == 0 ? 20 : 5).scaleEffect(selectedPage == 0 ? 1.0 : 0.98)
                     } else {
                         EditorCoverView(wrapper: $wrapper, isLoading: $isLoading, isGenerating: $isCoverLetterGenerating, generateClickHandler: generateClickHandler, textChangeHandler: textChangeHandler, doubleTapHandler: doubleTapHandler).shadow(color: .black.opacity(0.12), radius: selectedPage == 1 ? 20 : 5).scaleEffect(selectedPage == 1 ? 1.0 : 0.98)
                     }
@@ -51,7 +52,7 @@ struct EditorPreviewView: View {
                         pagesSelectHandler(1)
                     })
                 }
-            }
+            }.sensoryFeedback(.selection, trigger: selectedPage)
             
         }.onChange(of: pageModel) {
             self.endEditing()
@@ -70,5 +71,5 @@ struct EditorPreviewView: View {
 }
 
 #Preview {
-    EditorPreviewView(wrapper: .constant(CVEntityWrapper.getDefault()), isLoading: .constant(false), isCoverLetterGenerating: .constant(false), pageModel: .constant(0), pageChangeHandler: {}, pagesUpdateHandler: {}, pagesSelectHandler: { p in }, generateClickHandler: {}, textChangeHandler: { t in }, doubleTapHandler: { i, b in })
+    EditorPreviewView(wrapper: .constant(CVEntityWrapper.getDefault()), isLoading: .constant(false), isCoverLetterGenerating: .constant(false), pageModel: .constant(0), pageChangeHandler: {}, pagesUpdateHandler: {}, pagesSelectHandler: { p in }, generateClickHandler: {}, textChangeHandler: { t in }, tapHandler: { i, b in }, doubleTapHandler: { i, b in })
 }

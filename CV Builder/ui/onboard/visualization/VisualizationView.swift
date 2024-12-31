@@ -26,6 +26,10 @@ struct VisualizationView: View {
                             
                             savePagesUpdated()
                             
+                        }, tapHandler: { page, _ in
+                            
+                            clickHandler(page)
+                            
                         }, doubleTapHandler: { page, _ in
                             
                             clickHandler(page)

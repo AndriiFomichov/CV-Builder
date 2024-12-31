@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftyUserDefaults
 
 class EditorViewModel: ObservableObject {
     
@@ -17,6 +18,8 @@ class EditorViewModel: ObservableObject {
     
     var profile: ProfileEntity?
     var cv: CVEntity?
+    
+    var customAction = CustomActionInfo()
     
     @Published var wrapper: CVEntityWrapper?
     
@@ -32,12 +35,14 @@ class EditorViewModel: ObservableObject {
     
     @Published var isLoading = false
     @Published var isCoverLetterGenerating = false
+    @Published var isCoverLetterAiActionAvailable = false
     @Published var coverAlertShown = false
     
     var changesList: [CVChange] = []
     
     @Published var bottomActionsList: [EditorAction] = []
     
+    @Published var aiCommandSheetShown = false
     @Published var changesSheetShown = false
     @Published var profileSheetShown = false
     @Published var paywallSheetShown = false
@@ -150,6 +155,9 @@ class EditorViewModel: ObservableObject {
     func updatePreview () {
         if let cv {
             self.wrapper = CVEntityWrapper(entity: cv)
+            if let coverLetter = cv.coverLetter {
+                isCoverLetterAiActionAvailable = !coverLetter.text.isEmpty
+            }
         }
     }
     
@@ -165,27 +173,71 @@ class EditorViewModel: ObservableObject {
     }
 
     @MainActor
-    func generateCoverLetter () {
-        if let cv, let profile, !isCoverLetterGenerating {
-            
-            if Reachability.isConnectedToNetwork() {
-                if profile.jobTitle.isEmpty && cv.tagretJob.isEmpty && cv.tagretCompany.isEmpty {
+    func applyCoverLetterAiAction (action: Int) {
+        if Reachability.isConnectedToNetwork() {
+            if let cv, !isCoverLetterGenerating {
+                if action == 4 {
+                    if let coverLetter = cv.coverLetter, !coverLetter.text.isEmpty {
+                        customAction = CustomActionInfo(text: coverLetter.text, action: action, index: -1, itemIndex: -1, isMain: false)
+                        openAiActionSheet()
+                    }
+                } else {
+                    applyAiAction(action: action, customAction: nil)
+                }
+            }
+        } else {
+            connectionSheetShown = true
+        }
+    }
+    
+    @MainActor
+    private func applyAiAction (action: Int, customAction: String? = nil) {
+        if let cv, let profile {
+            Task {
+                isLoading = true
+                isCoverLetterGenerating = true
+                
+                let language = PreloadedDatabase.getLanguageById(id: cv.language)
+                
+                let noData = await AIAssistant.applyAiActionCoverLetter(profile: profile, cv: cv, targetJob: cv.targetJob, targetCompany: cv.targetCompany, targetJobDescription: cv.targetJobDescription, language: language, action: action, customAction: customAction)
+                if noData {
                     coverAlertShown = true
                 } else {
-                    isCoverLetterGenerating = true
-                    
-                    Task {
-                        let language = TextLangDetector.getDefaultLanguage()
-                        let letter = await AIAssistant.generateCoverLetter(profile: profile, targetJob: cv.tagretJob, targetInstitution: cv.tagretCompany, language: language.name)
-                        
-                        cvBuilder.saveCoverLetter(cv: cv, text: letter)
-                        isCoverLetterGenerating = false
-                        updatePreview()
-                    }
+                    updatePreview()
+                    updateState(state: 0)
                 }
-            } else {
-                connectionSheetShown = true
+                
+                isCoverLetterGenerating = false
+                isLoading = false
             }
+        }
+    }
+    
+    private func checkIsAiActionsAvailable () -> Bool {
+        if let cv {
+            if AiManager.getAiTextAttempts() > 0 || cv.coverLetter == nil {
+                return true
+            } else {
+                let isUserPremium = Defaults.KEY_ACCOUNT_TYPE != 0
+                if isUserPremium {
+                    showLimitsSheet()
+                    AnalyticsManager.saveEvent(event: Events.AI_TEXT_LIMIT)
+                } else {
+                    showPaywallSheet()
+                }
+            }
+        }
+        return false
+    }
+    
+    func openAiActionSheet () {
+        aiCommandSheetShown = true
+    }
+    
+    @MainActor
+    func handleAiCommandApplied (command: String) {
+        if !command.isEmpty {
+            applyAiAction(action: 4, customAction: command)
         }
     }
     
@@ -193,6 +245,7 @@ class EditorViewModel: ObservableObject {
         if let cv, let coverLetter = cv.coverLetter {
             coverLetter.text = text
             DatabaseBox.saveContext()
+            isCoverLetterAiActionAvailable = !text.isEmpty
         }
     }
     
@@ -295,6 +348,10 @@ class EditorViewModel: ObservableObject {
     }
     
     func checkPaywallFinish () {}
+    
+    func showLimitsSheet () {
+        limitSheetShown = true
+    }
     
     func updateLastModified () {
         if let cv {

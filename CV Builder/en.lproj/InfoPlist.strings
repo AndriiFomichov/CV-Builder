@@ -5,6 +5,6 @@
   Created by Andrii Fomichov on 11.11.2024.
   
 */
-"CFBundleDisplayName" = "AI resume";
-"CFBundleName" = "AI resume";
+"CFBundleDisplayName" = "AI Resume";
+"CFBundleName" = "AI Resume";
 "NSUserTrackingUsageDescription" = "This identifier will be used to deliver personalized ads to you";

@@ -19,8 +19,7 @@ class WorkBlockEntity {
     var isMainBlock: Bool
     var page: Int
     
-    var experience: String
-    var workExperience: String
+    var textWorkExperience: String
     
     var styleDateWithHeader: Bool
     var styleDateAfterHeader: Bool
@@ -31,14 +30,13 @@ class WorkBlockEntity {
     var styleDescritpionAsBulleted: Bool
     var styleHeaderPosition: Int
 
-    init(list: [WorkBlockItemEntity]?, isAdded: Bool, position: Int, isMainBlock: Bool, page: Int, experience: String, workExperience: String, styleDateWithHeader: Bool, styleDateAfterHeader: Bool, styleDateSeparated: Bool, styleDateInBrackets: Bool, styleMonthDisplayed: Bool, styleDotsAdded: Bool, styleDescritpionAsBulleted: Bool, styleHeaderPosition: Int) {
+    init(list: [WorkBlockItemEntity]?, isAdded: Bool, position: Int, isMainBlock: Bool, page: Int, textWorkExperience: String, styleDateWithHeader: Bool, styleDateAfterHeader: Bool, styleDateSeparated: Bool, styleDateInBrackets: Bool, styleMonthDisplayed: Bool, styleDotsAdded: Bool, styleDescritpionAsBulleted: Bool, styleHeaderPosition: Int) {
         self.list = list
         self.isAdded = isAdded
         self.position = position
         self.isMainBlock = isMainBlock
         self.page = page
-        self.experience = experience
-        self.workExperience = workExperience
+        self.textWorkExperience = textWorkExperience
         self.styleDateWithHeader = styleDateWithHeader
         self.styleDateAfterHeader = styleDateAfterHeader
         self.styleDateSeparated = styleDateSeparated
@@ -55,8 +53,7 @@ class WorkBlockEntity {
         self.position = entity.position
         self.isMainBlock = entity.isMainBlock
         self.page = entity.page
-        self.experience = entity.experience
-        self.workExperience = entity.workExperience
+        self.textWorkExperience = entity.textWorkExperience
         self.styleDateWithHeader = entity.styleDateWithHeader
         self.styleDateAfterHeader = entity.styleDateAfterHeader
         self.styleDateSeparated = entity.styleDateSeparated

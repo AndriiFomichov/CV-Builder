@@ -18,7 +18,7 @@ class ExportManager {
         let image = autoreleasepool {
             let renderer = createRendererCv(cv: cv, page: page, addBadgeMadeWith: addBadgeMadeWith)
             let image = renderer.uiImage
-            renderer.content = CVMakerExportView(cv: CVEntityWrapper(), page: 0)
+            renderer.content = CVMakerExportView(cv: CVEntityWrapper(), page: 0, addWatermark: addBadgeMadeWith)
             return image
         }
         if let image {
@@ -33,7 +33,7 @@ class ExportManager {
         let image = autoreleasepool {
             let renderer = createRendererCover(cv: cv, addBadgeMadeWith: addBadgeMadeWith)
             let image = renderer.uiImage
-            renderer.content = CoverMakerExportView(cv: cv)
+            renderer.content = CoverMakerExportView(cv: cv, addWatermark: addBadgeMadeWith)
             return image
         }
         if let image = image {
@@ -47,10 +47,10 @@ class ExportManager {
     private func createRendererCv (cv: CVEntityWrapper, page: Int, addBadgeMadeWith: Bool) -> ImageRenderer<CVMakerExportView> {
         return autoreleasepool {
             if let renderer = rendererCv {
-                renderer.content = CVMakerExportView(cv: cv, page: page)
+                renderer.content = CVMakerExportView(cv: cv, page: page, addWatermark: addBadgeMadeWith)
                 return renderer
             } else {
-                let rend = ImageRenderer(content: CVMakerExportView(cv: cv, page: page))
+                let rend = ImageRenderer(content: CVMakerExportView(cv: cv, page: page, addWatermark: addBadgeMadeWith))
                 rendererCv = rend
                 return rend
             }
@@ -61,10 +61,10 @@ class ExportManager {
     private func createRendererCover (cv: CVEntityWrapper, addBadgeMadeWith: Bool) -> ImageRenderer<CoverMakerExportView> {
         return autoreleasepool {
             if let renderer = rendererCover {
-                renderer.content = CoverMakerExportView(cv: cv)
+                renderer.content = CoverMakerExportView(cv: cv, addWatermark: addBadgeMadeWith)
                 return renderer
             } else {
-                let rend = ImageRenderer(content: CoverMakerExportView(cv: cv))
+                let rend = ImageRenderer(content: CoverMakerExportView(cv: cv, addWatermark: addBadgeMadeWith))
                 rendererCover = rend
                 return rend
             }

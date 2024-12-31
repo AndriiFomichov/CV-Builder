@@ -10,6 +10,7 @@ import SwiftUI
 struct StyleTwoPageOneExportView: View {
     
     var cv: CVEntityWrapper
+    var addWatermark: Bool
     
     var width: CGFloat = 595.11
     var height: CGFloat = 841.66
@@ -21,7 +22,7 @@ struct StyleTwoPageOneExportView: View {
                 
                 StyleTwoGeneralBlockLeftPreviewView(cv: cv, width: width, height: height).padding(.bottom, CGFloat(cv.marginsSize * 2))
                 
-                ColumnExportView(page: 0, isMainBlock: true, cv: cv, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","","","","","","","","","",""], blockStrokeColors: ["","","","","","","","","","",""])
+                ColumnExportView(page: 0, isMainBlock: true, cv: cv, addDivider: false, addBlockPadding: false, addBottomPadding: true, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","","","","","","","","","",""], blockStrokeColors: ["","","","","","","","","","",""])
                 
             }.frame(width: (width - CGFloat(cv.marginsSize * 6)) * 0.6).padding(.vertical, CGFloat(cv.marginsSize * 2))
             
@@ -29,12 +30,14 @@ struct StyleTwoPageOneExportView: View {
                 
                 StyleTwoGeneralBlockRightPreviewView(cv: cv, width: width, height: height).padding(.bottom, CGFloat(cv.marginsSize * 2))
                 
-                ColumnExportView(page: 0, isMainBlock: false, cv: cv, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","","","","","","","","","",""], blockStrokeColors: ["","","","","","","","","","",""])
+                ColumnExportView(page: 0, isMainBlock: false, cv: cv, addDivider: false, addBlockPadding: false, addBottomPadding: true, headerTextColor: cv.headerTextColor, mainTextColor: cv.mainTextColor, blockBackgroundColors: ["","","","","","","","","","",""], blockStrokeColors: ["","","","","","","","","","",""])
                 
             }.frame(width: (width - CGFloat(cv.marginsSize * 6)) * 0.4).padding(.vertical, CGFloat(cv.marginsSize * 2))
             
         }.contentShape(Rectangle()).frame(width: width, height: height).background() {
             Color(hex: cv.mainColor)
+        }.overlay {
+            WatermarkView(added: addWatermark)
         }
     }
 }
@@ -44,5 +47,5 @@ struct StyleTwoPageOneExportView: View {
     let defaultWrapper = CVEntityWrapper.getDefault()
     let wrapper = visualization.updatePositionsWrapperOne(style: Style.getDefault(), wrapper: defaultWrapper)
     
-    StyleTwoPageOneExportView(cv: wrapper)
+    StyleTwoPageOneExportView(cv: wrapper, addWatermark: true)
 }

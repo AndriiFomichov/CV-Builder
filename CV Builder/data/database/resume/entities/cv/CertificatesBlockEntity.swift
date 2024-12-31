@@ -19,18 +19,18 @@ class CertificatesBlockEntity {
     var isMainBlock: Bool
     var page: Int
     
-    var textLanguages: String
+    var textCertificates: String
     
     var styleIsBulletedList: Bool
     var styleHeaderPosition: Int
     
-    init(list: [CertificateBlockItemEntity]?, isAdded: Bool, position: Int, isMainBlock: Bool, page: Int, textLanguages: String, styleIsBulletedList: Bool, styleHeaderPosition: Int) {
+    init(list: [CertificateBlockItemEntity]?, isAdded: Bool, position: Int, isMainBlock: Bool, page: Int, textCertificates: String, styleIsBulletedList: Bool, styleHeaderPosition: Int) {
         self.list = list
         self.isAdded = isAdded
         self.position = position
         self.isMainBlock = isMainBlock
         self.page = page
-        self.textLanguages = textLanguages
+        self.textCertificates = textCertificates
         self.styleIsBulletedList = styleIsBulletedList
         self.styleHeaderPosition = styleHeaderPosition
     }
@@ -41,7 +41,7 @@ class CertificatesBlockEntity {
         self.position = entity.position
         self.isMainBlock = entity.isMainBlock
         self.page = entity.page
-        self.textLanguages = entity.textLanguages
+        self.textCertificates = entity.textCertificates
         self.styleIsBulletedList = entity.styleIsBulletedList
         self.styleHeaderPosition = entity.styleHeaderPosition
     }

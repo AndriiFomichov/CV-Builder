@@ -74,7 +74,7 @@ class CVContentManager {
         }
         
         if let certificatesBlock = cv.certificatesBlock, certificatesBlock.isMainBlock == isMainBlock {
-            let item = ContentBlock(blockId: 9, name: NSLocalizedString("content_category_9", comment: ""), icon: "text.document.fill", text: "", isTextAdded: false, items: [], position: certificatesBlock.position, isMainBlock: certificatesBlock.isMainBlock, isAdded: certificatesBlock.isAdded, isLoading: false)
+            let item = ContentBlock(blockId: 9, name: NSLocalizedString("content_category_9", comment: ""), icon: "text.page.fill", text: "", isTextAdded: false, items: [], position: certificatesBlock.position, isMainBlock: certificatesBlock.isMainBlock, isAdded: certificatesBlock.isAdded, isLoading: false)
             list.append(item)
         }
         
@@ -115,31 +115,36 @@ class CVContentManager {
         }
     }
     
-    func updateTextWithAi (currentJob: String?, workItem: WorkBlockItemEntity?, educationItem: EducationBlockItemEntity?, targetJob: String, targetCompany: String, action: Int, text: String, isBulletedList: Bool) async -> String? {
-        
-        let language = TextLangDetector.getDefaultLanguage()
-        
-        print("Text: " + text)
-        
-        var prompt: String = ""
-        if text.isEmpty {
-            if let educationItem {
-                prompt = Prompts.createEducationDescriptionPrompt(degree: educationItem.degree, level: educationItem.level, institution: educationItem.institution, targetJob: targetJob, targetCompany: targetCompany, language: language.name, isBulletedList: isBulletedList)
-            } else if let workItem {
-                prompt = Prompts.createWorkDescriptionPrompt(jobTitle: workItem.jobTitle, company: workItem.company, targetJob: targetJob, targetCompany: targetCompany, language: language.name, isBulletedList: isBulletedList)
-            } else if let currentJob {
-                prompt = Prompts.createProfileDescriptionPrompt(currentJob: currentJob, targetJob: targetJob, targetCompany: targetCompany, language: language.name)
-            }
-        } else {
-            prompt = Prompts.createAiTextPrompt(action: action, text: text)
-        }
-        let responce = await TextGenerator.completeText(prompt: prompt, maxTokens: 1000, temp: TextGenerator.TEMP_MEDIUM)
-        if let responce, !responce.isEmpty {
-            return responce
-        }
-        
-        return nil
-    }
+//    func updateTextWithAi (currentJob: String?, workItem: WorkBlockItemEntity?, educationItem: EducationBlockItemEntity?, targetJob: String, targetCompany: String, targetJobDescription: String, action: Int, customAction: String?, text: String, isBulletedList: Bool, langId: Int) async -> String? {
+//        
+//        let language = PreloadedDatabase.getLanguageById(id: langId)
+//        
+//        print("Text: " + text)
+//        
+////        var prompt: String = ""
+//        if text.isEmpty {
+//            if let educationItem {
+//                return await AIAssistant.generateEducationDescription(item: educationItem, targetJob: targetJob, targetInstitution: targetCompany, targetJobDescription: targetJobDescription, language: language.name, isBulletedList: isBulletedList)
+////                prompt = Prompts.createEducationDescriptionPrompt(degree: educationItem.degree, level: educationItem.level, institution: educationItem.institution, fieldOfStudy: educationItem.fieldOfStudy, targetJob: targetJob, targetCompany: targetCompany, targetJobDescription: targetJobDescription, language: language.name)
+//            } else if let workItem {
+//                return await AIAssistant.generateWorkDescription(item: workItem, targetJob: targetJob, targetInstitution: targetCompany, targetJobDescription: targetJobDescription, language: language.name, isBulletedList: isBulletedList)
+////                prompt = Prompts.createWorkDescriptionPrompt(jobTitle: workItem.jobTitle, company: workItem.company, responsibilities: workItem.responsibilities, targetJob: targetJob, targetCompany: targetCompany, targetJobDescription: targetJobDescription, language: language.name)
+//            } else if let currentJob {
+//                return await AIAssistant.generateProfileDescription(currentJob: currentJob, targetJob: targetJob, targetInstitution: targetCompany, targetJobDescription: targetJobDescription, language: language.name)
+////                prompt = Prompts.createProfileDescriptionPrompt(currentJob: currentJob, targetJob: targetJob, targetCompany: targetCompany, targetJobDescription: targetJobDescription, language: language.name)
+//            }
+//        } else {
+//            return await AIAssistant.updateText(text: text, action: action, customAction: customAction)
+////            prompt = Prompts.createAiTextPrompt(action: action, customAction: customAction, text: text)
+//        }
+//        
+////        let responce = await TextGenerator.completeText(prompt: prompt, maxTokens: 1000, temp: TextGenerator.TEMP_LOW)
+////        if let responce, !responce.isEmpty {
+////            return responce
+////        }
+//        
+//        return nil
+//    }
     
     func updateBlockItems (cv: CVEntity?, item: ContentBlock) {
         if let cv {

@@ -13,6 +13,7 @@ struct CVMakerPreviewView: View {
     var cv: CVEntityWrapper
     
     let pageUpdateHandler: () -> Void
+    let tapHandler: (_ page: Int, _ isCv: Bool) -> Void
     let doubleTapHandler: (_ page: Int, _ isCv: Bool) -> Void
     
     let pages: Int
@@ -54,13 +55,14 @@ struct CVMakerPreviewView: View {
     
     @StateObject var page: Page = .first()
     
-    init(cv: CVEntityWrapper, isLoading: Binding<Bool>, pageUpdateHandler: @escaping () -> Void, doubleTapHandler: @escaping (_ page: Int, _ isCv: Bool) -> Void) {
+    init(cv: CVEntityWrapper, isLoading: Binding<Bool>, pageUpdateHandler: @escaping () -> Void, tapHandler: @escaping (_ page: Int, _ isCv: Bool) -> Void, doubleTapHandler: @escaping (_ page: Int, _ isCv: Bool) -> Void) {
         self._isLoading = isLoading
         let defaults = CVDefaultsWrapper()
 //        self.cv = cv
         self.cv = defaults.fullfill(wrapper: cv)
 //        self.style = PreloadedDatabase.getStyleId(id: wrapper.style)
         self.pageUpdateHandler = pageUpdateHandler
+        self.tapHandler = tapHandler
         self.doubleTapHandler = doubleTapHandler
         pages = CVVisualizationBuilder.getWrapperPagesCount(wrapper: cv)
     }
@@ -70,7 +72,7 @@ struct CVMakerPreviewView: View {
             
             Pager(page: page, data: Array(0..<pages), id: \.self, content: { index in
                 
-                CVMakerPreviewPageView(cv: cv, page: index, isLoading: $isLoading, blockOneHeight: $blockOneHeight, blockTwoHeight: $blockTwoHeight, blockThreeHeight: $blockThreeHeight, blockFourHeight: $blockFourHeight, blockFiveHeight: $blockFiveHeight, blockSixHeight: $blockSixHeight, blockSevenHeight: $blockSevenHeight, blockEightHeight: $blockEightHeight, blockNineHeight: $blockNineHeight, blockTenHeight: $blockTenHeight, blockElevenHeight: $blockElevenHeight, blockAdditionalOneHeight: $blockAdditionalOneHeight, blockAdditionalTwoHeight: $blockAdditionalTwoHeight, blockAdditionalThreeHeight: $blockAdditionalThreeHeight, blockAdditionalFourHeight: $blockAdditionalFourHeight, blockAdditionalFiveHeight: $blockAdditionalFiveHeight, blockAdditionalSixHeight: $blockAdditionalSixHeight, blockAdditionalSevenHeight: $blockAdditionalSevenHeight, blockAdditionalEightHeight: $blockAdditionalEightHeight, blockAdditionalNineHeight: $blockAdditionalNineHeight, blockAdditionalTenHeight: $blockAdditionalTenHeight, blockAdditionalElevenHeight: $blockAdditionalElevenHeight, mainColumnHeight: $mainColumnHeight, additionalColumnHeight: $additionalColumnHeight, mainColumnNextPagesHeight: $mainColumnNextPagesHeight, additionalColumnNextPagesHeight: $additionalColumnNextPagesHeight, doubleTapHandler: doubleTapHandler)
+                CVMakerPreviewPageView(cv: cv, page: index, isLoading: $isLoading, blockOneHeight: $blockOneHeight, blockTwoHeight: $blockTwoHeight, blockThreeHeight: $blockThreeHeight, blockFourHeight: $blockFourHeight, blockFiveHeight: $blockFiveHeight, blockSixHeight: $blockSixHeight, blockSevenHeight: $blockSevenHeight, blockEightHeight: $blockEightHeight, blockNineHeight: $blockNineHeight, blockTenHeight: $blockTenHeight, blockElevenHeight: $blockElevenHeight, blockAdditionalOneHeight: $blockAdditionalOneHeight, blockAdditionalTwoHeight: $blockAdditionalTwoHeight, blockAdditionalThreeHeight: $blockAdditionalThreeHeight, blockAdditionalFourHeight: $blockAdditionalFourHeight, blockAdditionalFiveHeight: $blockAdditionalFiveHeight, blockAdditionalSixHeight: $blockAdditionalSixHeight, blockAdditionalSevenHeight: $blockAdditionalSevenHeight, blockAdditionalEightHeight: $blockAdditionalEightHeight, blockAdditionalNineHeight: $blockAdditionalNineHeight, blockAdditionalTenHeight: $blockAdditionalTenHeight, blockAdditionalElevenHeight: $blockAdditionalElevenHeight, mainColumnHeight: $mainColumnHeight, additionalColumnHeight: $additionalColumnHeight, mainColumnNextPagesHeight: $mainColumnNextPagesHeight, additionalColumnNextPagesHeight: $additionalColumnNextPagesHeight, tapHandler: tapHandler, doubleTapHandler: doubleTapHandler)
                 
             }).preferredItemSize(CGSize(width: EditorPreviewSizeManager.getFinalWidth(geoWidth: geo.size.width, geoHeight: geo.size.height, margin: 24), height: EditorPreviewSizeManager.getFinalHeight(geoWidth: geo.size.width, geoHeight: geo.size.height, margin: 24))).itemSpacing(8).vertical()
             
@@ -627,5 +629,5 @@ struct CVMakerPreviewView: View {
 //    let visualization = CVVisualizationBuilder()
 //    let defaultWrapper = CVEntityWrapper.getDefault()
 //    let wrapper = visualization.updatePositionsWrapperOne(style: Style.getDefault(), wrapper: defaultWrapper)
-    CVMakerPreviewView(cv: wrapper, isLoading: .constant(false), pageUpdateHandler: {}, doubleTapHandler: { i, b in })
+    CVMakerPreviewView(cv: wrapper, isLoading: .constant(false), pageUpdateHandler: {}, tapHandler: { i, b in }, doubleTapHandler: { i, b in })
 }

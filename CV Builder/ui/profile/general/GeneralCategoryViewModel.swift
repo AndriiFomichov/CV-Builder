@@ -14,7 +14,6 @@ class GeneralCategoryViewModel: ObservableObject {
     @Published var name = ""
     @Published var job = ""
     @Published var location = ""
-    @Published var description = ""
     
     @Published var guideSheetShown = false
     
@@ -28,7 +27,6 @@ class GeneralCategoryViewModel: ObservableObject {
             name = profile.name
             job = profile.jobTitle
             location = profile.location
-            description = profile.profileDescription
         }
     }
     
@@ -41,7 +39,6 @@ class GeneralCategoryViewModel: ObservableObject {
             profile.name = name
             profile.jobTitle = job
             profile.location = location
-            profile.profileDescription = description
             DatabaseBox.saveContext()
         }
     }

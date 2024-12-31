@@ -32,7 +32,7 @@ class AiTranslatingViewModel: ObservableObject {
     }
     
     private func updateLanguages () {
-        var list = PreloadedDatabase.getLanguages()
+        let list = PreloadedDatabase.getLanguages()
         if selectedLanguage != -1, selectedLanguage < list.count {
             list[selectedLanguage].isSelected = true
             btnMainSelected = true
@@ -74,15 +74,8 @@ class AiTranslatingViewModel: ObservableObject {
             isLoading = true
             updateParentIsLoading()
             
-            var langName = "English"
-            let defaultLang = TextLangDetector.getDefaultLanguage()
-            if let language = PreloadedDatabase.getLanguageById(id: selectedLanguage) {
-                langName = language.name
-            } else {
-                langName = defaultLang.name
-            }
-            
-            await manager.translateCv(cv: cv, language: langName)
+            let language = PreloadedDatabase.getLanguageById(id: selectedLanguage)
+            await manager.translateCv(cv: cv, langId: selectedLanguage, language: language.name)
             
             header = NSLocalizedString("complete", comment: "")
             

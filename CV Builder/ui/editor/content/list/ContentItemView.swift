@@ -45,7 +45,7 @@ struct ContentItemView: View {
             HStack {
                 if aiAvailable {
                     if isFilled {
-                        AiActionsListView (actions: [ NSLocalizedString("ai_rephrase", comment: ""), NSLocalizedString("ai_expand", comment: ""), NSLocalizedString("ai_shorten", comment: ""), NSLocalizedString("ai_to_bulleted", comment: "") ], actionHandler: actionClickHandler)
+                        AiActionsListView (actions: [ NSLocalizedString("ai_rephrase", comment: ""), NSLocalizedString("ai_expand", comment: ""), NSLocalizedString("ai_shorten", comment: ""), NSLocalizedString("ai_to_bulleted", comment: ""), NSLocalizedString("ai_custom", comment: "") ], actionHandler: actionClickHandler)
                     } else {
                         AiActionsListView (actions: [ NSLocalizedString("ai_generate_text", comment: "") ], actionHandler: actionClickHandler)
                     }

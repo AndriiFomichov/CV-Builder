@@ -61,7 +61,7 @@ struct LineProgressBarPreviewView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack (alignment: .leading) {
-                RoundedRectangle(cornerRadius: cornersRadius).fill(Color(hex: backgroundColor))
+                RoundedRectangle(cornerRadius: cornersRadius).fill(Color(hex: backgroundColor)).padding(1)
                 RoundedRectangle(cornerRadius: cornersRadius).fill(Color(hex: accentColor)).frame(width: geo.size.width * (Double(progress) / Double(steps)))
             }
         }.frame(height: CGFloat(height))

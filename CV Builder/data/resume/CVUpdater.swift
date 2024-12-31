@@ -232,6 +232,9 @@ class CVUpdater {
                             changeNeeded = true
                         }
                         if profileWork.responsibilities != cvWork.responsibilities {
+                            if !profileWork.responsibilities.isEmpty {
+                                descUpdateNeeded = true
+                            }
                             changeNeeded = true
                         }
                         if profileWork.remote != cvWork.remote {
@@ -525,7 +528,7 @@ class CVUpdater {
             }
         }
         
-        return CVChange(blockId: 9, blockName: NSLocalizedString("content_category_9", comment: ""), blockIcon: "text.document.fill", isChangeNeeded: changeNeeded, isChangeEnabled: changeNeeded, descriptionGenerationNeeded: false, descriptionGenerationEnabled: false, descriptionGenerationsCount: 0, descriptionGenerationsText: NSLocalizedString("generate_description", comment: ""))
+        return CVChange(blockId: 9, blockName: NSLocalizedString("content_category_9", comment: ""), blockIcon: "text.page.fill", isChangeNeeded: changeNeeded, isChangeEnabled: changeNeeded, descriptionGenerationNeeded: false, descriptionGenerationEnabled: false, descriptionGenerationsCount: 0, descriptionGenerationsText: NSLocalizedString("generate_description", comment: ""))
     }
     
     private func getReferencesChange (cv: CVEntity, profile: ProfileEntity) -> CVChange {
@@ -620,7 +623,8 @@ class CVUpdater {
     }
     
     func updateCv (cv: CVEntity, profile: ProfileEntity, changes: [CVChange]) async {
-        let language = TextLangDetector.getDefaultLanguage()
+        let language = PreloadedDatabase.getLanguageById(id: cv.language)
+//        let language = TextLangDetector.getDefaultLanguage()
         let style = PreloadedDatabase.getStyleId(id: cv.style)
         
         await updateProfileDescription(cv: cv, profile: profile, language: language, change: changes[1])
@@ -637,6 +641,8 @@ class CVUpdater {
         updateQRCodes(cv: cv, profile: profile, language: language, change: changes[11])
         await updateCoverLetter(cv: cv, profile: profile, language: language, change: changes[12])
         
+//        cv.language = language.langId
+        
         DatabaseBox.saveContext()
     }
     
@@ -644,7 +650,7 @@ class CVUpdater {
         if let generalBlock = cv.generalBlock, let profileDescBlock = cv.profileDescBlock, change.isChangeEnabled {
             if profile.jobTitle != generalBlock.jobTitle {
                 if AiManager.getAiTextAttempts() > 0, change.descriptionGenerationEnabled {
-                    if let text = await AIAssistant.generateProfileDescription(currentJob: profile.jobTitle, targetJob: cv.tagretJob, targetInstitution: cv.tagretCompany, language: language.name) {
+                    if let text = await AIAssistant.generateProfileDescription(currentJob: profile.jobTitle, targetJob: cv.targetJob, targetInstitution: cv.targetCompany, targetJobDescription: cv.targetJobDescription, language: language.name) {
                         profileDescBlock.profileDescription = text
 //                        AiManager.useAiTextAttempt()
                     }
@@ -791,7 +797,7 @@ class CVUpdater {
                         
                         if descUpdateNeeded {
                             if AiManager.getAiTextAttempts() > 0, change.descriptionGenerationEnabled {
-                                if let text = await AIAssistant.generateEducationDescription(item: cvEducation, targetJob: cv.tagretJob, targetInstitution: cv.tagretCompany, language: language.name, isBulletedList: isBulletedList) {
+                                if let text = await AIAssistant.generateEducationDescription(item: cvEducation, targetJob: cv.targetJob, targetInstitution: cv.targetCompany, targetJobDescription: cv.targetJobDescription, language: language.name, isBulletedList: isBulletedList) {
                                     cvEducation.desc = text
 //                                    AiManager.useAiTextAttempt()
                                 }
@@ -825,7 +831,7 @@ class CVUpdater {
                 if needsAdding {
                     let item = EducationBlockItemEntity(entityId: profileEducation.id, desc: "", level: profileEducation.level, institution: profileEducation.institution, logoId: profileEducation.logoId, fieldOfStudy: profileEducation.fieldOfStudy, degree: profileEducation.degree, startDate: profileEducation.startDate, endDate: profileEducation.endDate, isStillLearning: profileEducation.isStillLearning, gpa: profileEducation.gpa, coursework: profileEducation.coursework, isAdded: true, position: profileEducation.position, page: educationBlock.page)
                     if AiManager.getAiTextAttempts() > 0, change.descriptionGenerationEnabled {
-                        if let text = await AIAssistant.generateEducationDescription(item: item, targetJob: cv.tagretJob, targetInstitution: cv.tagretCompany, language: language.name, isBulletedList: isBulletedList) {
+                        if let text = await AIAssistant.generateEducationDescription(item: item, targetJob: cv.targetJob, targetInstitution: cv.targetCompany, targetJobDescription: cv.targetJobDescription, language: language.name, isBulletedList: isBulletedList) {
                             item.desc = text
 //                            AiManager.useAiTextAttempt()
                         }
@@ -888,7 +894,7 @@ class CVUpdater {
                         
                         if descUpdateNeeded {
                             if AiManager.getAiTextAttempts() > 0, change.descriptionGenerationEnabled {
-                                if let text = await AIAssistant.generateWorkDescription(item: cvWork, targetJob: cv.tagretJob, targetInstitution: cv.tagretCompany, language: language.name, isBulletedList: isBulletedList) {
+                                if let text = await AIAssistant.generateWorkDescription(item: cvWork, targetJob: cv.targetJob, targetInstitution: cv.targetCompany, targetJobDescription: cv.targetJobDescription, language: language.name, isBulletedList: isBulletedList) {
                                     cvWork.desc = text
 //                                    AiManager.useAiTextAttempt()
                                 }
@@ -922,7 +928,7 @@ class CVUpdater {
                 if needsAdding {
                     let item = WorkBlockItemEntity(entityId: profileWork.id, desc: "", jobTitle: profileWork.jobTitle, company: profileWork.company, iconId: profileWork.iconId, location: profileWork.location, startDate: profileWork.startDate, endDate: profileWork.endDate, isStillWorking: profileWork.isStillWorking, responsibilities: profileWork.responsibilities, remote: profileWork.remote, partTime: profileWork.partTime, isAdded: true, position: profileWork.position, page: workBlock.page)
                     if AiManager.getAiTextAttempts() > 0, change.descriptionGenerationEnabled {
-                        if let text = await AIAssistant.generateWorkDescription(item: item, targetJob: cv.tagretJob, targetInstitution: cv.tagretCompany, language: language.name, isBulletedList: isBulletedList) {
+                        if let text = await AIAssistant.generateWorkDescription(item: item, targetJob: cv.targetJob, targetInstitution: cv.targetCompany, targetJobDescription: cv.targetJobDescription, language: language.name, isBulletedList: isBulletedList) {
                             item.desc = text
 //                            AiManager.useAiTextAttempt()
                         }
@@ -1222,13 +1228,10 @@ class CVUpdater {
     }
     
     private func updateCoverLetter (cv: CVEntity, profile: ProfileEntity, language: Language, change: CVChange) async {
-        if let coverLetter = cv.coverLetter, let generalBlock = cv.generalBlock, let profileDescBlock = cv.profileDescBlock, change.isChangeEnabled {
+        if let generalBlock = cv.generalBlock, change.isChangeEnabled {
             if profile.jobTitle != generalBlock.jobTitle {
                 if AiManager.getAiTextAttempts() > 0, change.descriptionGenerationEnabled {
-                    let letter = await AIAssistant.generateCoverLetter(profile: profile, targetJob: cv.tagretJob, targetInstitution: cv.tagretCompany, language: language.name)
-                    if letter.count > 0 {
-                        coverLetter.text = letter
-                    }
+                    let _ = await AIAssistant.applyAiActionCoverLetter(profile: profile, cv: cv, targetJob: cv.targetJob, targetCompany: cv.targetCompany, targetJobDescription: cv.targetJobDescription, language: language, action: 0, customAction: nil)
                 }
             }
         }

@@ -32,7 +32,7 @@ struct ConstructorVisualizationView: View {
                     
                     VisualizationView(isGenerating: $viewModel.isGenerating, item: $viewModel.wrapper, clickHandler: { page in
                         viewModel.showPreview(page: page)
-                    }).frame(maxHeight: 700).aspectRatio(0.65, contentMode: .fit).padding([.leading, .trailing]).padding(.bottom, loadingPreview ? 36 : 16)
+                    }).frame(maxHeight: 700).aspectRatio(0.65, contentMode: .fit).padding([.leading, .trailing]).padding(.bottom, loadingPreview ? 48 : 16)
                 }
                 
                 ZStack (alignment: .top) {

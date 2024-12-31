@@ -31,11 +31,11 @@ struct OnBoardTargetView: View, KeyboardReadable {
                             
                             Text(NSLocalizedString("field_job_title", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                             
-                            TextInputView(text: $viewModel.jobTitle, icon: "briefcase.fill", hint: NSLocalizedString("field_job_title_hint", comment: "")).padding(.bottom)
+                            TextInputView(text: $viewModel.jobTitle, icon: "briefcase.fill", hint: NSLocalizedString("field_job_title_hint", comment: ""), limit: 200).padding(.bottom)
                             
                             Text(NSLocalizedString("field_company_name", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                             
-                            TextInputView(text: $viewModel.company, icon: "building.columns.fill", hint: NSLocalizedString("field_company_name_hint", comment: "")).padding(.bottom)
+                            TextInputView(text: $viewModel.company, icon: "building.columns.fill", hint: NSLocalizedString("field_company_name_hint", comment: ""), limit: 200).padding(.bottom)
                             
                             Text(NSLocalizedString("field_job_description_name", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                             

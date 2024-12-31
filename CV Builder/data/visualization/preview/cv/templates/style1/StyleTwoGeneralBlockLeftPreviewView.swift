@@ -32,10 +32,6 @@ struct StyleTwoGeneralBlockLeftPreviewView: View {
             }
         }
     }
-    
-    private func getFontByStyle (_ id: Int) -> String {
-        return PreloadedDatabase.getFontId(id: id).name
-    }
 }
 
 #Preview {

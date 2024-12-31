@@ -90,6 +90,10 @@
 "profile_fill_alert_header" = "Your profile is missing important information for your resume";
 "profile_fill_alert_description" = "Therefore, for visualization, we will add some template data. You can then edit your profile at any time, add information and it will automatically be pulled into the resume.";
 
+"generate_again" = "Generate again";
+"generate_again_header" = "Are you sure you want to generate again?";
+"generate_again_description" = "CV generation attempt will be lost";
+
 "generating_your_cv" = "Generating your CV";
 "explore_visualization" = "Explore more visualization suggestions";
 
@@ -300,6 +304,13 @@
 "language_level_sug_3" = "Upper-intermediate (B2)";
 "language_level_sug_4" = "Advanced (C1)";
 "language_level_sug_5" = "Proficient (C2)";
+
+"language_level_sh_sug_0" = "A1";
+"language_level_sh_sug_1" = "A2";
+"language_level_sh_sug_2" = "B1";
+"language_level_sh_sug_3" = "B2";
+"language_level_sh_sug_4" = "C1";
+"language_level_sh_sug_5" = "C2";
 
 "indonesian" = "Bahasa Indonesia";
 "catala" = "Català";
@@ -512,6 +523,9 @@
 "ai_expand" = "Expand";
 "ai_shorten" = "Shorten";
 "ai_to_bulleted" = "To bulleted list";
+"ai_custom" = "Custom command";
+
+"enter_command" = "Enter command";
 
 "drop_here_main_block" = "Drop here info for main block";
 "drop_here_additional_block" = "Drop here info for additional block";
@@ -532,6 +546,10 @@
 "content_category_9" = "Certificates";
 "content_category_10" = "References";
 "content_category_11" = "QR Codes";
+
+"edit_additional_texts" = "Additional texts";
+"additional_texts_header" = "Additional texts";
+"additional_texts_description" = "Block titles and other additional text placed in the summary";
 
 "styles" = "Styles";
 "main_color" = "Main color";
@@ -700,6 +718,8 @@
 
 "have_more_questions" = "Have more questions?";
 "have_more_questions_desc" = "Feel free to contact us with the email";
+
+"watermark_text" = "Made with Resume Builder app";
 
 // AI limits
 "ai_limit_header" = "You have reached your daily AI usage limit";
@@ -956,10 +976,14 @@
 
 // styles
 "style_a_name" = "Effective";
-"style_b_name" = "Elegant";
+"style_b_name" = "Pure Elegance";
+"style_c_name" = "Modern Minimalist";
+"style_d_name" = "Innovator";
 
 "style_a_description" = "Stylish and bright design";
 "style_b_description" = "Universal simple style";
+"style_c_description" = "Classic clean template";
+"style_d_description" = "Dark concise design";
 
 // fonts
 "select_font" = "Select font";

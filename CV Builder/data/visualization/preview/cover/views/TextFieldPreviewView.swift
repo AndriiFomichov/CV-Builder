@@ -31,6 +31,8 @@ struct TextFieldPreviewView: View {
             
         }.onAppear() {
             text = initialText
+        }.onChange(of: initialText) {
+            text = initialText
         }.onChange(of: text) {
             if text != initialText {
                 textChangeHandler(text)

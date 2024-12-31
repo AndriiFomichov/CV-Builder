@@ -14,16 +14,14 @@ struct StyleTwoGeneralBlockRightPreviewView: View {
     var height: CGFloat
     
     var body: some View {
-        if let generalBlock = cv.generalBlock {
-            ZStack {
-                Color(hex: cv.iconBackgroundColor)
+        ZStack {
+            Color(hex: cv.iconBackgroundColor)
+            
+            if let generalBlock = cv.generalBlock {
                 ImagePreviewView(imageId: generalBlock.photoId, imageName: "profile_photo_two_illustration", cornerTL: 0.0, cornerTT: 0.0, cornerBL: 0.0, cornerBT: 0.0, width: (width - CGFloat(cv.marginsSize * 6)) * 0.4, height: height * 0.4, zoom: CGFloat(generalBlock.stylePhotoZoom), filterEnabled: generalBlock.stylePhotoFilterEnabled, filterColor: "#000000", strokeWidth: 0, strokeColor: "")
-            }.frame(height: height * 0.4)
-        }
-    }
-    
-    private func getFontByStyle (_ id: Int) -> String {
-        return PreloadedDatabase.getFontId(id: id).name
+            }
+            
+        }.frame(height: height * 0.4)
     }
 }
 

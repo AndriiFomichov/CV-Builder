@@ -21,10 +21,11 @@ class LanguagesBlockEntityWrapper {
     
     var styleIsBulletedList: Bool
     var styleIsProgressAdded: Bool
+    var styleIsLevelAdded: Bool
     var styleIconAdded: Bool
     var styleHeaderPosition: Int
 
-    init(entity: LanguagesBlockEntity?, list: [LanguageBlockItemEntityWrapper], isAdded: Bool, position: Int, isMainBlock: Bool, page: Int, textLanguages: String, styleIsBulletedList: Bool, styleIsProgressAdded: Bool, styleIconAdded: Bool, styleHeaderPosition: Int) {
+    init(entity: LanguagesBlockEntity?, list: [LanguageBlockItemEntityWrapper], isAdded: Bool, position: Int, isMainBlock: Bool, page: Int, textLanguages: String, styleIsBulletedList: Bool, styleIsProgressAdded: Bool, styleIsLevelAdded: Bool, styleIconAdded: Bool, styleHeaderPosition: Int) {
         self.entity = entity
         self.list = list
         self.isAdded = isAdded
@@ -34,6 +35,7 @@ class LanguagesBlockEntityWrapper {
         self.textLanguages = textLanguages
         self.styleIsBulletedList = styleIsBulletedList
         self.styleIsProgressAdded = styleIsProgressAdded
+        self.styleIsLevelAdded = styleIsLevelAdded
         self.styleIconAdded = styleIconAdded
         self.styleHeaderPosition = styleHeaderPosition
     }
@@ -56,11 +58,12 @@ class LanguagesBlockEntityWrapper {
         self.textLanguages = entity.textLanguages
         self.styleIsBulletedList = entity.styleIsBulletedList
         self.styleIsProgressAdded = entity.styleIsProgressAdded
+        self.styleIsLevelAdded = entity.styleIsLevelAdded
         self.styleIconAdded = entity.styleIconAdded
         self.styleHeaderPosition = entity.styleHeaderPosition
     }
     
     static func getDefault (position: Int, isMainBlock: Bool) -> LanguagesBlockEntityWrapper {
-        return LanguagesBlockEntityWrapper(entity: nil, list: [ LanguageBlockItemEntityWrapper.getDefault(position: 0), LanguageBlockItemEntityWrapper.getDefault(position: 1) ], isAdded: true, position: position, isMainBlock: isMainBlock, page: 0, textLanguages: NSLocalizedString("languages", comment: ""), styleIsBulletedList: true, styleIsProgressAdded: true, styleIconAdded: true, styleHeaderPosition: 0)
+        return LanguagesBlockEntityWrapper(entity: nil, list: [ LanguageBlockItemEntityWrapper.getDefault(position: 0), LanguageBlockItemEntityWrapper.getDefault(position: 1) ], isAdded: true, position: position, isMainBlock: isMainBlock, page: 0, textLanguages: NSLocalizedString("languages", comment: ""), styleIsBulletedList: true, styleIsProgressAdded: true, styleIsLevelAdded: true, styleIconAdded: true, styleHeaderPosition: 0)
     }
 }

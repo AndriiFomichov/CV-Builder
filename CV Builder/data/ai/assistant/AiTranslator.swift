@@ -9,7 +9,7 @@ import Foundation
 
 class AiTranslator {
     
-    func translateCv (cv: CVEntity, language: String, translateCv: Bool = true, translateCover: Bool = true) async {
+    func translateCv (cv: CVEntity, langId: Int, language: String, translateCv: Bool = true, translateCover: Bool = true) async {
         
         if translateCv {
             await translateGeneral(cv: cv, language: language)
@@ -26,6 +26,7 @@ class AiTranslator {
         if translateCover {
             await translateCoverLetter(cv: cv, language: language)
         }
+        cv.language = langId
         
         DatabaseBox.saveContext()
     }
@@ -72,8 +73,7 @@ class AiTranslator {
     
     private func translateWork (cv: CVEntity, language: String) async {
         if let workBlock = cv.workBlock {
-            workBlock.experience = await translateText(text: workBlock.experience, language: language)
-            workBlock.workExperience = await translateText(text: workBlock.workExperience, language: language)
+            workBlock.textWorkExperience = await translateText(text: workBlock.textWorkExperience, language: language)
             if let list = workBlock.list {
                 for item in list {
                     item.desc = await translateText(text: item.desc, language: language)
@@ -121,7 +121,7 @@ class AiTranslator {
     
     private func translateCertificates (cv: CVEntity, language: String) async {
         if let certificatesBlock = cv.certificatesBlock {
-            certificatesBlock.textLanguages = await translateText(text: certificatesBlock.textLanguages, language: language)
+            certificatesBlock.textCertificates = await translateText(text: certificatesBlock.textCertificates, language: language)
             if let list = certificatesBlock.list {
                 for item in list {
                     item.name = await translateText(text: item.name, language: language)

@@ -29,11 +29,13 @@ struct SkillsBlockPreviewView: View {
     var chipBackgroundColor: String
     var chipStrokeColor: String
     
+    var addDivider: Bool = false
     var addBlockPadding: Bool = false
+    var addBottomPadding: Bool = false
     
     var body: some View {
         if let block = cv.skillsBlock {
-            BlockContainerPreviewView(isMainBlock: block.isMainBlock, marginsSize: cv.marginsSize, text: block.textSkills, font: cv.headersFont, textColor: headerTextColor, gravity: .leading, size: cv.headersSize, isBold: cv.isHeadersBold, isItalic: cv.isHeadersItalic, isUnderline: false, isUppercased: cv.isHeadersUppercased, headerPosition: block.styleHeaderPosition, headerDotAdded: cv.headerDotAdded, headerLineAdded: cv.headerLineAdded, dotColor: dotColor, dotSize: cv.dotSize, dotBackAdded: cv.dotBackAdded, dotStrokeAdded: cv.dotStrokeAdded, strokeWidth: cv.strokeWidth, strokeColor: dotStrokeColor, linePosition: cv.headerLinePosition, lineColor: lineColor, lineCirclesAdded: cv.lineCirclesAdded, lineCirclesColor: lineCirclesColor, lienWidth: cv.lineWidth, cornersRadius: CGFloat(cv.cornersRadius), blockBackgroundColor: blockBackgroundColor, blockStrokeColor: blockStrokeColor, addBlockPadding: addBlockPadding) {
+            BlockContainerPreviewView(isMainBlock: block.isMainBlock, marginsSize: cv.marginsSize, text: block.textSkills, font: cv.headersFont, textColor: headerTextColor, gravity: .leading, size: cv.headersSize, isBold: cv.isHeadersBold, isItalic: cv.isHeadersItalic, isUnderline: false, isUppercased: cv.isHeadersUppercased, headerPosition: block.styleHeaderPosition, headerDotAdded: cv.headerDotAdded, headerLineAdded: cv.headerLineAdded, dotColor: dotColor, dotSize: cv.dotSize, dotBackAdded: cv.dotBackAdded, dotStrokeAdded: cv.dotStrokeAdded, strokeWidth: cv.strokeWidth, strokeColor: dotStrokeColor, linePosition: cv.headerLinePosition, lineColor: lineColor, lineCirclesAdded: cv.lineCirclesAdded, lineCirclesColor: lineCirclesColor, lienWidth: cv.lineWidth, cornersRadius: CGFloat(cv.cornersRadius), blockBackgroundColor: blockBackgroundColor, blockStrokeColor: blockStrokeColor, addDivider: addDivider, addBlockPadding: addBlockPadding, addBottomPadding: addBottomPadding) {
                 
                 ZStack (alignment: .leading) {
                     let list = block.list.sorted { $0.position < $1.position }
@@ -77,15 +79,19 @@ struct SkillsItemPreviewView: View {
                 DotPreviewView(color: dotColor, width: cv.dotSize, height: cv.dotSize, strokeWidth: cv.strokeWidth, strokeColor: dotStrokeColor, backAdded: cv.dotBackAdded, strokeAdded: cv.dotStrokeAdded)
             }
             
-            TextPreviewView(text: item.name, font: cv.textFont, color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, isInfinite: false).frame(width: setLongestItemWidth(block: block, id: cv.textFont, size: cv.textSize), alignment: .leading)
+            if block.styleIsProgressAdded {
+                TextPreviewView(text: item.name, font: cv.textFont, color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, isInfinite: false).frame(width: setLongestItemWidth(block: block, id: cv.textFont, size: cv.textSize), alignment: .leading)
+            } else {
+                TextPreviewView(text: item.name, font: cv.textFont, color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, isInfinite: false)
+            }
             
             Spacer()
             
             if block.styleIsProgressAdded {
                 if cv.progressBarStyle == 0 || cv.progressBarStyle == 3 {
-                    ProgressBarPreviewView(progress: item.level >= 0 ? item.level + 1 : 0, steps: 5, height: cv.textSize, style: cv.progressBarStyle, accentColor: progressForegroundColor, backgroundColor: progressBackgroundColor, cornersRadius: CGFloat(cv.cornersRadius))
+                    ProgressBarPreviewView(progress: item.level >= 0 ? item.level + 1 : 0, steps: 5, height: cv.progressHeight, style: cv.progressBarStyle, accentColor: progressForegroundColor, backgroundColor: progressBackgroundColor, cornersRadius: CGFloat(cv.cornersRadius))
                 } else {
-                    ProgressBarPreviewView(progress: item.level >= 0 ? item.level + 1 : 0, steps: 5, height: cv.textSize, style: cv.progressBarStyle, accentColor: progressForegroundColor, backgroundColor: progressBackgroundColor, cornersRadius: CGFloat(cv.cornersRadius))
+                    ProgressBarPreviewView(progress: item.level >= 0 ? item.level + 1 : 0, steps: 5, height: cv.progressHeight, style: cv.progressBarStyle, accentColor: progressForegroundColor, backgroundColor: progressBackgroundColor, cornersRadius: CGFloat(cv.cornersRadius))
                 }
                 
                 if cv.progressBarPercentAdded && item.level >= 0 {

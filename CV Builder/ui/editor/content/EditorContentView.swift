@@ -45,34 +45,12 @@ struct EditorContentView: View, KeyboardReadable {
                         
                         HStack {
                             
-                            Button (action: {
-                                parentViewModel.openProfile()
-                            }) {
-                                HStack (spacing: 0) {
-                                    
-                                    ZStack {
-                                        
-                                        if let photo = parentViewModel.userPhoto {
-                                            Image(uiImage: photo).centerCropped()
-                                        } else {
-                                            Image(systemName: "person.crop.circle").font(.headline).foregroundStyle(.accent)
-                                        }
-                                        
-                                    }.clipShape(RoundedRectangle(cornerRadius: 32.0)).frame(width: 42, height: 42).background() {
-                                        RoundedRectangle(cornerRadius: 32.0).fill(.windowTwo)
-                                    }.padding(8)
-                                    
-                                    Text(NSLocalizedString("edit_profile", comment: "")).font(.subheadline).foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.trailing, 4).padding(.vertical, 4).lineLimit(2)
-                                    
-                                    Image(systemName: "chevron.right").foregroundStyle(.textAdditional).font(.subheadline).padding(.trailing)
-                                    
-                                }.frame(maxWidth: .infinity).background() {
-                                    RoundedRectangle(cornerRadius: 32.0).fill(Color.window)
-                                }
-                            }
-                            
                             ActionButtonView(icon: "arrow.up.arrow.down", text: NSLocalizedString("rearrange_content", comment: ""), clickHandler: {
                                 viewModel.openContentSelection()
+                            }, addArrow: true)
+                            
+                            ActionButtonView(icon: "text.badge.plus", text: NSLocalizedString("edit_additional_texts", comment: ""), clickHandler: {
+                                viewModel.openAdditionalTextsSelection()
                             }, addArrow: true)
                             
                         }.padding(.bottom)
@@ -91,11 +69,11 @@ struct EditorContentView: View, KeyboardReadable {
                                     }, itemMoveHandler: {
                                         viewModel.updateAdditionalItems(item: viewModel.mainList[index])
                                     }, actionClickHandler: { position in
-                                        viewModel.handleMainItemAiActionClick(index: index, action: position)
+                                        viewModel.handleBlockItemAiActionClick(index: index, action: position, isMain: true)
                                     }, itemTextChangeHandler: { ind in
                                         viewModel.updateAdditionalItems(item: viewModel.mainList[index])
                                     }, actionItemClickHandler: { ind, position in
-                                        viewModel.handleMainItemItemAiActionClick(itemIndex: index, index: ind, action: position)
+                                        viewModel.handleBlockInnerItemAiActionClick(itemIndex: index, index: ind, action: position, isMain: true)
                                     }, networkStatus: $monitor.status).onDrag {
                                         if index >= 0 && index < viewModel.mainList.count {
                                             self.draggedItem = viewModel.mainList[index]
@@ -125,11 +103,11 @@ struct EditorContentView: View, KeyboardReadable {
                                         }, itemMoveHandler: {
                                             viewModel.updateAdditionalItems(item: viewModel.additionalList[index])
                                         }, actionClickHandler: { position in
-                                            viewModel.handleAdditionalItemAiActionClick(index: index, action: position)
+                                            viewModel.handleBlockItemAiActionClick(index: index, action: position, isMain: false)
                                         }, itemTextChangeHandler: { ind in
                                             viewModel.updateAdditionalItems(item: viewModel.additionalList[index])
                                         }, actionItemClickHandler: { ind, position in
-                                            viewModel.handleAdditionalItemItemAiActionClick(itemIndex: index, index: ind, action: position)
+                                            viewModel.handleBlockInnerItemAiActionClick(itemIndex: index, index: ind, action: position, isMain: false)
                                         }, networkStatus: $monitor.status).onDrag {
                                             if index >= 0 && index < viewModel.additionalList.count {
                                                 self.draggedItem = viewModel.additionalList[index]
@@ -149,7 +127,33 @@ struct EditorContentView: View, KeyboardReadable {
                         
                         LargeAttemptsLabel(text: $viewModel.attemptsText).padding(.bottom, 8)
                         
-                        Text(NSLocalizedString("made_with_ai_description", comment: "")).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.bottom)
+                        Text(NSLocalizedString("made_with_ai_description", comment: "")).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.bottom, 32)
+                        
+                        Button (action: {
+                            parentViewModel.openProfile()
+                        }) {
+                            HStack (spacing: 0) {
+                                
+                                ZStack {
+                                    
+                                    if let photo = parentViewModel.userPhoto {
+                                        Image(uiImage: photo).centerCropped()
+                                    } else {
+                                        Image(systemName: "person.crop.circle").font(.headline).foregroundStyle(.accent)
+                                    }
+                                    
+                                }.clipShape(RoundedRectangle(cornerRadius: 32.0)).frame(width: 42, height: 42).background() {
+                                    RoundedRectangle(cornerRadius: 32.0).fill(.windowTwo)
+                                }.padding(8)
+                                
+                                Text(NSLocalizedString("edit_profile", comment: "")).font(.subheadline).foregroundStyle(.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.trailing, 4).padding(.vertical, 4).lineLimit(2)
+                                
+                                Image(systemName: "chevron.right").foregroundStyle(.textAdditional).font(.subheadline).padding(.trailing)
+                                
+                            }.frame(maxWidth: .infinity).background() {
+                                RoundedRectangle(cornerRadius: 32.0).fill(Color.window)
+                            }.padding(.bottom)
+                        }
                         
                     }.padding(.horizontal).padding(.bottom)
                     
@@ -167,12 +171,20 @@ struct EditorContentView: View, KeyboardReadable {
                 EditorContentSelectionView(cv: viewModel.cv, finishHandler: { isChanged in
                     viewModel.handleContentSelection(isChanged: isChanged)
                 }).presentationDetents([.large])
+            }.sheet(isPresented: $viewModel.additionalTextsSheetShown) {
+                AdditionalTextView(cv: viewModel.cv, finishHandler: {  isChanged in
+                    viewModel.handleAdditionalTexts(isChanged: isChanged)
+                }).presentationDetents([.large])
             }.sheet(isPresented: $viewModel.paywallSheetShown, onDismiss: {
                 viewModel.handlePaywallSheetShown()
             }) {
                 PaywallView(benefitsId: 0, source: "Content ai text").presentationDetents([.large])
             }.sheet(isPresented: $viewModel.limitSheetShown) {
                 AiLimitView(type: 2).presentationDetents([.large])
+            }.sheet(isPresented: $viewModel.aiCommandSheetShown) {
+                CustomAIActionView(initialText: viewModel.customAction.text, actionHandler: { command in
+                    viewModel.handleAiCommandApplied(command: command)
+                }).presentationDetents([.medium])
             }
             
             if !keywordVisible {

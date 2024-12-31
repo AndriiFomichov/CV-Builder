@@ -50,7 +50,7 @@ struct EditorZoomablePreviewView: View {
                                     
                                     if let wrapper {
                                         if isCv {
-                                            CVMakerPreviewPageView(cv: wrapper, page: pageState, isLoading: .constant(false), blockOneHeight: .constant(0.0), blockTwoHeight: .constant(0.0), blockThreeHeight: .constant(0.0), blockFourHeight: .constant(0.0), blockFiveHeight: .constant(0.0), blockSixHeight: .constant(0.0), blockSevenHeight: .constant(0.0), blockEightHeight: .constant(0.0), blockNineHeight: .constant(0.0), blockTenHeight: .constant(0.0), blockElevenHeight: .constant(0.0), blockAdditionalOneHeight: .constant(0.0), blockAdditionalTwoHeight: .constant(0.0), blockAdditionalThreeHeight: .constant(0.0), blockAdditionalFourHeight: .constant(0.0), blockAdditionalFiveHeight: .constant(0.0), blockAdditionalSixHeight: .constant(0.0), blockAdditionalSevenHeight: .constant(0.0), blockAdditionalEightHeight: .constant(0.0), blockAdditionalNineHeight: .constant(0.0), blockAdditionalTenHeight: .constant(0.0), blockAdditionalElevenHeight: .constant(0.0), mainColumnHeight: .constant(0.0), additionalColumnHeight: .constant(0.0), mainColumnNextPagesHeight: .constant(0.0), additionalColumnNextPagesHeight: .constant(0.0), doubleTapHandler: { i, b in })
+                                            CVMakerPreviewPageView(cv: wrapper, page: pageState, isLoading: .constant(false), blockOneHeight: .constant(0.0), blockTwoHeight: .constant(0.0), blockThreeHeight: .constant(0.0), blockFourHeight: .constant(0.0), blockFiveHeight: .constant(0.0), blockSixHeight: .constant(0.0), blockSevenHeight: .constant(0.0), blockEightHeight: .constant(0.0), blockNineHeight: .constant(0.0), blockTenHeight: .constant(0.0), blockElevenHeight: .constant(0.0), blockAdditionalOneHeight: .constant(0.0), blockAdditionalTwoHeight: .constant(0.0), blockAdditionalThreeHeight: .constant(0.0), blockAdditionalFourHeight: .constant(0.0), blockAdditionalFiveHeight: .constant(0.0), blockAdditionalSixHeight: .constant(0.0), blockAdditionalSevenHeight: .constant(0.0), blockAdditionalEightHeight: .constant(0.0), blockAdditionalNineHeight: .constant(0.0), blockAdditionalTenHeight: .constant(0.0), blockAdditionalElevenHeight: .constant(0.0), mainColumnHeight: .constant(0.0), additionalColumnHeight: .constant(0.0), mainColumnNextPagesHeight: .constant(0.0), additionalColumnNextPagesHeight: .constant(0.0), tapHandler: { i, b in }, doubleTapHandler: { i, b in })
                                         } else {
                                             CoverMakerPreviewView(cv: wrapper, isLoading: .constant(false), textChangeHandler: { text in }, isDisabled: true)
                                         }
@@ -148,7 +148,7 @@ struct EditorZoomablePreviewView: View {
         
         if let wrapper {
             let pages = CVVisualizationBuilder.getWrapperPagesCount(wrapper: wrapper)
-            btnPagesAvailable = pages > 1
+            btnPagesAvailable = pages > 1 && isCv
             btnPreviousEnabled = page > 0
             btnNextEnabled = page < pages - 1
         }

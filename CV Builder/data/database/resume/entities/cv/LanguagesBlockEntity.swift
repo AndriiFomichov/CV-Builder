@@ -23,10 +23,11 @@ class LanguagesBlockEntity {
     
     var styleIsBulletedList: Bool
     var styleIsProgressAdded: Bool
+    var styleIsLevelAdded: Bool
     var styleIconAdded: Bool
     var styleHeaderPosition: Int
 
-    init(list: [LanguageBlockItemEntity]?, isAdded: Bool, position: Int, isMainBlock: Bool, page: Int, textLanguages: String, styleIsBulletedList: Bool, styleIsProgressAdded: Bool, styleIconAdded: Bool, styleHeaderPosition: Int) {
+    init(list: [LanguageBlockItemEntity]?, isAdded: Bool, position: Int, isMainBlock: Bool, page: Int, textLanguages: String, styleIsBulletedList: Bool, styleIsProgressAdded: Bool, styleIsLevelAdded: Bool, styleIconAdded: Bool, styleHeaderPosition: Int) {
         self.list = list
         self.isAdded = isAdded
         self.position = position
@@ -35,6 +36,7 @@ class LanguagesBlockEntity {
         self.textLanguages = textLanguages
         self.styleIsBulletedList = styleIsBulletedList
         self.styleIsProgressAdded = styleIsProgressAdded
+        self.styleIsLevelAdded = styleIsLevelAdded
         self.styleIconAdded = styleIconAdded
         self.styleHeaderPosition = styleHeaderPosition
     }
@@ -48,6 +50,7 @@ class LanguagesBlockEntity {
         self.textLanguages = entity.textLanguages
         self.styleIsBulletedList = entity.styleIsBulletedList
         self.styleIsProgressAdded = entity.styleIsProgressAdded
+        self.styleIsLevelAdded = entity.styleIsLevelAdded
         self.styleIconAdded = entity.styleIconAdded
         self.styleHeaderPosition = entity.styleHeaderPosition
     }

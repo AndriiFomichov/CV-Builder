@@ -15,13 +15,20 @@ class CVBuilder {
 //        }
 //    }
     
-    func buildCv (profile: ProfileEntity, styleId: Int, targetJob: String, targetInstitution: String, isFirst: Bool) async -> CVEntity {
-        let language = TextLangDetector.getDefaultLanguage()
+    func buildCv (profile: ProfileEntity, styleId: Int, langId: Int = -1, targetJob: String, targetInstitution: String, targetJobDescription: String, isFirst: Bool) async -> CVEntity {
+        let language: Language
+        if langId == -1 {
+            language = TextLangDetector.getDefaultLanguage()
+        } else {
+            language = PreloadedDatabase.getLanguageById(id: langId)
+        }
+        
+        let finalDescription = await AIAssistant.optimizeTargetJobDescription(targetJobDescription: targetJobDescription)
         
         if isFirst {
             let profileManager = ProfileManager()
             saveDefaultLanguageToProfile(profileManager: profileManager, profile: profile, language: language)
-            await generateUserSkills(profileManager: profileManager, profile: profile, targetJob: targetJob, targetInstitution: targetInstitution, language: language.name)
+            await generateUserSkills(profileManager: profileManager, profile: profile, targetJob: targetJob, targetInstitution: targetInstitution, targetJobDescription: finalDescription, language: language.name)
         }
         
         let style = PreloadedDatabase.getStyleId(id: styleId)
@@ -29,13 +36,13 @@ class CVBuilder {
         
         let generalBlock = await createGeneralBlock(profile: profile, page: 0, position: 0, isMainBlock: true, style: style) // fixed position according style
         
-        let profileDescriptionBlock = await createProfileDescriptionBlock(profile: profile, targetJob: targetJob, targetInstitution: targetInstitution, language: language.name, page: 0, position: 0, isMainBlock: true, style: style)
+        let profileDescriptionBlock = await createProfileDescriptionBlock(profile: profile, targetJob: targetJob, targetInstitution: targetInstitution, targetJobDescription: finalDescription, language: language.name, page: 0, position: 0, isMainBlock: true, style: style)
         let contactBlock = await createContactBlock(profile: profile, page: 0, position: 1, isMainBlock: true, style: style)
-        let educationBlock = await createEducationBlock(profile: profile, targetJob: targetJob, targetInstitution: targetInstitution, language: language.name, page: 0, position: 2, isMainBlock: true, style: style)
-        let workBlock = await createWorkBlock(profile: profile, targetJob: targetJob, targetInstitution: targetInstitution, language: language.name, page: 0, position: 3, isMainBlock: true, style: style)
+        let educationBlock = await createEducationBlock(profile: profile, targetJob: targetJob, targetInstitution: targetInstitution, targetJobDescription: finalDescription, language: language.name, page: 0, position: 2, isMainBlock: true, style: style)
+        let workBlock = await createWorkBlock(profile: profile, targetJob: targetJob, targetInstitution: targetInstitution, targetJobDescription: finalDescription, language: language.name, page: 0, position: 3, isMainBlock: true, style: style)
         
         let skillsBlock = await createSkillsBlock(profile: profile, page: 0, position: 4, isMainBlock: true, style: style)
-        let languagesBlock = await createLanguagesBlock(profile: profile, targetJob: targetJob, targetInstitution: targetInstitution, page: 0, position: 5, isMainBlock: true, style: style)
+        let languagesBlock = await createLanguagesBlock(profile: profile, page: 0, position: 5, isMainBlock: true, style: style)
         
         let interestsBlock = await createInterestsBlock(profile: profile, page: 0, position: 6, isMainBlock: true, style: style)
         
@@ -50,7 +57,7 @@ class CVBuilder {
             cvName = cvName + " - " + profile.name
         }
         
-        let cv = CVEntity(generalBlock: generalBlock, profileDescBlock: profileDescriptionBlock, contactBlock: contactBlock, socialBlock: socialBlock, qrCodesBlock: qrCodesBlock, educationBlock: educationBlock, workBlock: workBlock, languagesBlock: languagesBlock, skillsBlock: skillsBlock, interestsBlock: interestsBlock, certificatesBlock: certificatesBlock, referencesBlock: referencesBlock, coverLetter: nil, name: cvName, lastModified: Date(), bookmarked: false, tagretJob: targetJob, tagretCompany: targetInstitution, previewOne: nil, previewTwo: nil, style: styleId, hasAdditionalBlock: style.hasAdditionalBlock, nameFont: style.fontName, headersFont: style.fontHeader, textFont: style.fontText, nameSize: style.sizeName, headersSize: style.sizeHeader, textSize: style.sizeText, marginsSize: style.margins, isHeadersBold: style.isHeaderBold, isHeadersUppercased: style.isHeaderUppercased, isHeadersItalic: style.isHeaderItalic, headerDotAdded: style.isHeaderDotAdded, headerLineAdded: style.isHeaderLineAdded, headerLinePosition: style.headerLinePosition, lineCirclesAdded: style.lineCirclesAdded, cornersRadius: style.cornersRadius, strokeWidth: style.strokeWidth, lineWidth: style.lineWidth, dotSize: style.dotSize, dotBackAdded: style.dotBackAdded, dotStrokeAdded: style.dotStrokeAdded, progressBarStyle: style.progressBarStyle, progressBarPercentAdded: style.progressBarPercentAdded, iconSize: style.iconSize, iconBackAdded: style.iconBackAdded, iconStrokeAdded: style.iconStrokeAdded, iconIsBold: style.iconIsBold, chipBackAdded: style.chipBackAdded, chipStrokeAdded: style.chipStrokeAdded, textResume: NSLocalizedString("resume", comment: ""), textCV: NSLocalizedString("cv", comment: ""), textProfile: NSLocalizedString("profile", comment: ""), textThankYou: NSLocalizedString("thank_you", comment: ""), mainColor: palette.mainColor, headerTextColor: palette.headerTextColor, mainTextColor: palette.mainTextColor, lineColor: palette.lineColor, lineCirclesColor: palette.lineCirclesColor, dotColor: palette.dotColor, dotStrokeColor: palette.dotStrokeColor, iconColor: palette.iconColor, iconBackgroundColor: palette.iconBackgroundColor, iconStrokeColor: palette.iconStrokeColor, qrForegroundColor: palette.qrForegroundColor, qrBackgroundColor: palette.qrBackgroundColor, progressForegroundColor: palette.progressForegroundColor, progressBackgroundColor: palette.progressBackgroundColor, chipTextColor: palette.chipTextColor, chipBackgroundColor: palette.chipBackgroundColor, chipStrokeColor: palette.chipStrokeColor)
+        let cv = CVEntity(generalBlock: generalBlock, profileDescBlock: profileDescriptionBlock, contactBlock: contactBlock, socialBlock: socialBlock, qrCodesBlock: qrCodesBlock, educationBlock: educationBlock, workBlock: workBlock, languagesBlock: languagesBlock, skillsBlock: skillsBlock, interestsBlock: interestsBlock, certificatesBlock: certificatesBlock, referencesBlock: referencesBlock, coverLetter: nil, name: cvName, lastModified: Date(), bookmarked: false, language: language.langId, targetJob: targetJob, targetCompany: targetInstitution, targetJobDescription: finalDescription, previewOne: nil, previewTwo: nil, style: styleId, hasAdditionalBlock: style.hasAdditionalBlock, nameFont: style.fontName, headersFont: style.fontHeader, textFont: style.fontText, nameSize: style.sizeName, headersSize: style.sizeHeader, textSize: style.sizeText, marginsSize: style.margins, isHeadersBold: style.isHeaderBold, isHeadersUppercased: style.isHeaderUppercased, isHeadersItalic: style.isHeaderItalic, headerDotAdded: style.isHeaderDotAdded, headerLineAdded: style.isHeaderLineAdded, headerLinePosition: style.headerLinePosition, lineCirclesAdded: style.lineCirclesAdded, cornersRadius: style.cornersRadius, strokeWidth: style.strokeWidth, lineWidth: style.lineWidth, dotSize: style.dotSize, dotBackAdded: style.dotBackAdded, dotStrokeAdded: style.dotStrokeAdded, progressBarStyle: style.progressBarStyle, progressBarPercentAdded: style.progressBarPercentAdded, progressHeight: style.progressHeight, iconSize: style.iconSize, iconBackAdded: style.iconBackAdded, iconStrokeAdded: style.iconStrokeAdded, iconIsBold: style.iconIsBold, chipBackAdded: style.chipBackAdded, chipStrokeAdded: style.chipStrokeAdded, textResume: NSLocalizedString("resume", comment: ""), textCV: NSLocalizedString("cv", comment: ""), textProfile: NSLocalizedString("profile", comment: ""), textThankYou: NSLocalizedString("thank_you", comment: ""), mainColor: palette.mainColor, headerTextColor: palette.headerTextColor, mainTextColor: palette.mainTextColor, lineColor: palette.lineColor, lineCirclesColor: palette.lineCirclesColor, dotColor: palette.dotColor, dotStrokeColor: palette.dotStrokeColor, iconColor: palette.iconColor, iconBackgroundColor: palette.iconBackgroundColor, iconStrokeColor: palette.iconStrokeColor, qrForegroundColor: palette.qrForegroundColor, qrBackgroundColor: palette.qrBackgroundColor, progressForegroundColor: palette.progressForegroundColor, progressBackgroundColor: palette.progressBackgroundColor, chipTextColor: palette.chipTextColor, chipBackgroundColor: palette.chipBackgroundColor, chipStrokeColor: palette.chipStrokeColor)
         
         DatabaseBox.saveEntity(item: cv)
 //        
@@ -68,9 +75,9 @@ class CVBuilder {
         return block
     }
     
-    private func createProfileDescriptionBlock (profile: ProfileEntity, targetJob: String, targetInstitution: String, language: String, page: Int = 0, position: Int, isMainBlock: Bool, style: Style) async -> ProfileDescriptionBlockEntity {
+    private func createProfileDescriptionBlock (profile: ProfileEntity, targetJob: String, targetInstitution: String, targetJobDescription: String, language: String, page: Int = 0, position: Int, isMainBlock: Bool, style: Style) async -> ProfileDescriptionBlockEntity {
         let block = ProfileDescriptionBlockEntity(profileDescription: "", isAdded: true, position: position, isMainBlock: isMainBlock, page: page, textAboutMe: NSLocalizedString("about_me", comment: ""), styleHeaderAdded: style.profileDescHeaderAdded, styleHeaderPosition: style.profileDescHeaderPosition, styleQuotesAdded: style.profileDescQuotesAdded)
-        if let text = await AIAssistant.generateProfileDescription(currentJob: profile.jobTitle, targetJob: targetJob, targetInstitution: targetInstitution, language: language) {
+        if let text = await AIAssistant.generateProfileDescription(currentJob: profile.jobTitle, targetJob: targetJob, targetInstitution: targetInstitution, targetJobDescription: targetJobDescription, language: language) {
             block.profileDescription = text
         }
         block.isAdded = !block.profileDescription.isEmpty
@@ -121,13 +128,13 @@ class CVBuilder {
         return block
     }
     
-    private func createEducationBlock (profile: ProfileEntity, targetJob: String, targetInstitution: String, language: String, page: Int = 0, position: Int, isMainBlock: Bool, style: Style) async -> EducationBlockEntity {
+    private func createEducationBlock (profile: ProfileEntity, targetJob: String, targetInstitution: String, targetJobDescription: String, language: String, page: Int = 0, position: Int, isMainBlock: Bool, style: Style) async -> EducationBlockEntity {
         var items: [EducationBlockItemEntity] = []
         if let list = profile.educationsList {
             for i in 0..<list.count {
                 let education = list[i]
                 let item = EducationBlockItemEntity(entityId: education.id, desc: "", level: education.level, institution: education.institution, logoId: education.logoId, fieldOfStudy: education.fieldOfStudy, degree: education.degree, startDate: education.startDate, endDate: education.endDate, isStillLearning: education.isStillLearning, gpa: education.gpa, coursework: education.coursework, isAdded: true, position: education.position, page: page)
-                if let text = await AIAssistant.generateEducationDescription(item: item, targetJob: targetJob, targetInstitution: targetInstitution, language: language, isBulletedList: style.educationDescritpionAsBulleted) {
+                if let text = await AIAssistant.generateEducationDescription(item: item, targetJob: targetJob, targetInstitution: targetInstitution, targetJobDescription: targetJobDescription, language: language, isBulletedList: style.educationDescritpionAsBulleted) {
                     item.desc = text
                 }
 //                DatabaseBox.saveEntity(item: item)
@@ -140,13 +147,13 @@ class CVBuilder {
         return block
     }
     
-    private func createWorkBlock (profile: ProfileEntity, targetJob: String, targetInstitution: String, language: String, page: Int = 0, position: Int, isMainBlock: Bool, style: Style) async -> WorkBlockEntity {
+    private func createWorkBlock (profile: ProfileEntity, targetJob: String, targetInstitution: String, targetJobDescription: String, language: String, page: Int = 0, position: Int, isMainBlock: Bool, style: Style) async -> WorkBlockEntity {
         var items: [WorkBlockItemEntity] = []
         if let list = profile.worksList {
             for i in 0..<list.count {
                 let work = list[i]
                 let item = WorkBlockItemEntity(entityId: work.id, desc: "", jobTitle: work.jobTitle, company: work.company, iconId: work.iconId, location: work.location, startDate: work.startDate, endDate: work.endDate, isStillWorking: work.isStillWorking, responsibilities: work.responsibilities, remote: work.remote, partTime: work.partTime, isAdded: true, position: work.position, page: page)
-                if let text = await AIAssistant.generateWorkDescription(item: item, targetJob: targetJob, targetInstitution: targetInstitution, language: language, isBulletedList: style.workDescritpionAsBulleted) {
+                if let text = await AIAssistant.generateWorkDescription(item: item, targetJob: targetJob, targetInstitution: targetInstitution, targetJobDescription: targetJobDescription, language: language, isBulletedList: style.workDescritpionAsBulleted) {
                     item.desc = text
                 }
 //                DatabaseBox.saveEntity(item: item)
@@ -154,12 +161,12 @@ class CVBuilder {
             }
         }
 //        let isBlockAdded = items.count > 0
-        let block = WorkBlockEntity(list: items, isAdded: true, position: position, isMainBlock: isMainBlock, page: page, experience: NSLocalizedString("experience", comment: ""), workExperience: NSLocalizedString("work_experience", comment: ""), styleDateWithHeader: style.workDateWithHeader, styleDateAfterHeader: style.workDateAfterHeader, styleDateSeparated: style.workDateSeparated, styleDateInBrackets: style.workDateInBrackets, styleMonthDisplayed: style.workMonthDisplayed, styleDotsAdded: style.workDotsAdded, styleDescritpionAsBulleted: style.workDescritpionAsBulleted, styleHeaderPosition: style.workHeaderPosition)
+        let block = WorkBlockEntity(list: items, isAdded: true, position: position, isMainBlock: isMainBlock, page: page, textWorkExperience: NSLocalizedString("work_experience", comment: ""), styleDateWithHeader: style.workDateWithHeader, styleDateAfterHeader: style.workDateAfterHeader, styleDateSeparated: style.workDateSeparated, styleDateInBrackets: style.workDateInBrackets, styleMonthDisplayed: style.workMonthDisplayed, styleDotsAdded: style.workDotsAdded, styleDescritpionAsBulleted: style.workDescritpionAsBulleted, styleHeaderPosition: style.workHeaderPosition)
 //        DatabaseBox.saveEntity(item: block)
         return block
     }
     
-    private func createLanguagesBlock (profile: ProfileEntity, targetJob: String, targetInstitution: String, page: Int = 0, position: Int, isMainBlock: Bool, style: Style) async -> LanguagesBlockEntity {
+    private func createLanguagesBlock (profile: ProfileEntity, page: Int = 0, position: Int, isMainBlock: Bool, style: Style) async -> LanguagesBlockEntity {
         var items: [LanguageBlockItemEntity] = []
         if let list = profile.languagesList {
             for i in 0..<list.count {
@@ -170,7 +177,7 @@ class CVBuilder {
             }
         }
         let isBlockAdded = items.count > 0
-        let block = LanguagesBlockEntity(list: items, isAdded: isBlockAdded, position: position, isMainBlock: isMainBlock, page: page, textLanguages: NSLocalizedString("languages", comment: ""), styleIsBulletedList: style.languagesIsBulletedList, styleIsProgressAdded: style.languagesIsProgressAdded, styleIconAdded: style.languagesIconAdded, styleHeaderPosition: style.languagesHeaderPosition)
+        let block = LanguagesBlockEntity(list: items, isAdded: isBlockAdded, position: position, isMainBlock: isMainBlock, page: page, textLanguages: NSLocalizedString("languages", comment: ""), styleIsBulletedList: style.languagesIsBulletedList, styleIsProgressAdded: style.languagesIsProgressAdded, styleIsLevelAdded: style.languagesIsLevelAdded, styleIconAdded: style.languagesIconAdded, styleHeaderPosition: style.languagesHeaderPosition)
 //        DatabaseBox.saveEntity(item: block)
         return block
     }
@@ -218,7 +225,7 @@ class CVBuilder {
             }
         }
         let isBlockAdded = items.count > 0
-        let block = CertificatesBlockEntity(list: items, isAdded: isBlockAdded, position: position, isMainBlock: isMainBlock, page: page, textLanguages: NSLocalizedString("certificates", comment: ""), styleIsBulletedList: style.certificatesIsBulletedList, styleHeaderPosition: style.certificatesHeaderPosition)
+        let block = CertificatesBlockEntity(list: items, isAdded: isBlockAdded, position: position, isMainBlock: isMainBlock, page: page, textCertificates: NSLocalizedString("certificates", comment: ""), styleIsBulletedList: style.certificatesIsBulletedList, styleHeaderPosition: style.certificatesHeaderPosition)
 //        DatabaseBox.saveEntity(item: block)
         return block
     }
@@ -245,25 +252,34 @@ class CVBuilder {
         }
     }
     
-    private func generateUserSkills (profileManager: ProfileManager, profile: ProfileEntity, targetJob: String, targetInstitution: String, language: String) async {
+    private func generateUserSkills (profileManager: ProfileManager, profile: ProfileEntity, targetJob: String, targetInstitution: String, targetJobDescription: String, language: String) async {
         if let list = profile.skillsList, list.count == 0 {
-            let skillsList = await AIAssistant.generateUserSkills(jobTitle: profile.jobTitle, targetJob: targetJob, targetInstitution: targetInstitution, language: language)
+            let skillsList = await AIAssistant.generateUserSkills(currentJob: profile.jobTitle, targetJob: targetJob, targetJobDescription: targetJobDescription, language: language)
             if skillsList.count > 0 {
                 for skill in skillsList {
-                    profileManager.saveSkill(profile: profile, name: skill, level: Int.random(in: 4..<6))
+                    let _ = profileManager.saveSkill(profile: profile, name: skill, level: Int.random(in: 4..<6))
                 }
             }
         }
     }
     
     func saveCoverLetter (cv: CVEntity, text: String) {
-        let style = PreloadedDatabase.getStyleId(id: cv.style)
-        let coverLetter = CoverLetterEntity(text: text, textCoverLetter: NSLocalizedString("cover_letter", comment: ""), textSize: style.sizeCover)
-        DatabaseBox.saveEntity(item: coverLetter)
-        
-        cv.coverLetter = coverLetter
-        
-        DatabaseBox.saveContext()
+        if !text.isEmpty {
+            let style = PreloadedDatabase.getStyleId(id: cv.style)
+            let coverLetter = CoverLetterEntity(text: text, textCoverLetter: NSLocalizedString("cover_letter", comment: ""), textSize: style.sizeCover)
+            DatabaseBox.saveEntity(item: coverLetter)
+            
+            cv.coverLetter = coverLetter
+            
+            DatabaseBox.saveContext()
+        }
+    }
+    
+    func updateCoverLetter (cover: CoverLetterEntity, text: String) {
+        if !text.isEmpty {
+            cover.text = text
+            DatabaseBox.saveContext()
+        }
     }
     
     func saveWrapperPagesToEntity (wrapper: CVEntityWrapper, cv: CVEntity) -> CVEntity {
@@ -383,6 +399,7 @@ class CVBuilder {
         
         cv.progressBarStyle = style.progressBarStyle
         cv.progressBarPercentAdded = style.progressBarPercentAdded
+        cv.progressHeight = style.progressHeight
         
         cv.iconSize = style.iconSize
         cv.iconBackAdded = style.iconBackAdded
@@ -448,6 +465,7 @@ class CVBuilder {
         if let block = cv.languagesBlock {
             block.styleIsBulletedList = style.languagesIsBulletedList
             block.styleIsProgressAdded = style.languagesIsProgressAdded
+            block.styleIsLevelAdded = style.languagesIsLevelAdded
             block.styleIconAdded = style.languagesIconAdded
             block.styleHeaderPosition = style.languagesHeaderPosition
         }

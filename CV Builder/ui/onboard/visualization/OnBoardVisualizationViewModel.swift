@@ -17,6 +17,7 @@ class OnBoardVisualizationViewModel: ObservableObject {
     var cv: CVEntity?
     var jobTitle = ""
     var company = ""
+    var jobDescription = ""
     var visualization = 0
     
     @Published var wrapper: CVEntityWrapper?
@@ -58,6 +59,7 @@ class OnBoardVisualizationViewModel: ObservableObject {
             cv = parentViewModel.cv
             jobTitle = parentViewModel.jobTitle
             company = parentViewModel.company
+            jobDescription = parentViewModel.description
         }
     }
     
@@ -83,7 +85,7 @@ class OnBoardVisualizationViewModel: ObservableObject {
     @MainActor
     private func createCv () async {
         if let profile {
-            cv = await cvBuilder.buildCv(profile: profile, styleId: style, targetJob: jobTitle, targetInstitution: company, isFirst: true)
+            cv = await cvBuilder.buildCv(profile: profile, styleId: style, targetJob: jobTitle, targetInstitution: company, targetJobDescription: jobDescription, isFirst: true)
             saveNewCv()
             
 //                AiManager.useAttempt()

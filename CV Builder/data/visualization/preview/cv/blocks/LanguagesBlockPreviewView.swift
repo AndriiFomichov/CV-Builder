@@ -25,16 +25,18 @@ struct LanguagesBlockPreviewView: View {
     var dotColor: String
     var dotStrokeColor: String
     
+    var addDivider: Bool = false
     var addBlockPadding: Bool = false
+    var addBottomPadding: Bool = false
     
     var body: some View {
         if let block = cv.languagesBlock {
-            BlockContainerPreviewView(isMainBlock: block.isMainBlock, marginsSize: cv.marginsSize, text: block.textLanguages, font: cv.headersFont, textColor: headerTextColor, gravity: .leading, size: cv.headersSize, isBold: cv.isHeadersBold, isItalic: cv.isHeadersItalic, isUnderline: false, isUppercased: cv.isHeadersUppercased, headerPosition: block.styleHeaderPosition, headerDotAdded: cv.headerDotAdded, headerLineAdded: cv.headerLineAdded, dotColor: dotColor, dotSize: cv.dotSize, dotBackAdded: cv.dotBackAdded, dotStrokeAdded: cv.dotStrokeAdded, strokeWidth: cv.strokeWidth, strokeColor: dotStrokeColor, linePosition: cv.headerLinePosition, lineColor: lineColor, lineCirclesAdded: cv.lineCirclesAdded, lineCirclesColor: lineCirclesColor, lienWidth: cv.lineWidth, cornersRadius: CGFloat(cv.cornersRadius), blockBackgroundColor: blockBackgroundColor, blockStrokeColor: blockStrokeColor, addBlockPadding: addBlockPadding) {
+            BlockContainerPreviewView(isMainBlock: block.isMainBlock, marginsSize: cv.marginsSize, text: block.textLanguages, font: cv.headersFont, textColor: headerTextColor, gravity: .leading, size: cv.headersSize, isBold: cv.isHeadersBold, isItalic: cv.isHeadersItalic, isUnderline: false, isUppercased: cv.isHeadersUppercased, headerPosition: block.styleHeaderPosition, headerDotAdded: cv.headerDotAdded, headerLineAdded: cv.headerLineAdded, dotColor: dotColor, dotSize: cv.dotSize, dotBackAdded: cv.dotBackAdded, dotStrokeAdded: cv.dotStrokeAdded, strokeWidth: cv.strokeWidth, strokeColor: dotStrokeColor, linePosition: cv.headerLinePosition, lineColor: lineColor, lineCirclesAdded: cv.lineCirclesAdded, lineCirclesColor: lineCirclesColor, lienWidth: cv.lineWidth, cornersRadius: CGFloat(cv.cornersRadius), blockBackgroundColor: blockBackgroundColor, blockStrokeColor: blockStrokeColor, addDivider: addDivider, addBlockPadding: addBlockPadding, addBottomPadding: addBottomPadding) {
                 
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: block.styleIsProgressAdded ? 240 : 120))], spacing: CGFloat(cv.marginsSize / 3)) {
                     let list = block.list.sorted { $0.position < $1.position }
                     ForEach(0..<list.count, id:\.self) { item in
-                        LanguagesItemPreviewView(cv: cv, block: block, item: list[item], language: PreloadedDatabase.getLanguageById(id: list[item].langId), mainTextColor: mainTextColor, progressForegroundColor: progressForegroundColor, progressBackgroundColor: progressBackgroundColor, dotColor: dotColor, dotStrokeColor: dotStrokeColor)
+                        LanguagesItemPreviewView(cv: cv, block: block, item: list[item], language: list[item].langId >= 0 ? PreloadedDatabase.getLanguageById(id: list[item].langId) : nil, mainTextColor: mainTextColor, progressForegroundColor: progressForegroundColor, progressBackgroundColor: progressBackgroundColor, dotColor: dotColor, dotStrokeColor: dotStrokeColor)
                     }
                 }
                 
@@ -67,22 +69,36 @@ struct LanguagesItemPreviewView: View {
                 ImagePreviewView(imageId: -1, imageName: language.icon, cornerTL: 0.0, cornerTT: 0.0, cornerBL: 0.0, cornerBT: 0.0, width: CGFloat(cv.iconSize), height: CGFloat(cv.iconSize), zoom: 1.0, filterEnabled: false, filterColor: "", strokeWidth: 0, strokeColor: "")
             }
             
-            TextPreviewView(text: item.name, font: cv.textFont, color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, isInfinite: false).frame(width: setLongestItemWidth(block: block, id: cv.textFont, size: cv.textSize), alignment: .leading)
+            if block.styleIsProgressAdded {
+                TextPreviewView(text: getText(), font: cv.textFont, color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, isInfinite: false).frame(width: setLongestItemWidth(block: block, id: cv.textFont, size: cv.textSize), alignment: .leading)
+            } else {
+                TextPreviewView(text: getText(), font: cv.textFont, color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, isInfinite: false)
+            }
             
             Spacer()
             
             if block.styleIsProgressAdded {
                 if cv.progressBarStyle == 0 || cv.progressBarStyle == 3 {
-                    ProgressBarPreviewView(progress: item.level >= 0 ? item.level + 1 : 0, steps: 6, height: cv.textSize, style: cv.progressBarStyle, accentColor: progressForegroundColor, backgroundColor: progressBackgroundColor, cornersRadius: CGFloat(cv.cornersRadius))
+                    ProgressBarPreviewView(progress: item.level >= 0 ? item.level + 1 : 0, steps: 6, height: cv.progressHeight, style: cv.progressBarStyle, accentColor: progressForegroundColor, backgroundColor: progressBackgroundColor, cornersRadius: CGFloat(cv.cornersRadius))
                 } else {
-                    ProgressBarPreviewView(progress: item.level >= 0 ? item.level + 1 : 0, steps: 6, height: cv.textSize, style: cv.progressBarStyle, accentColor: progressForegroundColor, backgroundColor: progressBackgroundColor, cornersRadius: CGFloat(cv.cornersRadius))
+                    ProgressBarPreviewView(progress: item.level >= 0 ? item.level + 1 : 0, steps: 6, height: cv.progressHeight, style: cv.progressBarStyle, accentColor: progressForegroundColor, backgroundColor: progressBackgroundColor, cornersRadius: CGFloat(cv.cornersRadius))
                 }
                 
-                if cv.progressBarPercentAdded && item.level >= 0 {
+                if block.styleIsLevelAdded {
+                    TextPreviewView(text: getLevelText(level: item.level), font: cv.textFont, color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, isInfinite: false)
+                } else if cv.progressBarPercentAdded && item.level >= 0 {
                     TextPreviewView(text: String((item.level+1) * 100 / 6) + "%", font: cv.textFont, color: mainTextColor, gravity: .leading, size: cv.textSize, isBold: false, isItalic: false, isUnderline: false, isUppercased: false, isInfinite: false).frame(width: "100%".widthUsingFont(id: cv.textFont, size: cv.textSize))
                 }
             }
         }
+    }
+    
+    private func getText () -> String {
+        var text = item.name
+        if block.styleIsBulletedList && block.styleIsLevelAdded {
+            text += " (" + getLevelText(level: item.level) + ")"
+        }
+        return text
     }
     
     private func setLongestItemWidth (block: LanguagesBlockEntityWrapper, id: Int, size: Int) -> CGFloat {
@@ -96,6 +112,13 @@ struct LanguagesItemPreviewView: View {
         longestText += " "
         
         return longestText.widthUsingFont(id: id, size: size)
+    }
+    
+    private func getLevelText (level: Int) -> String {
+        if level >= 0 && level < 6 {
+            return NSLocalizedString("language_level_sh_sug_" + String(level), comment: "")
+        }
+        return ""
     }
 }
 

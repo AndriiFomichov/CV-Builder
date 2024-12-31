@@ -27,7 +27,7 @@ struct GeneralCategoryView: View, KeyboardReadable {
 
                 VStack {
                     
-                    GeneralFieldsInputView(name: $viewModel.name, location: $viewModel.location, job: $viewModel.job, description: $viewModel.description, allFields: true)
+                    GeneralFieldsInputView(name: $viewModel.name, location: $viewModel.location, job: $viewModel.job, allFields: true)
                     
                 }.frame(maxWidth: .infinity, maxHeight: .infinity).background() {
                     RoundedRectangle(cornerRadius: 20.0).fill(Color.background)

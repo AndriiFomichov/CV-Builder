@@ -40,12 +40,12 @@ struct WorkAddingView: View, KeyboardReadable {
                                 
                                 Text(NSLocalizedString("field_job_title", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                                 
-                                TextInputView(text: $viewModel.jobTitle, icon: "checkmark.seal.fill", hint: NSLocalizedString("field_job_title_hint", comment: "")).padding(.bottom)
+                                TextInputView(text: $viewModel.jobTitle, icon: "checkmark.seal.fill", hint: NSLocalizedString("field_job_title_hint", comment: ""), limit: 200).padding(.bottom)
                                 
                                 Text(NSLocalizedString("field_work_institution", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                                 
                                 HStack {
-                                    TextInputView(text: $viewModel.company, icon: "building.columns.fill", hint: NSLocalizedString("field_work_institution_hint", comment: ""))
+                                    TextInputView(text: $viewModel.company, icon: "building.columns.fill", hint: NSLocalizedString("field_work_institution_hint", comment: ""), limit: 200)
                                     
                                     IconInputView(preview: $viewModel.icon, icon: "photo", selectionHandler: { photos in
                                         viewModel.handleImageSelection(selectedPhotos: photos)
@@ -95,7 +95,7 @@ struct WorkAddingView: View, KeyboardReadable {
                                     
                                     Text(NSLocalizedString("field_responsibilities", comment: "")).font(.subheadline).foregroundStyle(Color.text).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
                                     
-                                    TextInputView(text: $viewModel.responsibilities, icon: "trophy.fill", hint: NSLocalizedString("field_responsibilities_hint", comment: ""))
+                                    TextInputView(text: $viewModel.responsibilities, icon: "trophy.fill", hint: NSLocalizedString("field_responsibilities_hint", comment: ""), limit: 600)
                                     
                                     Text(NSLocalizedString("field_responsibilities_tip", comment: "")).font(.subheadline).foregroundStyle(Color.textAdditional).frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading).padding(.bottom)
                                     

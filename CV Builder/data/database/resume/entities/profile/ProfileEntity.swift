@@ -17,7 +17,6 @@ class ProfileEntity {
     var location: String
     var jobTitle: String
     var photoId: Int
-    var profileDescription: String
     
     var email: String
     var phone: String
@@ -33,12 +32,11 @@ class ProfileEntity {
     var languagesList: [LanguageEntity]?
     var referencesList: [ReferenceEntity]?
     
-    init(name: String, location: String, jobTitle: String, photoId: Int, profileDescription: String, email: String, phone: String, websiteLink: String, websiteQrCodeId: Int, socialMediasList: [SocialMediaEntity]?, skillsList: [SkillEntity]?, interestsList: [InterestEntity]?, educationsList: [EducationEntity]?, worksList: [WorkEntity]?, certificatesList: [CertificateEntity]?, languagesList: [LanguageEntity]?, referencesList: [ReferenceEntity]?) {
+    init(name: String, location: String, jobTitle: String, photoId: Int, email: String, phone: String, websiteLink: String, websiteQrCodeId: Int, socialMediasList: [SocialMediaEntity]?, skillsList: [SkillEntity]?, interestsList: [InterestEntity]?, educationsList: [EducationEntity]?, worksList: [WorkEntity]?, certificatesList: [CertificateEntity]?, languagesList: [LanguageEntity]?, referencesList: [ReferenceEntity]?) {
         self.name = name
         self.location = location
         self.jobTitle = jobTitle
         self.photoId = photoId
-        self.profileDescription = profileDescription
         self.email = email
         self.phone = phone
         self.websiteLink = websiteLink

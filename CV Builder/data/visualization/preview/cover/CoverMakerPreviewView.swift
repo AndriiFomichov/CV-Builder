@@ -31,6 +31,10 @@ struct CoverMakerPreviewView: View {
                     StyleOneCoverPreviewView(cv: cv, textChangeHandler: textChangeHandler, isDisabled: isDisabled)
                 case 1:
                     StyleTwoCoverPreviewView(cv: cv, textChangeHandler: textChangeHandler, isDisabled: isDisabled)
+                case 2:
+                    StyleThreeCoverPreviewView(cv: cv, textChangeHandler: textChangeHandler, isDisabled: isDisabled)
+                case 3:
+                    StyleFourCoverPreviewView(cv: cv, textChangeHandler: textChangeHandler, isDisabled: isDisabled)
                 default:
                     VStack {}
                 }
